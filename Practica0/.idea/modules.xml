@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Practica0.iml" filepath="$PROJECT_DIR$/.idea/Practica0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.iml" filepath="$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Swing/Practica0.Swing.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Practica0.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Practica0.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Practica0.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Practica0.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Practica0.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Practica0.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Practica0.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Practica0.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.iml" filepath="$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.main.iml" filepath="$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/phonetablet/Practica0.phonetablet.unitTest.iml" />
+    </modules>
+  </component>
+</project>
