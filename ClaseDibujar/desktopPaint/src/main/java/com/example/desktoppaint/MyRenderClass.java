@@ -3,14 +3,19 @@ package com.example.desktoppaint;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 //Clase interna encargada de obtener el SurfaceHolder y pintar con el canvas
-public class MyRenderClass implements Runnable{
+public class MyRenderClass implements Runnable {
 
     private JFrame myView;
     private BufferStrategy bufferStrategy;
@@ -22,13 +27,14 @@ public class MyRenderClass implements Runnable{
 
     private MyScene scene;
 
-    public MyRenderClass(JFrame myView){
+    private Image image;
+
+    public MyRenderClass(JFrame myView) {
         this.myView = myView;
-        this.myView.addComponentListener(new ComponentAdapter()
-        {
+        this.myView.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent evt) {
                 //Component c = (Component)evt.getSource();
-                System.out.println("componentResized: "+evt.getSource());
+                System.out.println("componentResized: " + evt.getSource());
                 graphics2D.dispose();
 
                 bufferStrategy.show();
@@ -38,13 +44,21 @@ public class MyRenderClass implements Runnable{
 
         this.bufferStrategy = this.myView.getBufferStrategy();
         this.graphics2D = (Graphics2D) bufferStrategy.getDrawGraphics();
+
+        //#
+        try {
+            image = ImageIO.read(new File("apedra.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.myView.getWidth();
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.myView.getHeight();
     }
 
@@ -59,7 +73,7 @@ public class MyRenderClass implements Runnable{
 
         // Si el Thread se pone en marcha
         // muy rápido, la vista podría todavía no estar inicializada.
-        while(this.running && this.myView.getWidth() == 0);
+        while (this.running && this.myView.getWidth() == 0) ;
         // Espera activa. Sería más elegante al menos dormir un poco.
 
         long lastFrameTime = System.nanoTime();
@@ -68,7 +82,7 @@ public class MyRenderClass implements Runnable{
         int frames = 0;
 
         // Bucle de juego principal.
-        while(running) {
+        while (running) {
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
@@ -90,13 +104,12 @@ public class MyRenderClass implements Runnable{
                     Graphics graphics = this.bufferStrategy.getDrawGraphics();
                     try {
                         this.render();
-                    }
-                    finally {
+                    } finally {
                         graphics.dispose(); //Elimina el contexto gráfico y libera recursos del sistema realacionado
                     }
-                } while(this.bufferStrategy.contentsRestored());
+                } while (this.bufferStrategy.contentsRestored());
                 this.bufferStrategy.show();
-            } while(this.bufferStrategy.contentsLost());
+            } while (this.bufferStrategy.contentsLost());
 
             /*
             // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
@@ -113,16 +126,20 @@ public class MyRenderClass implements Runnable{
         this.scene = scene;
     }
 
-    protected void renderCircle(float x, float y, float r){
+    protected void renderCircle(float x, float y, float r) {
+        //#
+        this.graphics2D.drawImage(image, 50, 50, null);
+
         this.graphics2D.setColor(Color.white);
-        this.graphics2D.fillOval((int)x, (int)y, (int)r*2, (int)r*2);
+        this.graphics2D.fillOval((int) x, (int) y, (int) r * 2, (int) r * 2);
         this.graphics2D.setPaintMode();
+
     }
 
     protected void render() {
         // "Borramos" el fondo.
         this.graphics2D.setColor(Color.BLUE);
-        this.graphics2D.fillRect(0,0, this.getWidth(), this.getHeight());
+        this.graphics2D.fillRect(0, 0, this.getWidth(), this.getHeight());
         // Pintamos la escena
         this.scene.render();
     }

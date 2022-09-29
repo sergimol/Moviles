@@ -9,7 +9,7 @@ public interface Graphics {
     void save();
     void restore();
     void setColor(int color);
-    void drawImage(Image image/*..*/);
+    void drawImage(Image image, int x, int y);
     void fillSquare(int cx, int cy, int side);
     void drawSquare(int cx, int cy, int side);
     void drawLine(int initX, int initY, int endX, int endY);
