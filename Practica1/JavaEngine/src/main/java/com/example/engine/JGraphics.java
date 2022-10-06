@@ -5,6 +5,11 @@ import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class JGraphics implements IGraphics {
     private Graphics2D graphics2D;
@@ -12,11 +17,19 @@ public class JGraphics implements IGraphics {
 
     @Override
     public IImage newImage(String name) {
+        try {
+            JImage jImage = new JImage(name);
+            return jImage;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
-    public IFont newFont(String filename, int size, boolean isBold) {
+    public IFont newFont(String filename, int styleFlags, int size) {
+        JFont jFont = new JFont(filename, styleFlags, size);
+
         return null;
     }
 
