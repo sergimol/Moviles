@@ -14,6 +14,8 @@ public interface Graphics {
     void drawSquare(int cx, int cy, int side);
     void drawLine(int initX, int initY, int endX, int endY);
     void drawText(String text, int x, int y);
+    void setFont();
+    void setResolution();
     int getWidth();
     int getHeight();
 }
