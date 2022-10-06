@@ -1,5 +1,4 @@
 package com.example.desktoppaint;
-
 import javax.swing.JFrame;
 
 public class MainActivity {

@@ -1,6 +1,6 @@
 package com.example.interfaces;
 
-public interface State {
+public interface IState {
     void update();
     void render();
 }
