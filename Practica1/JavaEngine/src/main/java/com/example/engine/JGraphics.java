@@ -6,10 +6,8 @@ import com.example.interfaces.IImage;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 
 public class JGraphics implements IGraphics {
     private Graphics2D graphics2D;
@@ -65,12 +63,12 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, int x, int y) {
-
+        this.graphics2D.drawImage((Image) image, x, y, null);
     }
 
     @Override
     public void fillSquare(int cx, int cy, int side) {
-
+        this.graphics2D.fillRect(cx, cy, this.getWidth(), this.getHeight());
     }
 
     @Override

@@ -14,21 +14,21 @@ public class JFont implements IFont {
 
     @Override
     public int getSize() {
-        return 0;
+        return font_.getSize();
     }
 
     @Override
     public boolean isBold() {
-        return false;
+        return font_.isBold();
     }
 
     @Override
     public boolean isItalic() {
-        return false;
+        return font_.isItalic();
     }
 
     @Override
     public boolean isUnderlined() {
-        return false;
+        return isUnderlined();
     }
 }
