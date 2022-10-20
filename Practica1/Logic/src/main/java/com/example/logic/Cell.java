@@ -1,13 +1,13 @@
 package com.example.logic;
 
-enum States{
+enum cellStates {
     Grey, Blue, Empty, Red
 }
 public class Cell {
     // Posiciones logicas dentro del tablero
     int xPos, yPos;
     // Estado de la casilla
-    States state = States.Grey;
+    cellStates state = cellStates.Grey;
     // True = casilla forma parte del dibujo, False = no forma parte
     boolean isGood;
 
@@ -16,11 +16,11 @@ public class Cell {
         yPos = y;
         isGood = good;
     }
-    States getState() { return state; }
+    cellStates getState() { return state; }
     void changeState(){
-        state = States.values()[state.ordinal() + 1];
+        state = cellStates.values()[state.ordinal() + 1];
     };
-    void changeState(States newState){
+    void changeState(cellStates newState){
         state = newState;
     }
 }
