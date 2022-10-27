@@ -9,6 +9,7 @@ import com.example.interfaces.IState;
 public class GameState implements IState {
 
     Board board;
+
     IImage image;
     IGraphics graphics;
 
@@ -18,6 +19,9 @@ public class GameState implements IState {
     }
 
     public void init() {
+   
+    GameState(int xSize, int ySize){
+        board = new Board(xSize, ySize);
     }
 
     @Override
@@ -33,7 +37,5 @@ public class GameState implements IState {
     @Override
     public void handleInput() {
 
-    }
 
-
-}
+	}
