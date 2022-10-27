@@ -12,3 +12,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 }
+
+/*
+
+* JFRame window = new JFrame ("ventana")
+* window.setSize(width, height);
+* window.setVisible(true)
+  DEngine engine = new DEngine(window)
+  OScene scene = new OScene();
+  engine.start(scene);
+
+* public void resume(){
+    this.currentThread = new Thread
+}
+*
+*
+* */

@@ -3,6 +3,7 @@ package com.example.interfaces;
 import java.io.IOException;
 
 public interface IGraphics {
+
     IImage newImage(String name);
 
     IFont newFont(String filename, int styleFlags, int size);
@@ -36,4 +37,10 @@ public interface IGraphics {
     int getWidth();
 
     int getHeight();
+
+    void prepareFrame();
+
+    void finishFrame();
+
+
 }

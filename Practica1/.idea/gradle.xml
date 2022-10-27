@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/DesktopGame" />
             <option value="$PROJECT_DIR$/Interfaces" />
             <option value="$PROJECT_DIR$/JavaEngine" />
             <option value="$PROJECT_DIR$/Logic" />
