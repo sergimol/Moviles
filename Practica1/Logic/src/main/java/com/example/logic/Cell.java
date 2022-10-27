@@ -19,8 +19,14 @@ public class Cell {
     cellStates getState() { return state; }
     void changeState(){
         state = cellStates.values()[state.ordinal() + 1];
-    };
+    }
     void changeState(cellStates newState){
         state = newState;
+    }
+    boolean checkCell(){
+        if(isGood)
+            return state == cellStates.Blue;
+        else
+            return (state == cellStates.Empty || state == cellStates.Grey);
     }
 }

@@ -15,10 +15,10 @@ public class Board {
         xSize = x;
         ySize = y;
         cells = new Cell[xSize][ySize];
-        CreateRandomBoard();
+        createRandomBoard();
     }
 
-    void CreateRandomBoard(){
+    void createRandomBoard(){
         boolean good = false;
         Random rd = new Random();
         int xConsecutives = 0, yConsecutives = 0;
@@ -39,5 +39,14 @@ public class Board {
                     }
                 }
             }
+    }
+
+    boolean checkBoard(){
+        for(int i = 0; i < xSize; ++i)
+            for(int j = 0; j < ySize; ++j){
+                if(!cells[i][j].checkCell())
+                    return false;
+            }
+        return true;
     }
 }
