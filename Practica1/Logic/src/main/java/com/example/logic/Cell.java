@@ -17,16 +17,23 @@ public class Cell {
         isGood = good;
     }
     cellStates getState() { return state; }
+
     void changeState(){
         state = cellStates.values()[state.ordinal() + 1];
     }
     void changeState(cellStates newState){
         state = newState;
     }
+
     boolean checkCell(){
-        if(isGood)
+        if (isGood)
             return state == cellStates.Blue;
+        else if (state == cellStates.Blue) {
+            changeState(cellStates.Red);
+            return false;
+        }
         else
-            return (state == cellStates.Empty || state == cellStates.Grey);
+            return true;
     }
 }
+
