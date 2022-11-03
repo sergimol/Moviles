@@ -12,17 +12,14 @@ public class DesktopGame {
     private static JEngine engine;
 
     public static void main(String[] args) {
-        JFrame renderView = new JFrame("Mi aplicación");
-        renderView.setSize(600, 400);
-        renderView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame window = new JFrame("Mi aplicación");
+        window.setSize(600, 400);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(true);
 
 
-        JGraphics render = new JGraphics(renderView);
-//        GameState state = new GameState(render, 5, 5);
-        //state.init();
-
-        //scene.init(render);
-        //render.setScene(scene);
-        //render.resume();
+        GameState state = new GameState(5, 5);
+        JEngine javaEngine = new JEngine(window);
+        javaEngine.setState(state);
     }
 }

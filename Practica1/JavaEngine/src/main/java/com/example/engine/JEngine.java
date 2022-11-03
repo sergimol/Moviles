@@ -12,31 +12,17 @@ import javax.swing.JFrame;
 public class JEngine implements IEngine, Runnable {
 
     private IState currentState;
-    private boolean running;
+    private boolean running = false;
     private JGraphics graphics;
 
-    public JEngine(JFrame renderView) {
+    private Thread renderThread;
 
-        renderView.setIgnoreRepaint(true);
+    public JEngine(JFrame window) {
+        graphics = new JGraphics(window);
+        window.setIgnoreRepaint(true);
+        window.setVisible(true);
 
-        renderView.setVisible(true);
-        // Intentamos crear el buffer strategy con 2 buffers.
-        int intentos = 100;
-        while (intentos-- > 0) {
-            try {
-                renderView.createBufferStrategy(2);
-                break;
-            } catch (Exception e) {
-            }
-        } // while pidiendo la creación de la buffeStrategy
-        if (intentos == 0) {
-            System.err.println("No pude crear la BufferStrategy");
-            return;
-        } else {
-            // En "modo debug" podríamos querer escribir esto.
-            //System.out.println("BufferStrategy tras " + (100 - intentos) + " intentos.");
-        }
-
+        resume();
     }
 
     @Override
@@ -62,6 +48,7 @@ public class JEngine implements IEngine, Runnable {
 
     @Override
     public void run() {
+
         long lastFrameTime = System.nanoTime();
         while (this.currentState != null) {
             long currentTime = System.nanoTime();
@@ -74,11 +61,27 @@ public class JEngine implements IEngine, Runnable {
             this.currentState.handleInput();
             this.currentState.update(elapsedTime);
 
+            //Esto se supone certificado perfecto
+
             do {
                 this.graphics.prepareFrame();
-                this.currentState.render();             //Se le pasa el graphics de alguna manera
+                this.currentState.render(graphics);             //Se le pasa el graphics de alguna manera
                 this.graphics.finishFrame();
+
             } while (!this.graphics.cambioBuffer());
         }
+    }
+
+    public void resume() {
+        if (!running) {
+            running = true;
+            renderThread = new Thread(this);
+            renderThread.start();
+        }
+    }
+
+    public void setState(IState st) {
+        currentState = st;
+        currentState.init(graphics);
     }
 }

@@ -15,6 +15,10 @@ public class JImage implements IImage {
         image_ = ImageIO.read(new File(name));
     }
 
+    public Image getImage() {
+        return image_;
+    }
+
 
     @Override
     public int getWidth() {

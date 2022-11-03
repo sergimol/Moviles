@@ -11,15 +11,16 @@ public class GameState implements IState {
     Board board;
 
     IImage image;
-    IGraphics graphics;
 
-    public GameState(IGraphics gr, int xSize, int ySize) {
-        graphics = gr;
-        image = graphics.newImage("apedra.png");
-        board = new Board(xSize, ySize);
+    public GameState(int xSize, int ySize) {
+        //graphics = gr;
+        System.out.println(System.getProperty("user.dir"));
+        //board = new Board(xSize, ySize);
     }
 
-    public void init() {
+    @Override
+    public void init(IGraphics graphics) {
+        image = graphics.newImage("apedra.png");
     }
 
 
@@ -29,8 +30,9 @@ public class GameState implements IState {
     }
 
     @Override
-    public void render() {
-        graphics.drawImage(image, 0, 0);
+    public void render(IGraphics graphics) {
+        if (image != null)
+            graphics.drawImage(image, 0, 0);
     }
 
     @Override
