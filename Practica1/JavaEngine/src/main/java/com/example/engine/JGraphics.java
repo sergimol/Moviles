@@ -23,22 +23,17 @@ public class JGraphics implements IGraphics {
 
     public JGraphics(JFrame renderView) {
         //Inicializacion de myView
-        this.myView.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent evt) {
-                //Component c = (Component)evt.getSource();
-                System.out.println("componentResized: " + evt.getSource());
-                canvas.dispose();
+        myView = renderView;
 
-                buffer.show();
-                canvas = (Graphics2D) buffer.getDrawGraphics();
-            }
-        });
 
         //Inicializacion de buffer y canvas
         this.buffer = this.myView.getBufferStrategy();
         this.canvas = (Graphics2D) buffer.getDrawGraphics();
-    }
 
+        //canvas.dispose();
+        //buffer.show();
+
+    }
 
     @Override
     public IImage newImage(String name) {

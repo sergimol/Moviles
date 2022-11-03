@@ -13,16 +13,15 @@ public class GameState implements IState {
     IImage image;
     IGraphics graphics;
 
-    public GameState(IGraphics gr) {
+    public GameState(IGraphics gr, int xSize, int ySize) {
         graphics = gr;
         image = graphics.newImage("apedra.png");
+        board = new Board(xSize, ySize);
     }
 
     public void init() {
-   
-    GameState(int xSize, int ySize){
-        board = new Board(xSize, ySize);
     }
+
 
     @Override
     public void update(double deltaTime) {
@@ -38,4 +37,5 @@ public class GameState implements IState {
     public void handleInput() {
 
 
-	}
+    }
+}

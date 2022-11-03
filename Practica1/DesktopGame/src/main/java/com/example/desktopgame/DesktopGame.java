@@ -18,8 +18,8 @@ public class DesktopGame {
 
 
         JGraphics render = new JGraphics(renderView);
-        GameState state = new GameState(render);
-        state.init();
+//        GameState state = new GameState(render, 5, 5);
+        //state.init();
 
         //scene.init(render);
         //render.setScene(scene);
