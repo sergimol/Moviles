@@ -14,15 +14,24 @@ public class JEngine implements IEngine, Runnable {
     private IState currentState;
     private boolean running = false;
     private JGraphics graphics;
+    private JAudio audio;
+
 
     private Thread renderThread;
 
     public JEngine(JFrame window) {
+        //Inicializamos el graphics
         graphics = new JGraphics(window);
         window.setIgnoreRepaint(true);
         window.setVisible(true);
 
-        resume();
+        //Inicializamos el audio
+        audio = new JAudio();
+        audio.newSound("train_0", "train.wav");
+        audio.playSound("train_0");
+        audio.loop("train_0", true);
+
+        resume();   //Lanza el run()
     }
 
     @Override
@@ -65,7 +74,7 @@ public class JEngine implements IEngine, Runnable {
 
             do {
                 this.graphics.prepareFrame();
-                this.currentState.render(graphics);             //Se le pasa el graphics de alguna manera
+                this.currentState.render(graphics);
                 this.graphics.finishFrame();
 
             } while (!this.graphics.cambioBuffer());
