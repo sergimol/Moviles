@@ -15,6 +15,7 @@ public class JEngine implements IEngine, Runnable {
     private boolean running = false;
     private JGraphics graphics;
     private JAudio audio;
+    private JInput myInput;
 
 
     private Thread renderThread;
@@ -31,6 +32,8 @@ public class JEngine implements IEngine, Runnable {
         audio.playSound("train_0");
         audio.loop("train_0", true);
 
+        //Inicializamos el Input (Solo raton de momento)
+        myInput = new JInput(window);
         resume();   //Lanza el run()
     }
 

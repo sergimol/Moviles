@@ -3,6 +3,10 @@ package com.example.interfaces;
 import java.util.List;
 
 public interface IInput {
+
+
+
+
     //Android
     public static enum InputTouchType{
         TOUCH_DOWN,
@@ -17,7 +21,12 @@ public interface IInput {
     }
 
     //Estamos creando las clases aqui pero podriamos tenerlas por separado
-    public static class Event{
+    public static class Event extends TouchEvent {
+
+        public Event() {
+
+        }
+
         public int x;
         public int y;
 
