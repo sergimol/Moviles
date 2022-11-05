@@ -3,6 +3,11 @@ package com.example.engine;
 
 
 import com.example.interfaces.IInput;
+
+import java.util.ArrayList; //<----------- podemos usarlo¿?
+
+
+
 import java.util.List;
 import javax.swing.JFrame;
 import java.awt.event.MouseListener;
@@ -11,17 +16,20 @@ import java.awt.event.MouseEvent;
 public class JInput implements IInput, MouseListener  {
 
 
+    private List<TouchEvent> eventList;
+
 
     public JInput(JFrame frame) {
         //Register for mouse events on blankArea and the panel.
         frame.addMouseListener(this);
+        eventList = new ArrayList<TouchEvent>();
     }
 
 
 
     @Override
     public List<TouchEvent> getTouchEvents() {
-        return null;
+        return eventList;
     }
 
 
@@ -32,6 +40,24 @@ public class JInput implements IInput, MouseListener  {
     }
 
     public void mousePressed(MouseEvent e) {
+
+
+        //repetir esta estructura con el resto de eventos que queramos registrar
+        Event evento = new Event();
+        evento.x = e.getX();
+        evento.y = e.getY();
+        //evento.x = e.getXOnScreen();
+        //evento.y = e.getYOnScreen();
+        evento.type = InputTouchType.TOUCH_DOWN;
+        evento.index = e.getID();
+
+        //añadir el evento a la lista de cosas procesadas
+        eventList.add(evento);
+
+        //podemos consumir el evento para que en el caso de que el canvas sea hijo de algun otro objeto, se termine aqui la propagacion de este y el padre no tenga que vovler a procesar este input (evitando asi que se registre otra vez el input)
+       //ejemplo de esot es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubois, de formar que solo el cubo clickado proceasa el input)ç
+        e.consume();
+
         eventOutput("Mouse pressed (# of clicks: "
                 + e.getClickCount() + ")", e);
     }
