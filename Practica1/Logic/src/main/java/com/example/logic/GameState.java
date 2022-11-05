@@ -31,8 +31,9 @@ public class GameState implements IState {
 
     @Override
     public void render(IGraphics graphics) {
-        if (image != null)
-            graphics.drawImage(image, 0, 0);
+        if (image != null) {
+            graphics.drawImage(image, 0, 0, graphics.getWidth(), graphics.getHeight());
+        }
     }
 
     @Override
@@ -40,4 +41,6 @@ public class GameState implements IState {
 
 
     }
+
+
 }

@@ -20,7 +20,7 @@ public interface IGraphics {
 
     void setColor(int color);
 
-    void drawImage(IImage image, int x, int y);
+    void drawImage(IImage image, int x, int y, int width, int height);
 
     void fillSquare(int cx, int cy, int side);
 

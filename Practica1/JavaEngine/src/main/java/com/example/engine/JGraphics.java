@@ -6,9 +6,11 @@ import com.example.interfaces.IImage;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -26,10 +28,10 @@ public class JGraphics implements IGraphics {
         //Inicializacion de myView
         myView = window;
         //Inicializacion de buffer
-        this.myView.createBufferStrategy(2);
-        this.buffer = this.myView.getBufferStrategy();
+        myView.createBufferStrategy(2);
+        buffer = myView.getBufferStrategy();
         //Inicializacion de canvas
-        this.canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
+        canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
     }
 
     @Override
@@ -81,8 +83,14 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public void drawImage(IImage image, int x, int y) {
-        this.canvas.drawImage(((JImage) image).getImage(), x, y, null);
+    public void drawImage(IImage image, int x, int y, int width, int height) {
+        Image scaled = null;
+        try {
+            scaled = resizeImage((BufferedImage) ((JImage) image).getImage(), width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.canvas.drawImage(scaled, x + myView.getInsets().left, y + myView.getInsets().top, null);
     }
 
     @Override
@@ -117,12 +125,12 @@ public class JGraphics implements IGraphics {
 
     @Override
     public int getWidth() {
-        return 0;
+        return myView.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return myView.getHeight();
     }
 
     @Override
@@ -151,7 +159,13 @@ public class JGraphics implements IGraphics {
     //Devuelve window
     public JFrame getMyView() {
         return myView;
-    }
+    };
 
-    ;
+    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
+    }
 }
