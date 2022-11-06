@@ -5,11 +5,10 @@ import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -55,7 +54,17 @@ public class JGraphics implements IGraphics {
 
     @Override
     public IFont newFont(String filename, int styleFlags, int size) {
-        JFont jFont = new JFont(filename, styleFlags, size);
+        try {
+            JFont jFont = new JFont(path +  filename, styleFlags, size);
+
+            return jFont;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("falla");
 
         return jFont;
     }
@@ -123,11 +132,16 @@ public class JGraphics implements IGraphics {
     @Override
     public void drawText(String text, float x, float y) {
 
+        System.out.println(canvas.getFont().getName());
+        canvas.drawString(text, x, y);
     }
 
     @Override
-    public void setFont() {
+    public void setFont(IFont font) {
 
+        System.out.println(((JFont) font).font_.getName());
+        canvas.setFont(((JFont) font).font_);
+        System.out.println(canvas.getFont().getName());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.interfaces;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 
 public interface IGraphics {
@@ -32,7 +33,7 @@ public interface IGraphics {
 
     void drawText(String text, float x, float y);
 
-    void setFont();
+    void setFont(IFont font);
 
     void setResolution();
 

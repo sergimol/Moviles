@@ -34,6 +34,7 @@ public class JEngine implements IEngine, Runnable {
 
         //Inicializamos el Input (Solo raton de momento)
         myInput = new JInput(window);
+
         resume();   //Lanza el run()
     }
 

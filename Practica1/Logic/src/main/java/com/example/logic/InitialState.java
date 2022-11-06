@@ -1,6 +1,9 @@
 package com.example.logic;
 
+import java.awt.Font;
+
 import com.example.interfaces.IEngine;
+import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 import com.example.interfaces.IInput;
@@ -13,7 +16,7 @@ import java.util.ListIterator;
 public class InitialState extends GameState{
 
     IImage imagen;
-
+    IFont font_;
 
     public InitialState(int x, int y) {
         super(x, y);
@@ -25,6 +28,8 @@ public class InitialState extends GameState{
         engine = e;
         //añadir una imagen
         imagen = e.getGraphics().newImage("apedra.png");
+
+        font_ = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN,40);
     }
 
 
@@ -33,15 +38,15 @@ public class InitialState extends GameState{
 
         //renderizar otro objeto como puede ser el boton
             if (imagen != null)
-            graphics.drawImage(imagen, 50, 50, 50,50);
+                graphics.drawImage(imagen, 50, 50, 50,50);
+            if (font_ != null){
+                graphics.setFont(font_);
+                graphics.drawText("AY DIOS MIO", 50, 500);
+            }
     }
 
     @Override
     public void handleInput() {
-
-        System.out.println("input");
-
-
         List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
 
         ListIterator<IInput.TouchEvent> i = events.listIterator();
