@@ -20,15 +20,17 @@ public interface IGraphics {
 
     void setColor(int color);
 
-    void drawImage(IImage image, int x, int y, int width, int height);
+    void drawImage(IImage image, float x, float y, float width, float height);
 
     void fillRect(float cx, float cy, float sideX, float sideY);
 
-    void drawRect(int cx, int cy, int sideX, int sideY);
+    void drawRect(float cx, float cy, float sideX, float sideY);
 
-    void drawLine(int initX, int initY, int endX, int endY);
+    void drawCircle(float x, float y, float r);
 
-    void drawText(String text, int x, int y);
+    void drawLine(float initX, float initY, float endX, float endY);
+
+    void drawText(String text, float x, float y);
 
     void setFont();
 

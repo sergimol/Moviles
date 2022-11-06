@@ -5,14 +5,14 @@ import com.example.interfaces.IGraphics;
 import com.example.interfaces.IEngine;
 import com.example.interfaces.IInput;
 import com.example.interfaces.IState;
-import com.example.interfaces.IImage;
 
 import javax.swing.JFrame;
 
 public class JEngine implements IEngine, Runnable {
 
-    private IState currentState;
     private boolean running = false;
+
+    private IState currentState;
     private JGraphics graphics;
     private JAudio audio;
     private JInput myInput;
@@ -36,27 +36,6 @@ public class JEngine implements IEngine, Runnable {
         myInput = new JInput(window);
         resume();   //Lanza el run()
     }
-
-    @Override
-    public IGraphics getGraphics() {
-        return graphics;
-    }
-
-    @Override
-    public IInput getInput() {
-        return myInput;
-    }
-
-    @Override
-    public IAudio getAudio() {
-        return audio;
-    }
-
-    @Override
-    public IState getState() {
-        return currentState;
-    }
-
 
     @Override
     public void run() {
@@ -86,6 +65,32 @@ public class JEngine implements IEngine, Runnable {
         System.exit(0);
     }
 
+    @Override
+    public IGraphics getGraphics() {
+        return graphics;
+    }
+
+    @Override
+    public IInput getInput() {
+        return myInput;
+    }
+
+    @Override
+    public IAudio getAudio() {
+        return audio;
+    }
+
+    @Override
+    public IState getState() {
+        return currentState;
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
     public void resume() {
         if (!running) {
             running = true;

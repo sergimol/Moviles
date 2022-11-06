@@ -10,11 +10,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AndroidEngine" />
+            <option value="$PROJECT_DIR$/AndroidGame" />
             <option value="$PROJECT_DIR$/DesktopGame" />
             <option value="$PROJECT_DIR$/Interfaces" />
             <option value="$PROJECT_DIR$/JavaEngine" />
             <option value="$PROJECT_DIR$/Logic" />
-            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
       </GradleProjectSettings>

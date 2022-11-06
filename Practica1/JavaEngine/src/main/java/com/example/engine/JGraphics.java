@@ -18,9 +18,10 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 public class JGraphics implements IGraphics {
-    private Graphics2D canvas;
     private JFrame myView;
     private BufferStrategy buffer;
+    private Graphics2D canvas;
+
     private String path = "DesktopGame/assets/";
     private AffineTransform saveTransform;
 
@@ -56,12 +57,11 @@ public class JGraphics implements IGraphics {
     public IFont newFont(String filename, int styleFlags, int size) {
         JFont jFont = new JFont(filename, styleFlags, size);
 
-        return null;
+        return jFont;
     }
 
     @Override
-    public void clear(int color) {  //int para que me funcione tanto en desktop como en android
-
+    public void clear(int color) {
     }
 
     @Override
@@ -90,33 +90,38 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public void drawImage(IImage image, int x, int y, int width, int height) {
+    public void drawImage(IImage image, float x, float y, float width, float height) {
         Image scaled = null;
         try {
-            scaled = resizeImage((BufferedImage) ((JImage) image).getImage(), width, height);
+            scaled = resizeImage((BufferedImage) ((JImage) image).getImage(), (int) width, (int) height);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.canvas.drawImage(scaled, x + myView.getInsets().left, y + myView.getInsets().top, null);
+        this.canvas.drawImage(scaled, (int) x + myView.getInsets().left, (int) y + myView.getInsets().top, null);
     }
 
     @Override
     public void fillRect(float cx, float cy, float sideX, float sideY) {
-        this.canvas.fillRect((int)cx, (int)cy, (int)sideX, (int)sideY);
+        this.canvas.fillRect((int) cx, (int) cy, (int) sideX, (int) sideY);
     }
 
     @Override
-    public void drawRect(int cx, int cy, int sideX, int sideY) {
-        this.canvas.drawRect(cx, cy, sideX, sideY);
+    public void drawRect(float cx, float cy, float sideX, float sideY) {
+        this.canvas.drawRect((int) cx, (int) cy, (int) sideX, (int) sideY);
     }
 
     @Override
-    public void drawLine(int initX, int initY, int endX, int endY) {
-        this.canvas.drawLine(initX, initY, endX, endY);
+    public void drawCircle(float x, float y, float r) {
+
     }
 
     @Override
-    public void drawText(String text, int x, int y) {
+    public void drawLine(float initX, float initY, float endX, float endY) {
+        this.canvas.drawLine((int) initX, (int) initY, (int) endX, (int) endY);
+    }
+
+    @Override
+    public void drawText(String text, float x, float y) {
 
     }
 
@@ -144,10 +149,12 @@ public class JGraphics implements IGraphics {
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
         save();
+
         this.canvas.setTransform(new AffineTransform());
         canvasWidth = getHeight() * 2 / 3;
         int xTranslation = (myView.getWidth() - canvasWidth) / 2;
-        if(xTranslation > 0)
+
+        if (xTranslation > 0)
             translate(xTranslation, 0);
 
         float scaleRate = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
@@ -175,7 +182,9 @@ public class JGraphics implements IGraphics {
     //Devuelve window
     public JFrame getMyView() {
         return myView;
-    };
+    }
+
+    ;
 
     BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);

@@ -8,10 +8,6 @@ import com.example.logic.InitialState;
 
 public class DesktopGame {
 
-    private Thread renderThread;
-    private static JEngine engine;
-
-
     public static void main(String[] args) {
         JFrame window = new JFrame("Mi aplicación");
         window.setSize(1920, 1080);
