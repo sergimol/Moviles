@@ -44,12 +44,12 @@ public class JEngine implements IEngine, Runnable {
 
     @Override
     public IInput getInput() {
-        return null;
+        return myInput;
     }
 
     @Override
     public IAudio getAudio() {
-        return null;
+        return audio;
     }
 
     @Override
@@ -74,7 +74,6 @@ public class JEngine implements IEngine, Runnable {
             this.currentState.update(elapsedTime);
 
             //Esto se supone certificado perfecto
-
             do {
                 this.graphics.prepareFrame();
                 this.currentState.render(graphics);
@@ -83,6 +82,8 @@ public class JEngine implements IEngine, Runnable {
 
             } while (!this.graphics.cambioBuffer());
         }
+        //Cierre de la aplicacion
+        //System.exit(0);
     }
 
     public void resume() {
@@ -95,6 +96,5 @@ public class JEngine implements IEngine, Runnable {
 
     public void setState(IState st){
         currentState = st;
-        currentState.init(graphics);
     }
 }
