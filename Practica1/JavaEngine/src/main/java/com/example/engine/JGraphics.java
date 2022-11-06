@@ -66,7 +66,7 @@ public class JGraphics implements IGraphics {
 
         System.out.println("falla");
 
-        return jFont;
+        return null;
     }
 
     @Override
