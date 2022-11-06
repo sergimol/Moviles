@@ -8,18 +8,17 @@ import com.example.interfaces.IState;
 public class GameState implements IState {
     IEngine engine;
     Board board;
-    IImage image;
     int xCells, yCells;
 
-    public GameState(IEngine e,int x, int y) {
-        engine = e;
+    public GameState(int x, int y) {
         xCells = x;
         yCells = y;
         board = new Board(xCells, yCells);
     }
 
     @Override
-    public void init() {
+    public void init(IEngine e) {
+        engine = e;
     }
 
 
@@ -30,12 +29,11 @@ public class GameState implements IState {
 
     @Override
     public void render(IGraphics graphics) {
-        /*if (image != null)
-            graphics.drawImage(image, 0, 0);*/
-        for(int i = 0; i < xCells; ++i)
-            for(int j = 0; j < yCells; ++j){
+        for (int i = 0; i < xCells; ++i) {
+            for (int j = 0; j < yCells; ++j) {
                 board.getCell(i, j).render(graphics);
             }
+        }
     }
 
     @Override

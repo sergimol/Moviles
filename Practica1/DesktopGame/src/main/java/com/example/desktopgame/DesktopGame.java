@@ -16,11 +16,11 @@ public class DesktopGame {
         window.setSize(600, 400);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
-        
-        //Creamos el Engine
-        JEngine javaEngine = new JEngine(window);
 
-        GameState state = new GameState(javaEngine, 10, 10);
+        //Creamos el Engine
+        GameState state = new GameState(10, 10);
+        JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
+        state.init(javaEngine);
     }
 }

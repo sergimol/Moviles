@@ -28,9 +28,9 @@ public class JEngine implements IEngine, Runnable {
 
         //Inicializamos el audio
         audio = new JAudio();
-        audio.newSound("train_0", "train.wav");
-        audio.playSound("train_0");
-        audio.loop("train_0", true);
+//        audio.newSound("train_0", "train.wav");
+//        audio.playSound("train_0");
+//        audio.loop("train_0", true);
 
         //Inicializamos el Input (Solo raton de momento)
         myInput = new JInput(window);
@@ -83,7 +83,7 @@ public class JEngine implements IEngine, Runnable {
             } while (!this.graphics.cambioBuffer());
         }
         //Cierre de la aplicacion
-        //System.exit(0);
+        System.exit(0);
     }
 
     public void resume() {

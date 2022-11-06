@@ -1,7 +1,7 @@
 package com.example.interfaces;
 
 public interface IState {
-    void init();
+    void init(IEngine engine);
 
     void update(double deltaTime);
 
