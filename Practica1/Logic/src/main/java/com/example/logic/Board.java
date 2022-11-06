@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Board {
-    int xSize, ySize;
+    private int xSize, ySize;
     Cell cells[][];
 
     Cell getCell(int x, int y){ return cells[x][y]; }
@@ -16,6 +16,14 @@ public class Board {
         ySize = y;
         cells = new Cell[xSize][ySize];
         createRandomBoard();
+    }
+
+    int getxSize(){
+        return xSize;
+    }
+
+    int getySize(){
+        return ySize;
     }
 
     void createRandomBoard(){

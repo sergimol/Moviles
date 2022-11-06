@@ -22,9 +22,9 @@ public interface IGraphics {
 
     void drawImage(IImage image, int x, int y, int width, int height);
 
-    void fillSquare(int cx, int cy, int side);
+    void fillRect(float cx, float cy, float sideX, float sideY);
 
-    void drawSquare(int cx, int cy, int side);
+    void drawRect(int cx, int cy, int sideX, int sideY);
 
     void drawLine(int initX, int initY, int endX, int endY);
 

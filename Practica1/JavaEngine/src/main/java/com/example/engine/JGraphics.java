@@ -26,6 +26,9 @@ public class JGraphics implements IGraphics {
 
     // La altura ideal en px del canvas (el ancho deberá ser 2/3 de la altura para mantener la relación 2:3 que espera la lógica)
     final int PREFFERED_CANVAS_HEIGHT = 1080;
+    final int PREFFERED_CANVAS_WIDTH = PREFFERED_CANVAS_HEIGHT * 2 / 3;
+    // El ancho ideal del canvas en px para mantener la relación 2:3 y que se irá actualizando respecto de la altura
+    int canvasWidth;
     //private Thread renderThread;
 
     public JGraphics(JFrame window) {
@@ -98,13 +101,13 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public void fillSquare(int cx, int cy, int side) {
-        this.canvas.fillRect(cx, cy, side, side);
+    public void fillRect(float cx, float cy, float sideX, float sideY) {
+        this.canvas.fillRect((int)cx, (int)cy, (int)sideX, (int)sideY);
     }
 
     @Override
-    public void drawSquare(int cx, int cy, int side) {
-        this.canvas.drawRect(cx, cy, side, side);
+    public void drawRect(int cx, int cy, int sideX, int sideY) {
+        this.canvas.drawRect(cx, cy, sideX, sideY);
     }
 
     @Override
@@ -129,7 +132,7 @@ public class JGraphics implements IGraphics {
 
     @Override
     public int getWidth() {
-        return myView.getWidth();
+        return canvasWidth;
     }
 
     @Override
@@ -141,13 +144,16 @@ public class JGraphics implements IGraphics {
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
         save();
-        int idealCanvasWidth = getWidth() * 2 / 3;
-        int xTranslation = (getWidth() - idealCanvasWidth) / 2;
+        this.canvas.setTransform(new AffineTransform());
+        canvasWidth = getHeight() * 2 / 3;
+        int xTranslation = (myView.getWidth() - canvasWidth) / 2;
         if(xTranslation > 0)
             translate(xTranslation, 0);
 
-        float scaleRate = (float) getHeight() / PREFFERED_CANVAS_HEIGHT;
+        float scaleRate = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
         scale(scaleRate, scaleRate);
+        setColor(0);
+        drawRect(0, 0, canvasWidth, getHeight());
         //this.clear(0xffffff);
     }
 

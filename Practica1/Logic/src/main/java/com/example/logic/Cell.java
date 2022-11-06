@@ -4,7 +4,7 @@ import com.example.interfaces.IGraphics;
 
 enum cellStates {
     Grey, Blue, Empty, Red
-}
+};
 
 public class Cell {
     // Posiciones logicas dentro del tablero
@@ -13,6 +13,8 @@ public class Cell {
     cellStates state = cellStates.Grey;
     // True = casilla forma parte del dibujo, False = no forma parte
     boolean isGood;
+    // Espacio entre celdas en px
+    private static int SPACING = 10;
 
     Cell(int x, int y, boolean good){
         xPos = x;
@@ -38,11 +40,15 @@ public class Cell {
         return true;
     }
 
-    void render(IGraphics graphics){
+    void render(IGraphics graphics, int xSize, int ySize){
+        int w = graphics.getWidth();
+        int h = graphics.getHeight();
+        float x = (xPos * (float) w / xSize) + SPACING + (float) w / 5;
+        float y = (yPos * (float) w / xSize) + SPACING + (float) h / 3;
         switch (state){
             case Grey:
                 graphics.setColor(0x808080);
-                graphics.fillSquare(xPos * 10, yPos * 10, 5);
+                graphics.fillRect(x, y, w / xSize - SPACING, w / xSize - SPACING);
                 break;
             case Red:
                 graphics.setColor(0xFF0000);
