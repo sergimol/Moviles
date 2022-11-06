@@ -28,6 +28,13 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
     }
 
 
+    public void madeInput(Component frame) {
+        //Register for mouse events on blankArea and the panel.
+        frame.addMouseListener(this);
+        frame.addMouseMotionListener(this);
+        eventList = new ArrayList<TouchEvent>();
+    }
+
 
     @Override
     public List<TouchEvent> getTouchEvents() {
