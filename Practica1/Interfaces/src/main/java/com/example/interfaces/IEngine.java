@@ -6,5 +6,6 @@ public interface IEngine {
     IAudio getAudio();
     IState getState();
 
-    
+
+    void setState(IState st);
 }

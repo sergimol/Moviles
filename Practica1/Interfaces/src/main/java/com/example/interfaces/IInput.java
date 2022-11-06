@@ -1,9 +1,12 @@
 package com.example.interfaces;
 
+import java.awt.Component;
 import java.util.List;
 
 public interface IInput {
 
+
+    void emptyTouchEvents();
 
 
 
@@ -32,10 +35,13 @@ public interface IInput {
 
         public InputTouchType type;
         public int index;   //Indice del evento dentro del este de eventos
+        public Object source;
     }
 
     class TouchEvent{
 
     }
+
+
     List<TouchEvent> getTouchEvents();
 }

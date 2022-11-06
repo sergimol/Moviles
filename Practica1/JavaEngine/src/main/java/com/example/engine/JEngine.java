@@ -94,6 +94,7 @@ public class JEngine implements IEngine, Runnable {
         }
     }
 
+    @Override
     public void setState(IState st){
         currentState = st;
     }
