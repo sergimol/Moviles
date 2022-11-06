@@ -8,8 +8,8 @@ public class Board {
     Cell cells[][];
 
     Cell getCell(int x, int y){ return cells[x][y]; }
-    Vector<Vector<Integer>> xValues;
-    Vector<Vector<Integer>> yValues;
+    Vector<Vector<Integer>> xValues = new Vector<>();
+    Vector<Vector<Integer>> yValues = new Vector<>();
 
     Board(int x, int y){
         xSize = x;
@@ -22,8 +22,8 @@ public class Board {
         boolean good = false;
         Random rd = new Random();
         int xConsecutives = 0, yConsecutives = 0;
-        for(int i = 0; 0 < xSize; i++)
-            for(int j = 0; 0 < ySize; j++){
+        for(int i = 0; i < xSize; i++)
+            for(int j = 0; j < ySize; j++){
                 good = rd.nextBoolean();
                 cells[i][j] = new Cell(i, j, good);
                 if(good){
@@ -31,10 +31,10 @@ public class Board {
                     yConsecutives++;
                 }                    
                 else{
-                    xValues.elementAt(i).add(xConsecutives);
+                    //xValues.elementAt(i).add(xConsecutives);
                     xConsecutives = 0;
                     if(yConsecutives != 0){
-                        yValues.elementAt(j).add(yConsecutives);
+                        //yValues.elementAt(j).add(yConsecutives);
                         yConsecutives = 0;
                     }
                 }

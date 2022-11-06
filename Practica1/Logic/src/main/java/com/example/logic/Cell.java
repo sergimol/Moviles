@@ -1,8 +1,11 @@
 package com.example.logic;
 
+import com.example.interfaces.IGraphics;
+
 enum cellStates {
     Grey, Blue, Empty, Red
 }
+
 public class Cell {
     // Posiciones logicas dentro del tablero
     int xPos, yPos;
@@ -32,8 +35,25 @@ public class Cell {
             changeState(cellStates.Red);
             return false;
         }
-        else
-            return true;
+        return true;
+    }
+
+    void render(IGraphics graphics){
+        switch (state){
+            case Grey:
+                graphics.setColor(0x808080);
+                graphics.fillSquare(xPos * 10, yPos * 10, 5);
+                break;
+            case Red:
+                graphics.setColor(0xFF0000);
+                break;
+            case Blue:
+                graphics.setColor(0x0000FF);
+                break;
+            case Empty:
+                graphics.setColor(0);
+                break;
+        }
     }
 }
 

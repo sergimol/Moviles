@@ -18,7 +18,7 @@ public class DesktopGame {
         window.setVisible(true);
 
 
-        GameState state = new GameState(5, 5);
+        GameState state = new GameState(10, 10);
         JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
     }

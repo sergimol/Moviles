@@ -4,24 +4,28 @@ import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
-
 public class JGraphics implements IGraphics {
     private Graphics2D canvas;
     private JFrame myView;
     private BufferStrategy buffer;
     private String path = "DesktopGame/assets/";
+    private AffineTransform saveTransform;
 
+    // La altura ideal en px del canvas (el ancho deberá ser 2/3 de la altura para mantener la relación 2:3 que espera la lógica)
+    final int PREFFERED_CANVAS_HEIGHT = 1080;
     //private Thread renderThread;
 
     public JGraphics(JFrame window) {
@@ -59,27 +63,27 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void translate(float x, float y) {
-
+        this.canvas.translate(x, y);
     }
 
     @Override
     public void scale(float x, float y) {
-
+        this.canvas.scale(x, y);
     }
 
     @Override
     public void save() {
-
+        saveTransform = this.canvas.getTransform();
     }
 
     @Override
     public void restore() {
-
+        this.canvas.setTransform(saveTransform);
     }
 
     @Override
     public void setColor(int color) {
-
+        this.canvas.setColor(new Color(color));
     }
 
     @Override
@@ -95,17 +99,17 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void fillSquare(int cx, int cy, int side) {
-        this.canvas.fillRect(cx, cy, this.getWidth(), this.getHeight());
+        this.canvas.fillRect(cx, cy, side, side);
     }
 
     @Override
     public void drawSquare(int cx, int cy, int side) {
-
+        this.canvas.drawRect(cx, cy, side, side);
     }
 
     @Override
     public void drawLine(int initX, int initY, int endX, int endY) {
-
+        this.canvas.drawLine(initX, initY, endX, endY);
     }
 
     @Override
@@ -136,8 +140,14 @@ public class JGraphics implements IGraphics {
     @Override
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
-        //this.canvas.scale();      //Si el canvas cambia de tamaño queremos escalarlo y trasladarlo
-        //this.canvas.translate();
+        save();
+        int idealCanvasWidth = getWidth() * 2 / 3;
+        int xTranslation = (getWidth() - idealCanvasWidth) / 2;
+        if(xTranslation > 0)
+            translate(xTranslation, 0);
+
+        float scaleRate = (float) getHeight() / PREFFERED_CANVAS_HEIGHT;
+        scale(scaleRate, scaleRate);
         //this.clear(0xffffff);
     }
 

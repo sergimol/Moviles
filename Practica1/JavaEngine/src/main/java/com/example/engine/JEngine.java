@@ -79,6 +79,7 @@ public class JEngine implements IEngine, Runnable {
                 this.graphics.prepareFrame();
                 this.currentState.render(graphics);
                 this.graphics.finishFrame();
+                this.graphics.restore();
 
             } while (!this.graphics.cambioBuffer());
         }
@@ -92,7 +93,7 @@ public class JEngine implements IEngine, Runnable {
         }
     }
 
-    public void setState(IState st) {
+    public void setState(IState st){
         currentState = st;
         currentState.init(graphics);
     }

@@ -11,11 +11,14 @@ public class GameState implements IState {
     Board board;
 
     IImage image;
+    int xCells, yCells;
 
-    public GameState(int xSize, int ySize) {
+    public GameState(int x, int y) {
         //graphics = gr;
         System.out.println(System.getProperty("user.dir"));
-        //board = new Board(xSize, ySize);
+        xCells = x;
+        yCells = y;
+        board = new Board(xCells, yCells);
     }
 
     @Override
@@ -31,9 +34,12 @@ public class GameState implements IState {
 
     @Override
     public void render(IGraphics graphics) {
-        if (image != null) {
-            graphics.drawImage(image, 0, 0, graphics.getWidth(), graphics.getHeight());
-        }
+        /*if (image != null)
+            graphics.drawImage(image, 0, 0);*/
+        for(int i = 0; i < xCells; ++i)
+            for(int j = 0; j < yCells; ++j){
+                board.getCell(i, j).render(graphics);
+            }
     }
 
     @Override
