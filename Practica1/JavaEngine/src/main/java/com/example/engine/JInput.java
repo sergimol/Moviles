@@ -4,6 +4,7 @@ package com.example.engine;
 
 import com.example.interfaces.IInput;
 
+import java.awt.Component;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList; //<----------- podemos usarlo¿?
 
