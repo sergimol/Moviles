@@ -34,6 +34,11 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         return eventList;
     }
 
+    //habra que vaciar eventualmente la lista de inputs procesados para que no ocupen toda la memoria.
+    public void emptyTouchEvents(){
+        eventList.clear();
+    }
+
 
     void eventOutput(String eventDescription, MouseEvent e) {
         System.out.println((eventDescription + " detected on "
