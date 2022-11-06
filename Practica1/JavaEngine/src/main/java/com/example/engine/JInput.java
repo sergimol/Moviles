@@ -4,6 +4,7 @@ package com.example.engine;
 
 import com.example.interfaces.IInput;
 
+import java.awt.Component;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList; //<----------- podemos usarlo¿?
 
@@ -27,6 +28,13 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         eventList = new ArrayList<TouchEvent>();
     }
 
+
+    public void madeInput(Component frame) {
+        //Register for mouse events on blankArea and the panel.
+        frame.addMouseListener(this);
+        frame.addMouseMotionListener(this);
+        eventList = new ArrayList<TouchEvent>();
+    }
 
 
     @Override
