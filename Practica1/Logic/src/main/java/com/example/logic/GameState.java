@@ -9,6 +9,7 @@ public class GameState implements IState {
     IEngine engine;
     Board board;
     int xCells, yCells;
+    GameState previous = null;
 
     public GameState(int x, int y) {
         xCells = x;
@@ -25,6 +26,7 @@ public class GameState implements IState {
     @Override
     public void update(double deltaTime) {
 
+            handleInput();
     }
 
     @Override
@@ -40,5 +42,12 @@ public class GameState implements IState {
     public void handleInput() {
 
 
+    }
+
+    public void setPrevious(GameState st){
+        previous = st;
+    }
+    GameState getPrevious(){
+        return  previous;
     }
 }
