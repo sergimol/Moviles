@@ -28,7 +28,9 @@ public class JGraphics implements IGraphics {
     final int PREFFERED_CANVAS_HEIGHT = 1080;
     final int PREFFERED_CANVAS_WIDTH = PREFFERED_CANVAS_HEIGHT * 2 / 3;
     // El ancho ideal del canvas en px para mantener la relación 2:3 y que se irá actualizando respecto de la altura
-    int canvasWidth;
+    private int canvasWidth;
+    // El valor para escalar objetos respecto al tamaño ideal y que se irá actualizando respecto del tamaño del canvas
+    private float scale;
     //private Thread renderThread;
 
     public JGraphics(JFrame window) {
@@ -160,6 +162,11 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
+    public float getScale() {
+        return scale;
+    }
+
+    @Override
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
         save();
@@ -171,8 +178,8 @@ public class JGraphics implements IGraphics {
         if (xTranslation > 0)
             translate(xTranslation, 0);
 
-        float scaleRate = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-        scale(scaleRate, scaleRate);
+        scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+        //scale(scaleRate, scaleRate);
         setColor(0);
         drawRect(0, 0, canvasWidth, getHeight());
         //this.clear(0xffffff);
@@ -197,8 +204,6 @@ public class JGraphics implements IGraphics {
     public JFrame getMyView() {
         return myView;
     }
-
-    ;
 
     BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);

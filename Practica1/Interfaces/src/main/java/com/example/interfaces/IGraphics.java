@@ -41,6 +41,8 @@ public interface IGraphics {
 
     int getHeight();
 
+    float getScale();
+
     void prepareFrame();
 
     void finishFrame();

@@ -55,7 +55,7 @@ public class InitialState extends GameState{
             if (/*((IInput.Event)o).source == imagen &&*/(((IInput.Event)o).type == IInput.InputTouchType.TOUCH_DOWN)){
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine
-                GameState st = new GameState(5,5);
+                GameState st = new GameState(10,10);
                 st.setPrevious(this);
                 engine.setState(st);
                 st.init(engine);

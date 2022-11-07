@@ -63,7 +63,7 @@ public class JEngine implements IEngine, Runnable {
             } while (!this.graphics.cambioBuffer());
         }
         //Cierre de la aplicacion
-        System.exit(0);
+        //System.exit(0);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class GameState implements IState {
     public void render(IGraphics graphics) {
         for (int i = 0; i < xCells; ++i) {
             for (int j = 0; j < yCells; ++j) {
-                board.getCell(i, j).render(graphics, board.getxSize(), board.getySize());
+                board.getCell(i, j).render(graphics, board.getxSize(), graphics.getScale());
             }
         }
     }
