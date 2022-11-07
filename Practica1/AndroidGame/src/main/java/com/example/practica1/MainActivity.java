@@ -2,6 +2,7 @@ package com.example.practica1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.SurfaceView;
 
@@ -14,11 +15,14 @@ public class MainActivity extends AppCompatActivity {
 
     private AEngine androidEngine;
     private SurfaceView window;
+    private AssetManager assetManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        assetManager = getAssets();
 
         //Creamos el SurfaceView y lo inicializamos
         window = new SurfaceView(this);
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         GameState state = new GameState(10, 10);
 
         try {
-            androidEngine = new AEngine(window);
+            androidEngine = new AEngine(window, assetManager);
         } catch (IOException e) {
             e.printStackTrace();
         }

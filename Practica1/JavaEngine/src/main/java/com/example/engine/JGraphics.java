@@ -21,6 +21,7 @@ public class JGraphics implements IGraphics {
     private BufferStrategy buffer;
     private Graphics2D canvas;
 
+    //private String path = "AndroidEngine/src/main/assets/";
     private String path = "DesktopGame/assets/";
     private AffineTransform saveTransform;
 
