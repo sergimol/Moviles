@@ -7,7 +7,9 @@ public class Board {
     private int xSize, ySize;
     Cell cells[][];
 
-    Cell getCell(int x, int y){ return cells[x][y]; }
+    Cell getCell(int x, int y){
+        return cells[x][y]; 
+    }
     Vector<Vector<Integer>> xValues = new Vector<>();
     Vector<Vector<Integer>> yValues = new Vector<>();
 

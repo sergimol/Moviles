@@ -1,8 +1,5 @@
 package com.example.interfaces;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-
 public interface IGraphics {
 
     IImage newImage(String name);
@@ -36,6 +33,8 @@ public interface IGraphics {
     void setFont(IFont font);
 
     void setResolution();
+
+    int getCanvasWidth();
 
     int getWidth();
 

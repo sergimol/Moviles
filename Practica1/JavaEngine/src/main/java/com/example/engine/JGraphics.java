@@ -153,9 +153,11 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public int getWidth() {
+    public int getCanvasWidth() {
         return canvasWidth;
     }
+
+    public int getWidth(){ return myView.getWidth(); }
 
     @Override
     public int getHeight() {
@@ -174,7 +176,7 @@ public class JGraphics implements IGraphics {
 
         this.canvas.setTransform(new AffineTransform());
         canvasWidth = getHeight() * 2 / 3;
-        int xTranslation = (myView.getWidth() - canvasWidth) / 2;
+        int xTranslation = (getWidth() - canvasWidth) / 2;
 
         if (xTranslation > 0)
             translate(xTranslation, 0);

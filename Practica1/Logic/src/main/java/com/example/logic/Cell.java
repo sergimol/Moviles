@@ -10,7 +10,7 @@ public class Cell {
     // Posiciones logicas dentro del tablero
     int xPos, yPos;
     // Estado de la casilla
-    cellStates state = cellStates.Blue;
+    cellStates state = cellStates.Grey;
     // True = casilla forma parte del dibujo, False = no forma parte
     boolean isGood;
     // Espacio entre celdas en px a máxima resolución
@@ -25,7 +25,7 @@ public class Cell {
 
     void changeState(){
         if (state.ordinal() + 1 < cellStates.values().length)
-        state = cellStates.values()[state.ordinal() + 1];
+            state = cellStates.values()[state.ordinal() + 1];
         else state = cellStates.values()[0];
     }
     void changeState(cellStates newState){
@@ -43,7 +43,7 @@ public class Cell {
     }
 
     void render(IGraphics graphics, int xSize, float scale){
-        int w = graphics.getWidth();
+        int w = graphics.getCanvasWidth();
         int h = graphics.getHeight();
         float x = (xPos * (float) w / xSize) + (float) w / 5;
         float y = (yPos * (float) w / xSize) + (float) h / 3;
@@ -63,24 +63,9 @@ public class Cell {
                 break;
             case Empty:
                 graphics.setColor(0);
-                graphics.fillRect(x, y, w / xSize - s, w / xSize - s);
+                graphics.drawRect(x, y, w / xSize - s, w / xSize - s);
                 break;
         }
-    }
-
-    void  TouchCell(int Touchx, int Touchy, int xSize, float scale, IGraphics graphics){
-        int w = graphics.getWidth();
-        int h = graphics.getHeight();
-        float x = (xPos * (float) w / xSize) + (float) w / 5;
-        float y = (yPos * (float) w / xSize) + (float) h / 3;
-        float s = BASE_SPACING * scale;
-
-
-        if (Touchx >= x && Touchx < x + (w/xSize - s))
-            if (Touchy >= y && Touchy < y + (w/xSize - s)){
-                //esta dentro le cambiamos el estado
-                changeState();
-            }
     }
 }
 
