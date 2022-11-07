@@ -30,6 +30,7 @@ public class JGraphics implements IGraphics {
     final int PREFFERED_CANVAS_WIDTH = PREFFERED_CANVAS_HEIGHT * 2 / 3;
     // El ancho ideal del canvas en px para mantener la relación 2:3 y que se irá actualizando respecto de la altura
     private int canvasWidth;
+    private int canvasHeight;
     // El valor para escalar objetos respecto al tamaño ideal y que se irá actualizando respecto del tamaño del canvas
     private float scale;
     //private Thread renderThread;
@@ -67,7 +68,6 @@ public class JGraphics implements IGraphics {
             e.printStackTrace();
         }
 
-        System.out.println("falla");
 
         return null;
     }
@@ -134,17 +134,13 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void drawText(String text, float x, float y) {
-
-        System.out.println(canvas.getFont().getName());
         canvas.drawString(text, x, y);
     }
 
     @Override
     public void setFont(IFont font) {
 
-        System.out.println(((JFont) font).font_.getName());
         canvas.setFont(((JFont) font).font_);
-        System.out.println(canvas.getFont().getName());
     }
 
     @Override
@@ -175,16 +171,43 @@ public class JGraphics implements IGraphics {
         save();
 
         this.canvas.setTransform(new AffineTransform());
+
+
+
         canvasWidth = getHeight() * 2 / 3;
-        int xTranslation = (getWidth() - canvasWidth) / 2;
+        canvasHeight = getWidth() * 3 / 2;
 
-        if (xTranslation > 0)
-            translate(xTranslation, 0);
+        float w = getWidth()/2;
+        float h = getHeight()/3;
 
-        scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+        int xTranslation = 0;
+        int yTanslation = 0;
+        if (w!=h){
+            if (w < h)
+            {
+                //el alto es mayor que el ancho
+                yTanslation = ((getHeight() - canvasHeight) / 3);
+                scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+                System.out.println("alto mayor " + yTanslation);
+            }
+            else{
+                //el ancho es mayor que el alto
+                xTranslation = (getWidth() - canvasWidth) / 2;
+                scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+
+            }
+        }
+        else{
+            //el marco normal
+            scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+
+        }
+
+        translate(xTranslation, yTanslation);
+
         //scale(scaleRate, scaleRate);
         setColor(0);
-        drawRect(0, 0, canvasWidth, getHeight());
+        drawRect(0, 0, canvasWidth, canvasHeight);
         //this.clear(0xffffff);
     }
 
