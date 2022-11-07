@@ -43,10 +43,12 @@ public class Cell {
     }
 
     void render(IGraphics graphics, int xSize, float scale){
+
+        //le ponemos el w y h con el with & height del tablero?
         int w = graphics.getCanvasWidth();
         int h = graphics.getHeight();
-        float x = (xPos * (float) w / xSize) ;//+ (float) w / 5;
-        float y = (yPos * (float) w / xSize);// + (float) h / 3;
+        float x = (xPos * (float) w / xSize) + (float) w / 5;
+        float y = (yPos * (float) w / xSize)  + (float) h / 3;
         float s = BASE_SPACING * scale;
         switch (state){
             case Grey:
