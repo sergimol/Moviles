@@ -1,6 +1,7 @@
 package com.example.androidengine;
 
 import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import com.example.interfaces.IState;
 
 import java.io.IOException;
 
-public class AEngine extends AppCompatActivity implements IEngine, Runnable {
+public class AEngine implements IEngine, Runnable {
 
     private boolean running = false;
 
@@ -21,19 +22,21 @@ public class AEngine extends AppCompatActivity implements IEngine, Runnable {
 
     private AGraphics graphics;
 
-    //private AAudio audio;
+    private AAudio audio;
     //private AInput myInput;
-
-    private AssetManager assetManager;
 
 
     private Thread renderThread;
+    private AssetManager assetManager;
 
-    public AEngine(SurfaceView window) throws IOException {
-        //assetManager = getAssets();
+    public AEngine(SurfaceView window, AssetManager assetM) throws IOException {
+        assetManager = assetM;
         graphics = new AGraphics(window, assetManager);
-    }
+        audio = new AAudio(assetManager);
 
+        audio.newSound("train", "train.wav");
+        audio.playSound("train");
+    }
 
     @Override
     public void run() {
@@ -100,6 +103,7 @@ public class AEngine extends AppCompatActivity implements IEngine, Runnable {
                 try {
                     renderThread.join();
                     renderThread = null;
+                    break;
                 } catch (InterruptedException e) {
                     //Esto no deberia ocurrir nunca
                     e.printStackTrace();

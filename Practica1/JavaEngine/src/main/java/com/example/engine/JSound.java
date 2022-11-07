@@ -20,7 +20,7 @@ public class JSound implements ISound {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
         } catch (Exception e) {
-            System.err.println("Seniorito el audio no funsiona :(");
+            System.err.println("Seniorito el audioDesktop no funsiona :(");
             e.printStackTrace();
         }
 

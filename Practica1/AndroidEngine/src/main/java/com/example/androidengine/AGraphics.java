@@ -19,8 +19,6 @@ public class AGraphics implements IGraphics {
 
     private Paint paint;    //Para elegir colores en hexadecimal
 
-    //private String path = "DesktopGame/assets/";
-
     private AssetManager assetManager;
 
     IImage image_;
@@ -32,8 +30,8 @@ public class AGraphics implements IGraphics {
         paint = new Paint();
         paint.setColor(0XFF000000);     //Color negro predefinido
 
-        //assetManager = aManager;
-        //image_ = newImage("apedra.png");
+        assetManager = aManager;
+        image_ = newImage("apedra.png");
     }
 
 
@@ -88,7 +86,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, float x, float y, float width, float height) {
-        //canvas.drawPicture(((AImage) image).getImage();
+        canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
     }
 
     @Override
@@ -144,9 +142,10 @@ public class AGraphics implements IGraphics {
 
         //Pintar blanco
         setColor(0XFFFFFFFF);
-        drawRect(700, 800, 500, 500);
+        drawRect(0, 900, 500, 500);
 
-        //canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        if (image_ != null)
+            canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
     }
 
     @Override
