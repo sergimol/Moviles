@@ -58,18 +58,18 @@ public class GameState implements IState {
                 // Coordenada x del principio del canvas dentro de la pantalla
                 int xZeroInCanvas = (engine.getGraphics().getWidth() - canvasWidth) / 2;
                 // Coordenada x del principio del tablero dentro de la pantalla
-                int xZeroInBoard = xZeroInCanvas + canvasWidth / 5;
+                int xZeroInBoard = xZeroInCanvas; //+ canvasWidth / 5;
 
 
                 if(((IInput.Event) o).x >= xZeroInBoard && ((IInput.Event) o).x <= xZeroInCanvas + canvasWidth){
                     // Coordenada x del toque respecto del principio del tablero
-                    int xCoordInBoard = ((IInput.Event) o).x - xZeroInCanvas - canvasWidth / 5;
+                    int xCoordInBoard = ((IInput.Event) o).x - xZeroInCanvas ;//- canvasWidth / 5;
                     // Coordenada x dentro de la lógica del tablero (>= 0 && < xCells)
                     float xLogicInBoard = ((float)xCoordInBoard / canvasWidth * xCells);
 
                     // Coordenada y del toque respecto del principio del tablero
-                    int yCoordInBoard = ((IInput.Event) o).y - canvasHeight / 3;
-                    float yLogicInBoard = ((float)yCoordInBoard / canvasHeight * yCells);
+                    int yCoordInBoard = ((IInput.Event) o).y;// - canvasHeight / 3;
+                    float yLogicInBoard = ((float)yCoordInBoard / canvasWidth * yCells);
                     board.getCell((int) xLogicInBoard, (int)yLogicInBoard).changeState();
                 }
             }
