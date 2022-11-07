@@ -8,7 +8,7 @@ public class Board {
     Cell cells[][];
 
     Cell getCell(int x, int y){
-        return cells[x][y]; 
+        return cells[x][y];
     }
     Vector<Vector<Integer>> xValues = new Vector<>();
     Vector<Vector<Integer>> yValues = new Vector<>();
@@ -39,7 +39,7 @@ public class Board {
                 if(good){
                     xConsecutives++;
                     yConsecutives++;
-                }                    
+                }
                 else{
                     //xValues.elementAt(i).add(xConsecutives);
                     xConsecutives = 0;
@@ -59,4 +59,11 @@ public class Board {
             }
         return true;
     }
+
+    void resetAllowChangeStatesCells(){
+        for(int i = 0; i < xSize; ++i)
+            for(int j = 0; j < ySize; ++j)
+                cells[i][j].resetAllowChange();
+    }
+
 }

@@ -50,7 +50,7 @@ public class GameState implements IState {
         while (ev.hasNext()) {
             IInput.TouchEvent o = ev.next();
 
-            if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_DOWN) {
+            if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_DOWN || ((IInput.Event)o).type == IInput.InputTouchType.TOUCH_MOVE) {
                 // Ancho del canvas dentro la pantalla
                 int canvasWidth = engine.getGraphics().getCanvasWidth();
                 // Alto del canvas dentro la pantalla
@@ -72,6 +72,9 @@ public class GameState implements IState {
                     float yLogicInBoard = ((float)yCoordInBoard / canvasWidth * yCells);
                     board.getCell((int) xLogicInBoard, (int)yLogicInBoard).changeState();
                 }
+            }
+            else   if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_UP){
+                board.resetAllowChangeStatesCells();
             }
                 /*for (int i = 0; i < xCells; ++i)
                     for (int j = 0; j < yCells; ++j) {

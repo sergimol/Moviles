@@ -15,6 +15,8 @@ public class Cell {
     boolean isGood;
     // Espacio entre celdas en px a máxima resolución
     private static int BASE_SPACING = 5;
+    //booleano que permite el cambio
+    boolean allowchange = true;
 
     Cell(int x, int y, boolean good){
         xPos = x;
@@ -24,10 +26,18 @@ public class Cell {
     cellStates getState() { return state; }
 
     void changeState(){
-        if (state.ordinal() + 1 < cellStates.values().length)
-            state = cellStates.values()[state.ordinal() + 1];
-        else state = cellStates.values()[0];
+        if (allowchange){
+            if (state.ordinal() + 1 < cellStates.values().length)
+                state = cellStates.values()[state.ordinal() + 1];
+            else state = cellStates.values()[0];
+            allowchange = !allowchange;
+        }
     }
+
+    void resetAllowChange(){
+        allowchange = true;
+    }
+
     void changeState(cellStates newState){
         state = newState;
     }
