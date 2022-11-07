@@ -135,6 +135,11 @@ public class AGraphics implements IGraphics {
     }
 
     @Override
+    public float getScale() {
+        return 0;
+    }
+
+    @Override
     public void prepareFrame() {
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo

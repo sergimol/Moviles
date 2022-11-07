@@ -61,7 +61,7 @@ public class AEngine implements IEngine, Runnable {
             //Informe FPS
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
-            currentState.update(elapsedTime);
+            //currentState.update(elapsedTime);
 
             if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
