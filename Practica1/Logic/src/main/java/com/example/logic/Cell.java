@@ -76,6 +76,7 @@ public class Cell {
             case Empty:
                 graphics.setColor(0);
                 graphics.drawRect(x, y, w / xSize - s, w / xSize - s);
+                graphics.drawLine(x,y, x + w / xSize - s, y + w / xSize - s);
                 break;
         }
     }
