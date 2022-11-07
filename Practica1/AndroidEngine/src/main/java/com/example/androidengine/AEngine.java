@@ -35,7 +35,10 @@ public class AEngine implements IEngine, Runnable {
         audio = new AAudio(assetManager);
 
         audio.newSound("train", "train.wav");
-        audio.playSound("train");
+        //audio.playSound("train");
+
+        audio.newSound("clown", "clown.mp3");
+        //audio.playSound("clown");
     }
 
     @Override

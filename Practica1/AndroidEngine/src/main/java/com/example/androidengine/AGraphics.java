@@ -115,7 +115,7 @@ public class AGraphics implements IGraphics {
     }
 
     @Override
-    public void setFont() {
+    public void setFont(IFont font) {
 
     }
 

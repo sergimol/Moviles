@@ -2,6 +2,7 @@ package com.example.androidengine;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 
@@ -20,36 +21,39 @@ public class AAudio implements IAudio {
     HashMap<String, ISound> samplesLibrary;
 
     AssetManager assetManager;
-    SoundPool soundPool;
+    //SoundPool soundPool;
 
 
     public AAudio(AssetManager am) {
         assetManager = am;
         samplesLibrary = new HashMap<>();                       //Inicializa el HashMap para empezar a meter samples
-        soundPool = new SoundPool.Builder().setMaxStreams(5).build();
+        //soundPool = new SoundPool.Builder().setMaxStreams(5).build();
     }
 
     @Override
     public ISound newSound(String sampleName, String fileName) {
         ASound sample = null;    //Creamos el sample
         try {
-            int soundId = -1;
-            AssetFileDescriptor assetDecriptor = assetManager.openFd(fileName);
-            soundId = soundPool.load(assetDecriptor, 1);
-
-            sample = new ASound(sampleName, soundId);
+            sample = new ASound(fileName, assetManager);
             samplesLibrary.put(sampleName, sample);                   //Lo anadimos a la libreria
+
         } catch (IOException e) {
-            System.err.println("Seniorito el audioAndroid no funsiona :(");
             e.printStackTrace();
         }
         return sample;
+
+//      AssetFileDescriptor assetDecriptor = assetManager.openFd(fileName);
+//      int soundId = -1;
+//      soundId = soundPool.load(assetDecriptor, 1);
+//      sample = mediaPlayer.setDataSource(assetDecriptor.getFileDescriptor(), assetDecriptor.getStartOffset(), assetDecriptor.getLength());
+//      samplesLibrary.put(sampleName, sample);                   //Lo anadimos a la libreria
+
     }
 
     @Override
     public void playSound(String fileName) {
         if (samplesLibrary != null && samplesLibrary.get(fileName) != null) {
-            soundPool.play(((ASound) samplesLibrary.get(fileName)).getSoundId(), 1, 1, 1, 1, 1);
+            samplesLibrary.get(fileName).play();
         }
     }
 
