@@ -6,6 +6,10 @@ enum cellStates {
     Grey, Blue, Empty, Red
 };
 
+enum checkStates {
+    Correct, Wrong, Missing
+};
+
 public class Cell {
     // Posiciones logicas dentro del tablero
     int xPos, yPos;
@@ -27,7 +31,7 @@ public class Cell {
 
     void changeState(){
         if (allowchange){
-            if (state.ordinal() + 1 < cellStates.values().length)
+            if (state.ordinal() + 1 < cellStates.values().length - 1)
                 state = cellStates.values()[state.ordinal() + 1];
             else state = cellStates.values()[0];
             allowchange = !allowchange;
@@ -42,14 +46,15 @@ public class Cell {
         state = newState;
     }
 
-    boolean checkCell(){
-        if (isGood)
-            return state == cellStates.Blue;
-        else if (state == cellStates.Blue) {
-            changeState(cellStates.Red);
-            return false;
+    checkStates checkCell(){
+        if(!isGood && state == cellStates.Blue) {
+            state = cellStates.Red;
+            return checkStates.Wrong;
         }
-        return true;
+        else if(isGood && state != cellStates.Blue)
+            return checkStates.Missing;
+        else
+            return checkStates.Correct;
     }
 
     void render(IGraphics graphics, int xSize, float scale){

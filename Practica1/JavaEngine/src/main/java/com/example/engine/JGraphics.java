@@ -159,12 +159,12 @@ public class JGraphics implements IGraphics {
     }
 
     public int getWidth() {
-        return myView.getWidth();
+        return myView.getWidth() - myView.getInsets().right - myView.getInsets().left;
     }
 
     @Override
     public int getHeight() {
-        return myView.getHeight() - myView.getInsets().top;
+        return myView.getHeight() - myView.getInsets().top - myView.getInsets().bottom;
     }
 
     @Override
@@ -183,15 +183,15 @@ public class JGraphics implements IGraphics {
         float w = getWidth() / 2;
         float h = getHeight() / 3;
 
-        int xTranslation = 0;
-        int yTanslation = 0;
+        int xTranslation = myView.getInsets().right;
+        int yTranslation = myView.getInsets().top;
         if (w != h) {
             if (w < h) {
                 canvasWidth = getWidth();
                 canvasHeight = getWidth() * 3 / 2;
 
                 //el alto es mayor que el ancho
-                yTanslation = ((getHeight() - canvasHeight) / 2);
+                yTranslation += ((getHeight() - canvasHeight) / 2);
             } else {
                 canvasHeight = getHeight();
                 canvasWidth = getHeight() * 2 / 3;
@@ -201,10 +201,15 @@ public class JGraphics implements IGraphics {
             }
         }
 
-        scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-
-        translate(xTranslation, yTanslation);
+        //scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+        float scaleX = (float) canvasWidth / PREFFERED_CANVAS_WIDTH;
+        float scaleY = (float) canvasHeight / PREFFERED_CANVAS_HEIGHT;
+        scale = Math.min(scaleX, scaleY);
+        translate(xTranslation, yTranslation);
         clear(0XFFFFFFFF);
+        canvas.setColor(Color.BLACK);
+        canvas.drawRect(0, 0, 20, 20);
+        canvas.drawRect(canvasWidth - 20, 0, 20, 20);
     }
 
     @Override

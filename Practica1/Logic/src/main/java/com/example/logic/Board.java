@@ -3,6 +3,8 @@ package com.example.logic;
 import java.util.Random;
 import java.util.Vector;
 
+import jdk.internal.net.http.common.Pair;
+
 public class Board {
     private int xSize, ySize;
     Cell cells[][];
@@ -51,13 +53,22 @@ public class Board {
             }
     }
 
-    boolean checkBoard(){
+    Pair<Integer, Integer> checkBoard(){
+        int wrongCount = 0;
+        int missingCount = 0;
+        checkStates check;
+        cellStates state;
         for(int i = 0; i < xSize; ++i)
             for(int j = 0; j < ySize; ++j){
-                if(!cells[i][j].checkCell())
-                    return false;
+                check = cells[i][j].checkCell();
+                state = cells[i][j].getState();
+                if(check == checkStates.Wrong){
+                    wrongCount++;
+                }
+                else if(check == checkStates.Missing)
+                    missingCount++;
             }
-        return true;
+        return new Pair<>(wrongCount, missingCount);
     }
 
     void resetAllowChangeStatesCells(){
