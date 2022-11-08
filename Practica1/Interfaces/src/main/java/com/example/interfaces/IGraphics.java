@@ -36,6 +36,8 @@ public interface IGraphics {
 
     int getCanvasWidth();
 
+    int getCanvasHeight();
+
     int getWidth();
 
     int getHeight();
@@ -46,5 +48,6 @@ public interface IGraphics {
 
     void finishFrame();
 
+    float getFontWidth(String text);
 
 }

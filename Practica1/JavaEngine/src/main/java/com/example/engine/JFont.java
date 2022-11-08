@@ -12,6 +12,7 @@ import java.io.InputStream;
 
 public class JFont implements IFont {
     Font font_;
+    int originalSize_;
 
     //styleFlags is for bold + italic...
     JFont(String name, int styleFlags, int size) throws IOException, FontFormatException {
@@ -21,9 +22,9 @@ public class JFont implements IFont {
         //path a ruta del asset a partir de la raiz del proyecto
         InputStream is = new FileInputStream(new File(name));
         font_ = Font.createFont(Font.TRUETYPE_FONT, is);
-        font_ = font_.deriveFont((float)size);
+        font_ = font_.deriveFont((float) size);
         font_ = font_.deriveFont(styleFlags);
-
+        originalSize_ = size;
     }
 
     @Override

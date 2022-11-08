@@ -157,4 +157,9 @@ public class AGraphics implements IGraphics {
     public void finishFrame() {
         holder.unlockCanvasAndPost(canvas);         //Desbloquea el canvas para mostrar lo pintado
     }
+
+    @Override
+    public float getFontWidth(String text) {
+        return paint.measureText(text, 0, text.length());
+    }
 }

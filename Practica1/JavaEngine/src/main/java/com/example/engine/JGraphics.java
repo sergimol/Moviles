@@ -59,8 +59,7 @@ public class JGraphics implements IGraphics {
     @Override
     public IFont newFont(String filename, int styleFlags, int size) {
         try {
-            JFont jFont = new JFont(path +  filename, styleFlags, size);
-
+            JFont jFont = new JFont(path + filename, styleFlags, size);
             return jFont;
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,6 +73,8 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void clear(int color) {
+        canvas.setColor(new Color(color));
+        canvas.fillRect(0, 0, getCanvasWidth(), getCanvasHeight());
     }
 
     @Override
@@ -98,7 +99,7 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void setColor(int color) {
-        this.canvas.setColor(new Color(color));
+        canvas.setColor(new Color(color));
     }
 
     @Override
@@ -139,7 +140,6 @@ public class JGraphics implements IGraphics {
 
     @Override
     public void setFont(IFont font) {
-
         canvas.setFont(((JFont) font).font_);
     }
 
@@ -153,11 +153,18 @@ public class JGraphics implements IGraphics {
         return canvasWidth;
     }
 
-    public int getWidth(){ return myView.getWidth(); }
+    @Override
+    public int getCanvasHeight() {
+        return canvasHeight;
+    }
+
+    public int getWidth() {
+        return myView.getWidth();
+    }
 
     @Override
     public int getHeight() {
-        return myView.getHeight();
+        return myView.getHeight() - myView.getInsets().top;
     }
 
     @Override
@@ -173,47 +180,41 @@ public class JGraphics implements IGraphics {
         this.canvas.setTransform(new AffineTransform());
 
 
-
-        canvasWidth = getHeight() * 2 / 3;
-        canvasHeight = getWidth() * 3 / 2;
-
-        float w = getWidth()/2;
-        float h = getHeight()/3;
+        float w = getWidth() / 2;
+        float h = getHeight() / 3;
 
         int xTranslation = 0;
         int yTanslation = 0;
-        if (w!=h){
-            if (w < h)
-            {
+        if (w != h) {
+            if (w < h) {
+                canvasWidth = getWidth();
+                canvasHeight = getWidth() * 3 / 2;
+
                 //el alto es mayor que el ancho
-                yTanslation = ((getHeight() - canvasHeight) / 3);
-                scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-                System.out.println("alto mayor " + yTanslation);
-            }
-            else{
+                yTanslation = ((getHeight() - canvasHeight) / 2);
+            } else {
+                canvasHeight = getHeight();
+                canvasWidth = getHeight() * 2 / 3;
+
                 //el ancho es mayor que el alto
                 xTranslation = (getWidth() - canvasWidth) / 2;
-                scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-
             }
         }
-        else{
-            //el marco normal
-            scale = (float) (getHeight() * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
 
-        }
+        scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
 
         translate(xTranslation, yTanslation);
-
-        //scale(scaleRate, scaleRate);
-        setColor(0);
-        drawRect(0, 0, canvasWidth, canvasHeight);
-        //this.clear(0xffffff);
+        clear(0XFFFFFFFF);
     }
 
     @Override
     public void finishFrame() {
         this.canvas.dispose();
+    }
+
+    @Override
+    public float getFontWidth(String text) {
+        return canvas.getFontMetrics().stringWidth(text);
     }
 
     boolean cambioBuffer() {
@@ -223,11 +224,10 @@ public class JGraphics implements IGraphics {
         this.buffer.show();
 
         return !this.buffer.contentsLost();
-
     }
 
     //Devuelve window
-    public JFrame getMyView() {
+    public JFrame getWindow() {
         return myView;
     }
 
