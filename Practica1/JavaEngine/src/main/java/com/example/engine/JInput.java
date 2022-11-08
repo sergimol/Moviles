@@ -19,13 +19,15 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
 
     private List<TouchEvent> eventList;
+    private JGraphics graphics;
 
-
-    public JInput(JFrame frame) {
+    public JInput(JFrame frame, JGraphics jg) {
         //Register for mouse events on blankArea and the panel.
         frame.addMouseListener(this);
         frame.addMouseMotionListener(this);
         eventList = new ArrayList<TouchEvent>();
+        graphics  = jg;
+
     }
 
     public void madeInput(Component frame) {
@@ -64,10 +66,10 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
         //repetir esta estructura con el resto de eventos que queramos registrar
         Event evento = new Event();
-        evento.x = e.getX();
-        evento.y = e.getY();
-        //evento.x = e.getXOnScreen();
-        //evento.y = e.getYOnScreen();
+        //evento.x = e.getX();
+        //evento.y = e.getY();
+        evento.x = e.getXOnScreen() - graphics.getCanvasX();
+        evento.y = e.getYOnScreen() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_DOWN;
         evento.index = e.getID();
 
@@ -86,10 +88,10 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
         //repetir esta estructura con el resto de eventos que queramos registrar
         Event evento = new Event();
-        evento.x = e.getX();
-        evento.y = e.getY();
-        //evento.x = e.getXOnScreen();
-        //evento.y = e.getYOnScreen();
+        //evento.x = e.getX();
+        //evento.y = e.getY();
+        evento.x = e.getXOnScreen() - graphics.getCanvasX();
+        evento.y = e.getYOnScreen() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_UP;
         evento.index = e.getID();
 
@@ -120,10 +122,10 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
         //repetir esta estructura con el resto de eventos que queramos registrar
         Event evento = new Event();
-        evento.x = e.getX();
-        evento.y = e.getY();
-        //evento.x = e.getXOnScreen();
-        //evento.y = e.getYOnScreen();
+        //evento.x = e.getX();
+        //evento.y = e.getY();
+        evento.x = e.getXOnScreen() - graphics.getCanvasX();
+        evento.y = e.getYOnScreen() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_MOVE;
         evento.index = e.getID();
         evento.source = e.getSource();
@@ -137,7 +139,7 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
 
         eventOutput("Mouse pressed moved (button: "
-                + e.getButton() + " position: " +e.getX() + " " + e.getY() + " )", e);
+                + e.getButton() + " position: " +evento.x + " " + evento.y  + " )", e );
     }
 
     @Override

@@ -33,7 +33,7 @@ public class JEngine implements IEngine, Runnable {
 //        audio.loop("train_0", true);
 
         //Inicializamos el Input (Solo raton de momento)
-        myInput = new JInput(window);
+        myInput = new JInput(window, graphics);
 
         resume();   //Lanza el run()
     }

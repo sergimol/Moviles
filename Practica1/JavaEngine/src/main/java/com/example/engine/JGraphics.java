@@ -28,6 +28,9 @@ public class JGraphics implements IGraphics {
     private float ORIGINAL_CANVAS_WIDTH;
     private float ORIGINAL_CANVAS_HEIGHT;
 
+    private int centricoCanvasX;
+    private int centricoCanvasY;
+
 //    private int canvasWidth;
 //    private int canvasHeight;
 
@@ -55,6 +58,14 @@ public class JGraphics implements IGraphics {
         buffer = myView.getBufferStrategy();
         //Inicializacion de canvas
         canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
+    }
+
+
+    public int getCanvasX(){
+        return centricoCanvasX;
+    }
+    public int getCanvasY(){
+        return centricoCanvasY;
     }
 
     @Override
@@ -214,8 +225,8 @@ public class JGraphics implements IGraphics {
         int CENTROCANVASX = (int) (ORIGINAL_CANVAS_WIDTH * ESCALAX) / 2;
         int CENTROCANVASY = (int) (ORIGINAL_CANVAS_HEIGHT * ESCALAY) / 2;
 
-        int centricoCanvasX = CENTROX - CENTROCANVASX;
-        int centricoCanvasY = CENTROY - CENTROCANVASY;
+        centricoCanvasX = CENTROX - CENTROCANVASX;
+        centricoCanvasY = CENTROY - CENTROCANVASY;
 
         translate(centricoCanvasX, centricoCanvasY);
         canvas.scale(ESCALAX, ESCALAY);
