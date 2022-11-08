@@ -22,15 +22,18 @@ public class Cell {
     //booleano que permite el cambio
     boolean allowchange = true;
 
-    Cell(int x, int y, boolean good){
+    Cell(int x, int y, boolean good) {
         xPos = x;
         yPos = y;
         isGood = good;
     }
-    cellStates getState() { return state; }
 
-    void changeState(){
-        if (allowchange){
+    cellStates getState() {
+        return state;
+    }
+
+    void changeState() {
+        if (allowchange) {
             if (state.ordinal() + 1 < cellStates.values().length - 1)
                 state = cellStates.values()[state.ordinal() + 1];
             else state = cellStates.values()[0];
@@ -38,50 +41,43 @@ public class Cell {
         }
     }
 
-    void resetAllowChange(){
+    void resetAllowChange() {
         allowchange = true;
     }
 
-    void changeState(cellStates newState){
+    void changeState(cellStates newState) {
         state = newState;
     }
 
-    checkStates checkCell(){
-        if(!isGood && state == cellStates.Blue) {
+    checkStates checkCell() {
+        if (!isGood && state == cellStates.Blue) {
             state = cellStates.Red;
             return checkStates.Wrong;
-        }
-        else if(isGood && state != cellStates.Blue)
+        } else if (isGood && state != cellStates.Blue)
             return checkStates.Missing;
         else
             return checkStates.Correct;
     }
 
-    void render(IGraphics graphics, int xSize, float scale){
+    void render(IGraphics graphics, int xSize) {
 
-        //le ponemos el w y h con el with & height del tablero?
-//        int w = graphics.getCanvasWidth();
-//        int h = graphics.getHeight();
-//        float x = (xPos * (float) w / xSize) + (float) w / 5;
-//        float y = (yPos * (float) w / xSize)  + (float) h / 3;
-//        float s = BASE_SPACING * scale;
-//        switch (state){
+//        switch (state) {
 //            case Grey:
 //                graphics.setColor(0x808080);
-//                graphics.fillRect(x, y, w / xSize - s, w / xSize - s);
+//                graphics.fillRect(xPos + BASE_SPACING, yPos + BASE_SPACING);
 //                break;
 //            case Red:
 //                graphics.setColor(0xFF0000);
-//                graphics.fillRect(x, y, w / xSize - s, w / xSize - s);
+//                graphics.fillRect();
 //                break;
 //            case Blue:
 //                graphics.setColor(0x0000FF);
-//                graphics.fillRect(x, y, w / xSize - s, w / xSize - s);
+//                graphics.fillRect();
 //                break;
 //            case Empty:
 //                graphics.setColor(0);
-//                graphics.drawRect(x, y, w / xSize - s, w / xSize - s);
-//                graphics.drawLine(x,y, x + w / xSize - s, y + w / xSize - s);
+//                graphics.drawRect();
+//                graphics.drawLine();
 //                break;
 //        }
     }

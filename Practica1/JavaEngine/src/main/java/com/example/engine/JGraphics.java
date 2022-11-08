@@ -290,6 +290,7 @@ public class JGraphics implements IGraphics {
         graphics2D.dispose();
         return resizedImage;
     }
+
     @Override
     public float relationAspectDimension() {
         float w = getWidth();
