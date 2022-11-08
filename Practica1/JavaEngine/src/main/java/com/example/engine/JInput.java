@@ -48,18 +48,6 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         eventList.clear();
     }
 
-
-
-
-    void eventOutput(String eventDescription, MouseEvent e) {
-
-        e.getSource();
-
-        System.out.println((eventDescription + " detected on "
-                + e.getComponent().getClass().getName()
-                + "."));
-    }
-
     //input de raton
     public void mousePressed(MouseEvent e) {
 
@@ -81,8 +69,6 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
        //ejemplo de esot es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubois, de formar que solo el cubo clickado proceasa el input)ç
         e.consume();
 
-        eventOutput("Mouse pressed (# of clicks: "
-                + e.getClickCount() + " position: " +e.getX() + " " + e.getY() + " )", e);
     }
     public void mouseReleased(MouseEvent e) {
 
@@ -103,20 +89,10 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         //ejemplo de esot es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubois, de formar que solo el cubo clickado proceasa el input)ç
         e.consume();
 
-
-        eventOutput("Mouse released (# of clicks: "
-                + e.getClickCount() + ")", e);
     }
-    public void mouseEntered(MouseEvent e) {
-        eventOutput("Mouse entered", e);
-    }
-    public void mouseExited(MouseEvent e) {
-        eventOutput("Mouse exited", e);
-    }
-    public void mouseClicked(MouseEvent e) {
-        eventOutput("Mouse clicked (# of clicks: "
-                + e.getClickCount() + ")", e);
-    }
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
     //movimiento del raton
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -136,10 +112,6 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         //ejemplo de esto es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubos, de forma que solo el cubo clickado procesa el input)
         e.consume();
 
-
-
-        eventOutput("Mouse pressed moved (button: "
-                + e.getButton() + " position: " +evento.x + " " + evento.y  + " )", e );
     }
 
     @Override
