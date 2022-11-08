@@ -28,8 +28,8 @@ public class InitialState extends GameState {
     public void init(IEngine e) {
         engine = e;
         //añadir una imagen
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, 40);
-        playButton = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, 20);
+        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.04f * e.getGraphics().relationAspectDimension()));
+        playButton = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.02f * e.getGraphics().relationAspectDimension()));
     }
 
 
@@ -41,13 +41,13 @@ public class InitialState extends GameState {
             graphics.setFont(title);
             String word = "NANOGRAMOS";
             graphics.setColor(0X00000000);
-            graphics.drawText(word, graphics.getCanvasWidth() / 2 - graphics.getFontWidth(word) / 2, 100);
+            graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
         }
         if (playButton != null) {
             graphics.setFont(playButton);
             String word = "Jugar";
             graphics.setColor(0X00000000);
-            graphics.drawText(word, graphics.getCanvasWidth() / 2 - graphics.getFontWidth(word) / 2, 500);
+            graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.5));
         }
     }
 

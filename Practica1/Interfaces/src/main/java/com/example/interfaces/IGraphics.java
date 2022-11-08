@@ -34,9 +34,9 @@ public interface IGraphics {
 
     void setResolution();
 
-    int getCanvasWidth();
+    float getOriginalWidth();
 
-    int getCanvasHeight();
+    float getOriginalHeight();
 
     int getWidth();
 
@@ -49,5 +49,7 @@ public interface IGraphics {
     void finishFrame();
 
     float getFontWidth(String text);
+
+    float relationAspectDimension();
 
 }

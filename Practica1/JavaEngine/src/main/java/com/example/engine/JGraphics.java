@@ -5,7 +5,6 @@ import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -25,12 +24,13 @@ public class JGraphics implements IGraphics {
     private String path = "DesktopGame/assets/";
     private AffineTransform saveTransform;
 
-    // La altura ideal en px del canvas (el ancho deberá ser 2/3 de la altura para mantener la relación 2:3 que espera la lógica)
-    final int PREFFERED_CANVAS_HEIGHT = 1080;
-    final int PREFFERED_CANVAS_WIDTH = PREFFERED_CANVAS_HEIGHT * 2 / 3;
-    // El ancho ideal del canvas en px para mantener la relación 2:3 y que se irá actualizando respecto de la altura
-    private int canvasWidth;
-    private int canvasHeight;
+    // VALORES ORIGINALES DEL WINDOW
+    private float ORIGINAL_CANVAS_WIDTH;
+    private float ORIGINAL_CANVAS_HEIGHT;
+
+//    private int canvasWidth;
+//    private int canvasHeight;
+
     // El valor para escalar objetos respecto al tamaño ideal y que se irá actualizando respecto del tamaño del canvas
     private float scale;
     //private Thread renderThread;
@@ -38,6 +38,18 @@ public class JGraphics implements IGraphics {
     public JGraphics(JFrame window) {
         //Inicializacion de myView
         myView = window;
+
+        //Guardamos valores
+
+        ORIGINAL_CANVAS_WIDTH = window.getHeight();
+        ORIGINAL_CANVAS_HEIGHT = window.getWidth();
+        if (ORIGINAL_CANVAS_WIDTH <= ORIGINAL_CANVAS_HEIGHT * 2 / 3) {
+            ORIGINAL_CANVAS_HEIGHT = ORIGINAL_CANVAS_WIDTH * 3.0f / 2.0f;
+        } else {
+            ORIGINAL_CANVAS_WIDTH = ORIGINAL_CANVAS_HEIGHT * 2.0f / 3.0f;
+        }
+
+
         //Inicializacion de buffer
         myView.createBufferStrategy(2);
         buffer = myView.getBufferStrategy();
@@ -74,7 +86,9 @@ public class JGraphics implements IGraphics {
     @Override
     public void clear(int color) {
         canvas.setColor(new Color(color));
-        canvas.fillRect(0, 0, getCanvasWidth(), getCanvasHeight());
+        double auxX = ORIGINAL_CANVAS_WIDTH;
+        double auxY = ORIGINAL_CANVAS_HEIGHT;
+        canvas.fillRect(0, 0, (int) auxX, (int) auxY);    //
     }
 
     @Override
@@ -148,14 +162,12 @@ public class JGraphics implements IGraphics {
 
     }
 
-    @Override
-    public int getCanvasWidth() {
-        return canvasWidth;
+    public float getOriginalWidth() {
+        return ORIGINAL_CANVAS_WIDTH;
     }
 
-    @Override
-    public int getCanvasHeight() {
-        return canvasHeight;
+    public float getOriginalHeight() {
+        return ORIGINAL_CANVAS_HEIGHT;
     }
 
     public int getWidth() {
@@ -177,39 +189,74 @@ public class JGraphics implements IGraphics {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
         save();
 
-        this.canvas.setTransform(new AffineTransform());
+        //TOMA DE ESCALA
+        float w = getWidth();
+        float h = getHeight();
 
+        float escalaAux;
 
-        float w = getWidth() / 2;
-        float h = getHeight() / 3;
-
-        int xTranslation = myView.getInsets().right;
-        int yTranslation = myView.getInsets().top;
-        if (w != h) {
-            if (w < h) {
-                canvasWidth = getWidth();
-                canvasHeight = getWidth() * 3 / 2;
-
-                //el alto es mayor que el ancho
-                yTranslation += ((getHeight() - canvasHeight) / 2);
-            } else {
-                canvasHeight = getHeight();
-                canvasWidth = getHeight() * 2 / 3;
-
-                //el ancho es mayor que el alto
-                xTranslation = (getWidth() - canvasWidth) / 2;
-            }
+        if (w <= h * 2.0f / 3.0f) {
+            //Nos quedamos con el ancho
+            escalaAux = (float) ((float) getWidth() / (float) ORIGINAL_CANVAS_WIDTH);
+        } else {
+            //Nos quedamos con el alto
+            escalaAux = (float) ((float) getHeight() / (float) ORIGINAL_CANVAS_HEIGHT);
         }
 
-        //scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-        float scaleX = (float) canvasWidth / PREFFERED_CANVAS_WIDTH;
-        float scaleY = (float) canvasHeight / PREFFERED_CANVAS_HEIGHT;
-        scale = Math.min(scaleX, scaleY);
-        translate(xTranslation, yTranslation);
+
+        //ESCALA DE CANVAS
+        float ESCALAX = escalaAux;
+        float ESCALAY = escalaAux;
+
+        int CENTROX = ((int) ((getWidth() / 2) * canvas.getTransform().getScaleX()) + myView.getInsets().left);
+        int CENTROY = ((int) ((getHeight() / 2) * canvas.getTransform().getScaleY()) + myView.getInsets().top);
+
+        int CENTROCANVASX = (int) (ORIGINAL_CANVAS_WIDTH * ESCALAX) / 2;
+        int CENTROCANVASY = (int) (ORIGINAL_CANVAS_HEIGHT * ESCALAY) / 2;
+
+        int centricoCanvasX = CENTROX - CENTROCANVASX;
+        int centricoCanvasY = CENTROY - CENTROCANVASY;
+
+        translate(centricoCanvasX, centricoCanvasY);
+        canvas.scale(ESCALAX, ESCALAY);
+
+
+        ////////////////////////////////
+//        this.canvas.setTransform(new AffineTransform());
+//
+//        float w = getWidth() / 2;
+//        float h = getHeight() / 3;
+//
+//        int xTranslation = myView.getInsets().right;
+//        int yTranslation = myView.getInsets().top;
+//        if (w != h) {
+//            if (w < h) {
+//                canvasWidth = getWidth();
+//                canvasHeight = getWidth() * 3 / 2;
+//
+//                //el alto es mayor que el ancho
+//                yTranslation += ((getHeight() - canvasHeight) / 2);
+//            } else {
+//                canvasHeight = getHeight();
+//                canvasWidth = getHeight() * 2 / 3;
+//
+//                //el ancho es mayor que el alto
+//                xTranslation = (getWidth() - canvasWidth) / 2;
+//            }
+//        }
+//
+//        //scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
+//        float scaleX = (float) canvasWidth / PREFFERED_CANVAS_WIDTH;
+//        float scaleY = (float) canvasHeight / PREFFERED_CANVAS_HEIGHT;
+//        scale = Math.min(scaleX, scaleY);
+//        translate(xTranslation, yTranslation);
+///////////////////////////
+
+
         clear(0XFFFFFFFF);
-        canvas.setColor(Color.BLACK);
-        canvas.drawRect(0, 0, 20, 20);
-        canvas.drawRect(canvasWidth - 20, 0, 20, 20);
+
+        //canvas.drawRect(0, 0, 20, 20);
+        //canvas.drawRect(canvasWidth - 20, 0, 20, 20);
     }
 
     @Override
@@ -242,5 +289,18 @@ public class JGraphics implements IGraphics {
         graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
         return resizedImage;
+    }
+    @Override
+    public float relationAspectDimension() {
+        float w = getWidth();
+        float h = getHeight();
+
+        if (w <= h * 2.0f / 3.0f) {
+            //Nos quedamos con el ancho
+            return w;
+        } else {
+            //Nos quedamos con el alto
+            return h;
+        }
     }
 }

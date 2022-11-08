@@ -29,19 +29,19 @@ public class LevelSelectionState extends GameState {
     @Override
     public void render(IGraphics graphics) {
 
-        //renderizar otro objeto como puede ser el boton
-        if (volver != null) {
-            graphics.setFont(volver);
-            String word = "<- Volver";
-            graphics.setColor(0X00000000);
-            graphics.drawText(word, 10, 100);
-        }
-        if (text != null) {
-            graphics.setFont(text);
-            String word = "Selecciona el tamaño del puzzle";
-            graphics.setColor(0X00000000);
-            graphics.drawText(word, graphics.getCanvasWidth() / 2 - graphics.getFontWidth(word) / 2, 300);
-        }
+//        //renderizar otro objeto como puede ser el boton
+//        if (volver != null) {
+//            graphics.setFont(volver);
+//            String word = "<- Volver";
+//            graphics.setColor(0X00000000);
+//            graphics.drawText(word, 10, 100);
+//        }
+//        if (text != null) {
+//            graphics.setFont(text);
+//            String word = "Selecciona el tamaño del puzzle";
+//            graphics.setColor(0X00000000);
+//            graphics.drawText(word, graphics.getCanvasWidth() / 2 - graphics.getFontWidth(word) / 2, 300);
+//        }
     }
 
     @Override
