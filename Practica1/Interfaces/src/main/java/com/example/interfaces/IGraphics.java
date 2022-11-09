@@ -32,7 +32,7 @@ public interface IGraphics {
 
     void drawText(String text, float x, float y);
 
-    void setFont(IFont font);
+    void setFont(IFont font, float size);
 
     void setResolution();
 

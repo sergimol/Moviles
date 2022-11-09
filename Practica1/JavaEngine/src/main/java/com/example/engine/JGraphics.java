@@ -163,7 +163,8 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public void setFont(IFont font) {
+    public void setFont(IFont font, float size) {
+        ((JFont) font).setSize(size);
         canvas.setFont(((JFont) font).font_);
     }
 

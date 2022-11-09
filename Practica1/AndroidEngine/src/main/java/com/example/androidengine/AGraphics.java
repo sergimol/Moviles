@@ -3,6 +3,7 @@ package com.example.androidengine;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.TypedValue;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -116,12 +117,15 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawText(String text, float x, float y) {
+
         canvas.drawText(text, x, y, paint);
+
     }
 
     @Override
-    public void setFont(IFont font) {
-
+    public void setFont(IFont font, float size) {
+        paint.setTextSize(size/getScale());
+        paint.setTypeface(((AFont)font).font_);
     }
 
     @Override

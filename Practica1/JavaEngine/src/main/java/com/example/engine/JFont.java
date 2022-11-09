@@ -26,6 +26,10 @@ public class JFont implements IFont {
         originalSize_ = size;
     }
 
+    public void setSize(float s){
+        font_ = font_.deriveFont(s);
+    }
+
     @Override
     public int getSize() {
         return font_.getSize();
