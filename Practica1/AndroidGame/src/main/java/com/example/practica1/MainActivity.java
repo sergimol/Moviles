@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 
 import com.example.androidengine.AEngine;
 import com.example.logic.GameState;
+import com.example.logic.InitialState;
 
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(window);
 
         //Creamos el Engine y lo inicializamos
-        GameState state = new GameState(10, 10);
+        InitialState state = new InitialState();
 
         try {
             androidEngine = new AEngine(window, assetManager);

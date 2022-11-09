@@ -11,6 +11,7 @@ import com.example.interfaces.IState;
 import com.example.interfaces.ITimer;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -22,6 +23,8 @@ public class InitialState implements IState {
     IFont playButton;
     IEngine engine;
     Button myBoton;
+    IImage imagen;
+
 
     public InitialState() {
 
@@ -35,6 +38,7 @@ public class InitialState implements IState {
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFAF33);
+        imagen = e.getGraphics().newImage("apedra.png");
     }
 
     @Override
@@ -46,6 +50,10 @@ public class InitialState implements IState {
     @Override
     public void render(IGraphics graphics) {
 
+
+        if (imagen != null){
+            graphics.drawImage(imagen,100,10,10,10);
+        }
         //renderizar otro objeto como puede ser el boton
         String word;
         if (title != null) {

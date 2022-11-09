@@ -91,7 +91,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, float x, float y, float width, float height) {
-        canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        canvas.drawBitmap(((AImage) image).getImage(), x, y, paint);
     }
 
     @Override
@@ -158,14 +158,15 @@ public class AGraphics implements IGraphics {
     public void prepareFrame() {
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
-        canvas.drawColor(0xFF000000);               //Pinta de negro
+        canvas.drawColor(0xFFffffff);               //Pinta de negro
 
-        //Pintar blanco
-        setColor(0XFFFFFFFF);
-        drawRect(0, 900, 500, 500);
+        //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo tony
+        //nos hemos fumado todo, siete porro'
+        setColor(0XFF000000);
 
-        if (image_ != null)
-            canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        //if (image_ != null)
+          //  drawImage(image_,0,0,10,10);
+            //canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
     }
 
     @Override
