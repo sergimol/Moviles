@@ -26,7 +26,7 @@ public class LevelSelectionState implements IState {
         engine = e;
 
         volver = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
-        backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() * 0.1f, e.getGraphics().getOriginalHeight() * 0.02f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFFFFFFF);
+        backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF);
     }
 
     @Override
@@ -66,12 +66,6 @@ public class LevelSelectionState implements IState {
             IInput.TouchEvent o = i.next();
             if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                 engine.setState(previous);
-
-
-//                LevelSelectionState st = new LevelSelectionState();
-//                st.setPrevious(this);
-//                engine.setState(st);
-//                st.init(engine);
             }
         }
 
