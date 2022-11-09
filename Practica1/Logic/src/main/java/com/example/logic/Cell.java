@@ -24,11 +24,7 @@ public class Cell {
 
     Cell(int x, int y, boolean good) {
         xPos = x;
-        if(x%2==0)
-            state = cellStates.Blue;
         yPos = y;
-        if(y%2==0)
-            state = cellStates.Red;
         isGood = good;
     }
 
@@ -67,23 +63,22 @@ public class Cell {
         switch (state) {
             case Grey:
                 graphics.setColor(0x808080);
-                //graphics.fillRect(zeroX + cellSpacing + xPos * cellSide, zeroY + cellSpacing + yPos * cellSide, cellSide, cellSide);
+                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Red:
                 graphics.setColor(0xFF0000);
-                //graphics.fillRect(zeroX + xPos * cellSide, zeroY + yPos * cellSide, cellSide, cellSide);
+                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Blue:
                 graphics.setColor(0x0000FF);
-                //graphics.fillRect(zeroX + xPos * cellSide, zeroY + yPos * cellSide, cellSide, cellSide);
+                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Empty:
                 graphics.setColor(0);
-                graphics.drawRect(zeroX + xPos * cellSide, zeroY + yPos * cellSide, cellSide, cellSide);
-                //graphics.drawLine(zeroX + xPos * cellSide, zeroY + yPos * cellSide, , );
+                graphics.drawRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), cellSide - 1, cellSide - 1);
+                graphics.drawLine(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), zeroX + xPos * (cellSide + cellSpacing) + cellSide - 1, zeroY + yPos * (cellSide + cellSpacing) + cellSide - 1);
                 break;
         }
-        graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
     }
 }
 

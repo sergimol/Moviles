@@ -4,22 +4,28 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IInput;
+import com.example.interfaces.IState;
 
 import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-public class FinalState extends GameState {
+public class FinalState implements IState {
     IFont title;
+    IEngine engine;
 
-    public FinalState(int x, int y) {
-        super(x, y);
+    public FinalState() {
     }
 
     @Override
     public void init(IEngine e) {
         engine = e;
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension()/10) / e.getGraphics().getScale()));
+    }
+
+    @Override
+    public void update(double deltaTime) {
+
     }
 
 
@@ -56,6 +62,11 @@ public class FinalState extends GameState {
         }
 
         engine.getInput().emptyTouchEvents();
+    }
+
+    @Override
+    public void setPrevious(IState st) {
+
     }
 }
 

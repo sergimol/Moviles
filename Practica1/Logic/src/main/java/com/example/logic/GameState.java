@@ -39,46 +39,44 @@ public class GameState implements IState {
 
     @Override
     public void handleInput() {
-//        //check touch cells and buttons to play
-//        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
-//
-//        ListIterator<IInput.TouchEvent> ev = events.listIterator();
-//        while (ev.hasNext()) {
-//            IInput.TouchEvent o = ev.next();
-//
-//            if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_DOWN || ((IInput.Event)o).type == IInput.InputTouchType.TOUCH_MOVE) {
-//                // Ancho del canvas dentro la pantalla
-//                int canvasWidth = engine.getGraphics().getCanvasWidth();
-//                // Alto del canvas dentro la pantalla
-//                int canvasHeight = engine.getGraphics().getHeight();
-//                // Coordenada x del principio del canvas dentro de la pantalla
-//                int xZeroInCanvas = (engine.getGraphics().getWidth() - canvasWidth) / 2;
-//                // Coordenada x del principio del tablero dentro de la pantalla
-//                int xZeroInBoard = xZeroInCanvas + canvasWidth / 5;
-//
-//
-//                if(((IInput.Event) o).x >= xZeroInBoard && ((IInput.Event) o).x <= xZeroInCanvas + canvasWidth){
-//                    // Coordenada x del toque respecto del principio del tablero
-//                    int xCoordInBoard = ((IInput.Event) o).x - xZeroInCanvas - canvasWidth / 5;
-//                    // Coordenada x dentro de la lógica del tablero (>= 0 && < xCells)
-//                    float xLogicInBoard = ((float)xCoordInBoard / canvasWidth * xCells);
-//
-//                    // Coordenada y del toque respecto del principio del tablero
-//                    int yCoordInBoard = ((IInput.Event) o).y  - canvasHeight / 3;
-//                    float yLogicInBoard = ((float)yCoordInBoard / canvasWidth * yCells);
-//                    board.getCell((int) xLogicInBoard, (int)yLogicInBoard).changeState();
-//                }
-//            }
-//            else   if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_UP){
-//                board.resetAllowChangeStatesCells();
-//            }
-//                /*for (int i = 0; i < xCells; ++i)
-//                    for (int j = 0; j < yCells; ++j) {
-//                        board.getCell(i, j).touchCell(((IInput.Event)o).x,((IInput.Event)o).y , board.getxSize(), engine.getGraphics().getScale(), engine.getGraphics());
-//                    }*/
-//
-//        }
-//        engine.getInput().emptyTouchEvents();
+        //check touch cells and buttons to play
+        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
+
+        ListIterator<IInput.TouchEvent> ev = events.listIterator();
+        while (ev.hasNext()) {
+            IInput.TouchEvent o = ev.next();
+
+            if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_DOWN || ((IInput.Event)o).type == IInput.InputTouchType.TOUCH_MOVE) {
+                // Ancho del canvas dentro la pantalla
+                /*int canvasWidth = engine.getGraphics().getCanvasWidth();
+                // Alto del canvas dentro la pantalla
+                int canvasHeight = engine.getGraphics().getHeight();
+                // Coordenada x del principio del canvas dentro de la pantalla
+                int xZeroInCanvas = (engine.getGraphics().getWidth() - canvasWidth) / 2;
+                // Coordenada x del principio del tablero dentro de la pantalla
+                int xZeroInBoard = xZeroInCanvas + canvasWidth / 5;
+
+
+                if(((IInput.Event) o).x >= xZeroInBoard && ((IInput.Event) o).x <= xZeroInCanvas + canvasWidth){
+                    // Coordenada x del toque respecto del principio del tablero
+                    int xCoordInBoard = ((IInput.Event) o).x - xZeroInCanvas - canvasWidth / 5;
+                    // Coordenada x dentro de la lógica del tablero (>= 0 && < xCells)
+                    float xLogicInBoard = ((float)xCoordInBoard / canvasWidth * xCells);
+
+                    // Coordenada y del toque respecto del principio del tablero
+                    int yCoordInBoard = ((IInput.Event) o).y  - canvasHeight / 3;
+                    float yLogicInBoard = ((float)yCoordInBoard / canvasWidth * yCells);
+                    board.getCell((int) xLogicInBoard, (int)yLogicInBoard).changeState();
+                }*/
+                float xInCanvas = ((IInput.Event) o).x;
+                float yInCanvas = ((IInput.Event) o).y;
+                board.handleInput(xInCanvas, yInCanvas);
+            }
+            else if (((IInput.Event)o).type == IInput.InputTouchType.TOUCH_UP){
+                board.resetAllowChangeStatesCells();
+            }
+        }
+        engine.getInput().emptyTouchEvents();
     }
 
     @Override
