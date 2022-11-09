@@ -19,6 +19,8 @@ public class Button {
     private float PosY;
     private float SizeX;
     private float SizeY;
+    float TextSize;
+
 
     private float clickTopX;
     private float clickTopY;
@@ -26,7 +28,8 @@ public class Button {
     private float clickBottomY;
     int color;
 
-    Button(IFont f, String text, float x, float y, float sizeX_, float sizeY_, int c) {
+
+    Button(IFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_) {
         fuente = f;
         texto = text;
         PosX = x;
@@ -34,6 +37,7 @@ public class Button {
         SizeX = sizeX_;
         SizeY = sizeY_;
         color = c;
+        TextSize = TextSize_; f.getSize();
     }
 
 
@@ -48,9 +52,11 @@ public class Button {
         graphics.setColor(color);
         graphics.fillRect(clickTopX, clickTopY, SizeX, SizeY);
 
-        graphics.setFont(fuente);
-        graphics.setColor(0);
-        graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
+        if (fuente != null){
+            graphics.setFont(fuente,TextSize);
+            graphics.setColor(0);
+            graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
+        }
 
     }
 
