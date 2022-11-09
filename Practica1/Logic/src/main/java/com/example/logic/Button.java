@@ -18,11 +18,11 @@ private float PosY;
 private float SizeX;
 private float SizeY;
 
-    private int clickTopX;
-    private int clickTopY;
-    private int clickBottomX;
-    private int clickBottomY;
-    ;
+    private float clickTopX;
+    private float clickTopY;
+    private float clickBottomX;
+    private float clickBottomY;
+
 
 Button (IFont f, String text, float x, float y, float sizeX_, float sizeY_){
 fuente = f;
@@ -44,25 +44,21 @@ void render(IGraphics graphics) {
           //  30
 
 
+    //calculo logico del cuadrado para el pulsado
+    clickTopX = ((graphics.getWidth()- (float)graphics.getCanvasX()*2 ) * (PosX  -(SizeX/2.0f)))   ;
+    clickTopY = ((graphics.getHeight() - (float)graphics.getCanvasY()*2) * (PosY)) ;
+    clickBottomX = ((graphics.getWidth()- (float)graphics.getCanvasX()*2 ) * (PosX  +(SizeX/2.0f))) ;
+    clickBottomY = ((graphics.getHeight() - (float)graphics.getCanvasY()*2) * (PosY  + (SizeY)));
+
 
     graphics.setColor(0x0000000);
 
     graphics.fillRect(
-            graphics.getOriginalWidth() * (PosX -(SizeX/2)) ,
-            graphics.getOriginalHeight() * (PosY - (SizeY/2)),
+            graphics.getOriginalWidth() * (PosX -(SizeX/2.0f)) ,
+            graphics.getOriginalHeight() * (PosY - (SizeY/2.0f)),
             graphics.getOriginalWidth() * SizeX,
             graphics.getOriginalHeight() * SizeY);
 
-    clickTopX = (int)((graphics.getWidth()- graphics.getCanvasX()*2 ) * (PosX  -(SizeX/2)))   ;
-    clickTopY = (int)((graphics.getHeight() - graphics.getCanvasY()*2) * (PosY  -(SizeY/2))) ;
-    clickBottomX = (int)((graphics.getWidth()- graphics.getCanvasX()*2 ) * (PosX  +(SizeX/2))) ;
-    clickBottomY = (int)((graphics.getHeight() - graphics.getCanvasY()*2) * (PosY  +(SizeY)));
-
-    graphics.fillRect(
-            clickTopX ,
-            clickTopY,
-            graphics.getOriginalWidth() * SizeX,
-            graphics.getOriginalHeight() * SizeY);
 
     graphics.setColor(0x808080);
     graphics.fillRect(
