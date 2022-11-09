@@ -80,6 +80,7 @@ public class InitialState implements IState {
 
                 if (myBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     LevelSelectionState st = new LevelSelectionState();
+                    //GameState st = new GameState(5, 5);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

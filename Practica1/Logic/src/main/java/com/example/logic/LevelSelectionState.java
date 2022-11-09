@@ -94,37 +94,37 @@ public class LevelSelectionState implements IState {
                     engine.setState(previous);
                 }
 
-                if (botonesNiveles[0][0].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[0][0].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(4, 4);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (botonesNiveles[0][1].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[0][1].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(5, 5);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (botonesNiveles[0][2].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[0][2].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(5, 10);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (botonesNiveles[1][0].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[1][0].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(8, 8);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (botonesNiveles[1][1].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[1][1].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(10, 10);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (botonesNiveles[1][2].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                else if (botonesNiveles[1][2].click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     GameState st = new GameState(10, 15);
                     st.setPrevious(this);
                     engine.setState(st);
