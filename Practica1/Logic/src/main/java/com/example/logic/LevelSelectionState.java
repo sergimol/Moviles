@@ -24,7 +24,7 @@ public class LevelSelectionState implements IState {
     public void init(IEngine e) {
         engine = e;
 
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
+        volver = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
     }
 
     @Override

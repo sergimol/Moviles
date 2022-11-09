@@ -48,7 +48,7 @@ public class FinalState extends GameState {
             if ((((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN)) {
 
                 //FUNCIONALIDAD BOTON VOLVER
-                InitialState st = new InitialState(10, 10);
+                InitialState st = new InitialState();
                 st.setPrevious(this);
                 engine.setState(st);
                 st.init(engine);
