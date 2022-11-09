@@ -15,7 +15,8 @@ public class LevelSelectionState implements IState {
     IFont text;
     IEngine engine;
     IState previous = null;
-    Button myBoton;
+    Button backBoton;
+
     public LevelSelectionState() {
 
     }
@@ -24,13 +25,8 @@ public class LevelSelectionState implements IState {
     public void init(IEngine e) {
         engine = e;
 
-        volver = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
-        myBoton = new Button(volver, "jugar",
-                1.0f/2.0f,
-                1.0f/2.0f,
-                1.0f/3.0f,
-                1.0f/10.0f);
-
+        volver = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() * 0.1f, e.getGraphics().getOriginalHeight() * 0.02f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFFFFFFF);
     }
 
     @Override
@@ -47,13 +43,13 @@ public class LevelSelectionState implements IState {
         graphics.setColor(0X00000000);
 
         //Render LevelSelectionState
-            word = "← Volver";
-            graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));
-            word = "Selecciona el tamaño del puzzle";
-            graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
+        //word = "← Volver";
+        //graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));
+        word = "Selecciona el tamaño del puzzle";
+        graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
 
-            if (myBoton != null)
-            myBoton.render(graphics);
+        if (backBoton != null)
+            backBoton.render(graphics);
         //Render GameState
 //        word = "← Rendirse";
 //        graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));
@@ -68,13 +64,14 @@ public class LevelSelectionState implements IState {
         ListIterator<IInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             IInput.TouchEvent o = i.next();
-            if ((((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN)) {
+            if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                engine.setState(previous);
 
-                //FUNCIONALIDAD PASAR AL ESTADO FINAL
-                FinalState st = new FinalState(10, 10);
-                st.setPrevious(this);
-                engine.setState(st);
-                st.init(engine);
+
+//                LevelSelectionState st = new LevelSelectionState();
+//                st.setPrevious(this);
+//                engine.setState(st);
+//                st.init(engine);
             }
         }
 

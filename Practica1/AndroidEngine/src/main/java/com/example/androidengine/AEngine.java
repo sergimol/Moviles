@@ -11,6 +11,7 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IInput;
 import com.example.interfaces.IState;
+import com.example.interfaces.ITimer;
 
 import java.io.IOException;
 
@@ -96,6 +97,11 @@ public class AEngine implements IEngine, Runnable {
     @Override
     public IState getState() {
         return currentState;
+    }
+
+    @Override
+    public ITimer getTimer() {
+        return null;
     }
 
     @Override
