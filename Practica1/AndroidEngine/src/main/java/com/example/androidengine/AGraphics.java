@@ -21,7 +21,7 @@ public class AGraphics implements IGraphics {
 
     private AssetManager assetManager;
 
-    //IImage image_;
+    IImage image_;
 
     public AGraphics(SurfaceView window, AssetManager aManager) {
         myView = window;
@@ -31,7 +31,7 @@ public class AGraphics implements IGraphics {
         paint.setColor(0XFF000000);     //Color negro predefinido
 
         assetManager = aManager;
-        //image_ = newImage("apedra.png");
+        image_ = newImage("apedra.png");
     }
 
 
@@ -91,7 +91,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, float x, float y, float width, float height) {
-        canvas.drawBitmap(((AImage) image).getImage(), 0, 0, paint);
+        canvas.drawBitmap(((AImage) image).getImage(), x, y, paint);
     }
 
     @Override
@@ -158,9 +158,14 @@ public class AGraphics implements IGraphics {
     public void prepareFrame() {
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
-        canvas.drawColor(0xFF000000);               //Pinta de negro
+        canvas.drawColor(0xFFffffff);               //Pinta de negro
+
+        //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo tony
+        //nos hemos fumado todo, siete porro'
+        setColor(0XFF000000);
 
         //if (image_ != null)
+          //  drawImage(image_,0,0,10,10);
             //canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
     }
 
