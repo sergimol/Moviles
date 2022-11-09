@@ -98,13 +98,21 @@ public class Board {
 
     void render(IGraphics graphics){
         graphics.setColor(0);
-        int xSizeBoard = (int)graphics.getOriginalWidth() - xZeroCord;
-        int ySizeBoard = (int)graphics.getOriginalHeight() - yZeroCord;
-        graphics.drawRect(xZeroCord, yZeroCord, xSizeBoard, ySizeBoard);
+        graphics.drawRect(xZeroCord - 1, yZeroCord - 1, (cellSide + cellSpacing) * xSize + 1, (cellSide + cellSpacing) * ySize + 1);
         for (int i = 0; i < xSize; ++i) {
             for (int j = 0; j < ySize; ++j) {
                 cells[i][j].render(graphics, xZeroCord, yZeroCord, cellSide, cellSpacing);
             }
+        }
+    }
+
+    void handleInput(float x, float y){
+        if(x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize){
+            float xInBoard = (x - xZeroCord) / (cellSide + cellSpacing);
+            float yInBoard = (y - yZeroCord) / (cellSide + cellSpacing);
+            //int logicX = ;
+            //int logicY = ;
+            cells[(int)xInBoard][(int)yInBoard].changeState();
         }
     }
 }

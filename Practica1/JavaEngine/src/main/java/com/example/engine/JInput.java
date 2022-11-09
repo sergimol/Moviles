@@ -60,6 +60,7 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         //System.out.println("Coordenadas del origen del canvas: " + graphics.getCanvasX() + " " + graphics.getCanvasY() + " con una escala de: " + graphics.getScale());
         evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
         evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
+        System.out.println(evento.x + " " + evento.y);
 
         evento.type = InputTouchType.TOUCH_DOWN;
         evento.index = e.getID();

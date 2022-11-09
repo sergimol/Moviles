@@ -4,18 +4,19 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IInput;
+import com.example.interfaces.IState;
 
 import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-public class FinalState extends GameState {
+public class FinalState implements IState {
     IFont title;
     IFont volver;
     Button backBoton;
+    IEngine engine;
 
-    public FinalState(int x, int y) {
-        super(x, y);
+    public FinalState() {
     }
 
     @Override
@@ -24,6 +25,11 @@ public class FinalState extends GameState {
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         volver = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() - e.getGraphics().getOriginalHeight() * 0.1f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF);
+    }
+
+    @Override
+    public void update(double deltaTime) {
+
     }
 
 
@@ -49,7 +55,6 @@ public class FinalState extends GameState {
             IInput.TouchEvent o = i.next();
             //FUNCIONALIDAD BOTON VOLVER
             if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
-                engine.setState(previous);
                 InitialState st = new InitialState();
                 st.setPrevious(this);
                 engine.setState(st);
@@ -58,6 +63,11 @@ public class FinalState extends GameState {
         }
 
         engine.getInput().emptyTouchEvents();
+    }
+
+    @Override
+    public void setPrevious(IState st) {
+
     }
 }
 
