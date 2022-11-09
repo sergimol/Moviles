@@ -19,7 +19,7 @@ public class FinalState extends GameState {
     @Override
     public void init(IEngine e) {
         engine = e;
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
+        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension()/10) / e.getGraphics().getScale()));
     }
 
 

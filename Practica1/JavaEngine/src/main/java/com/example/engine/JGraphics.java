@@ -31,10 +31,7 @@ public class JGraphics implements IGraphics {
     private int centricoCanvasX;
     private int centricoCanvasY;
 
-//    private int canvasWidth;
-//    private int canvasHeight;
-
-    //private Thread renderThread;
+    private float scale;
 
     public JGraphics(JFrame window) {
         //Inicializacion de myView
@@ -56,14 +53,18 @@ public class JGraphics implements IGraphics {
         buffer = myView.getBufferStrategy();
         //Inicializacion de canvas
         canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
+
+        actualizaEscala();
+    }
+
+    //DEVUELVEN EL (0,0) DE LAS COORDENADAS DEL CANVAS RESPECTO LA PANTALLA
+    @Override
+    public int getCanvasX() {
+        return centricoCanvasX;
     }
 
     @Override
-    public int getCanvasX(){
-        return centricoCanvasX;
-    }
-    @Override
-    public int getCanvasY(){
+    public int getCanvasY() {
         return centricoCanvasY;
     }
 
@@ -171,6 +172,7 @@ public class JGraphics implements IGraphics {
 
     }
 
+    //DEVUELVEN TAMAÑO DEL CANVAS SIN ESCALA
     public float getOriginalWidth() {
         return ORIGINAL_CANVAS_WIDTH;
     }
@@ -190,7 +192,20 @@ public class JGraphics implements IGraphics {
 
     @Override
     public float getScale() {
-        return (float) canvas.getTransform().getScaleX();
+        return scale;
+    }
+
+    void actualizaEscala() {
+        float w = getWidth();
+        float h = getHeight();
+
+        if (w <= h * 2.0f / 3.0f) {
+            //Nos quedamos con el ancho
+            scale = (float) ((float) getWidth() / (float) ORIGINAL_CANVAS_WIDTH);
+        } else {
+            //Nos quedamos con el alto
+            scale = (float) ((float) getHeight() / (float) ORIGINAL_CANVAS_HEIGHT);
+        }
     }
 
     @Override
@@ -199,23 +214,11 @@ public class JGraphics implements IGraphics {
         save();
 
         //TOMA DE ESCALA
-        float w = getWidth();
-        float h = getHeight();
-
-        float escalaAux;
-
-        if (w <= h * 2.0f / 3.0f) {
-            //Nos quedamos con el ancho
-            escalaAux = (float) ((float) getWidth() / (float) ORIGINAL_CANVAS_WIDTH);
-        } else {
-            //Nos quedamos con el alto
-            escalaAux = (float) ((float) getHeight() / (float) ORIGINAL_CANVAS_HEIGHT);
-        }
-
+        actualizaEscala();
 
         //ESCALA DE CANVAS
-        float ESCALAX = escalaAux;
-        float ESCALAY = escalaAux;
+        float ESCALAX = scale;
+        float ESCALAY = scale;
 
         int CENTROX = ((int) ((getWidth() / 2) * canvas.getTransform().getScaleX()) + myView.getInsets().left);
         int CENTROY = ((int) ((getHeight() / 2) * canvas.getTransform().getScaleY()) + myView.getInsets().top);

@@ -36,6 +36,11 @@ public class AGraphics implements IGraphics {
 
 
     @Override
+    public int getCanvasY() {
+        return 0;
+    }
+
+    @Override
     public IImage newImage(String name) {
         try {
             AImage aImage = new AImage(name, assetManager);
@@ -125,6 +130,16 @@ public class AGraphics implements IGraphics {
     }
 
     @Override
+    public float getOriginalWidth() {
+        return 0;
+    }
+
+    @Override
+    public float getOriginalHeight() {
+        return 0;
+    }
+
+    @Override
     public int getWidth() {
         return myView.getWidth();
     }
@@ -161,5 +176,15 @@ public class AGraphics implements IGraphics {
     @Override
     public float getFontWidth(String text) {
         return paint.measureText(text, 0, text.length());
+    }
+
+    @Override
+    public float relationAspectDimension() {
+        return 0;
+    }
+
+    @Override
+    public int getCanvasX() {
+        return 0;
     }
 }

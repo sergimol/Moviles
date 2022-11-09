@@ -33,17 +33,13 @@ public class InitialState implements IState {
     public void init(IEngine e) {
         engine = e;
         //añadir una imagen
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (4f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
-        playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (4f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
-        timer = e.getTimer();
-        timer.setTimer(2);
-        timer.startTimer();
-        myBoton = new Button(title, "jugar",
-                1.0f/2.0f,
-                1.0f/2.0f,
-                1.0f/3.0f,
-                1.0f/10.0f);
-
+        //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
+        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        //timer = e.getTimer();
+        //timer.setTimer(2);
+        //timer.startTimer();
+        myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFAF33);
     }
 
     @Override
@@ -62,10 +58,6 @@ public class InitialState implements IState {
             word = "NANOGRAMOS";
             graphics.setColor(0X00000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
-            if (timer.isEnded()) {
-                word = "Jugar";
-                graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.5));
-            }
         }
         if (myBoton != null)
             myBoton.render(graphics);
@@ -83,7 +75,7 @@ public class InitialState implements IState {
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine
 
-                if (myBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))){
+                if (myBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     LevelSelectionState st = new LevelSelectionState();
                     st.setPrevious(this);
                     engine.setState(st);
