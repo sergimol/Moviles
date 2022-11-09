@@ -9,4 +9,6 @@ public interface IState {
 
     void handleInput();
 
+    void setPrevious(IState st);
+
 }

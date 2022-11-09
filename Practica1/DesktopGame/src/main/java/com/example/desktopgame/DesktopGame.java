@@ -15,7 +15,7 @@ public class DesktopGame {
         window.setVisible(true);
 
         //Creamos el Engine
-        InitialState state = new InitialState(10, 10);
+        GameState state = new GameState(10, 15);
         JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
         state.init(javaEngine);

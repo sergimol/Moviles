@@ -7,6 +7,7 @@ import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 import com.example.interfaces.IInput;
+import com.example.interfaces.IState;
 import com.example.interfaces.ITimer;
 
 import java.awt.Component;
@@ -15,13 +16,15 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.logging.Level;
 
-public class InitialState extends GameState {
+public class InitialState implements IState {
 
     IFont title;
     ITimer timer;
+    IFont playButton;
+    IEngine engine;
 
-    public InitialState(int x, int y) {
-        super(x, y);
+    public InitialState() {
+
     }
 
 
@@ -33,6 +36,11 @@ public class InitialState extends GameState {
         timer = e.getTimer();
         timer.setTimer(2);
         timer.startTimer();
+    }
+
+    @Override
+    public void update(double deltaTime) {
+
     }
 
 
@@ -62,7 +70,9 @@ public class InitialState extends GameState {
             IInput.TouchEvent o = i.next();
             if ((((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN)) {
                 //FUNCIONALIDAD BOTON JUGAR
-                LevelSelectionState st = new LevelSelectionState(2, 3);
+                //cambio a la siguiente escena
+                //creo al siguiente escena y la añado al engine
+                LevelSelectionState st = new LevelSelectionState();
                 st.setPrevious(this);
                 engine.setState(st);
                 st.init(engine);
@@ -70,6 +80,11 @@ public class InitialState extends GameState {
         }
 
         engine.getInput().emptyTouchEvents();
+    }
+
+    @Override
+    public void setPrevious(IState st) {
+
     }
 
 

@@ -4,16 +4,20 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IInput;
+import com.example.interfaces.IState;
 
 import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-public class LevelSelectionState extends GameState {
-    IFont title;
+public class LevelSelectionState implements IState {
+    IFont volver;
+    IFont text;
+    IEngine engine;
+    IState previous = null;
 
-    public LevelSelectionState(int x, int y) {
-        super(x, y);
+    public LevelSelectionState() {
+
     }
 
     @Override
@@ -21,6 +25,11 @@ public class LevelSelectionState extends GameState {
         engine = e;
 
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
+    }
+
+    @Override
+    public void update(double deltaTime) {
+
     }
 
 
@@ -62,5 +71,10 @@ public class LevelSelectionState extends GameState {
         }
 
         engine.getInput().emptyTouchEvents();
+    }
+
+    @Override
+    public void setPrevious(IState st) {
+        previous = st;
     }
 }

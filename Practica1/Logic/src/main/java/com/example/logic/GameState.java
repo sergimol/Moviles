@@ -12,7 +12,7 @@ public class GameState implements IState {
     IEngine engine;
     Board board;
     int xCells, yCells;
-    GameState previous = null;
+    IState previous = null;
 
     public GameState(int x, int y) {
         xCells = x;
@@ -23,22 +23,18 @@ public class GameState implements IState {
     @Override
     public void init(IEngine e) {
         engine = e;
+        board.init(e);
     }
 
 
     @Override
     public void update(double deltaTime) {
-
             handleInput();
     }
 
     @Override
     public void render(IGraphics graphics) {
-        for (int i = 0; i < xCells; ++i) {
-            for (int j = 0; j < yCells; ++j) {
-                //board.getCell(i, j).render(graphics, board.getxSize(), graphics.getScale());
-            }
-        }
+        board.render(graphics);
     }
 
     @Override
@@ -85,10 +81,12 @@ public class GameState implements IState {
 //        engine.getInput().emptyTouchEvents();
     }
 
-    public void setPrevious(GameState st){
+    @Override
+    public void setPrevious(IState st) {
         previous = st;
     }
-    GameState getPrevious(){
-        return  previous;
+
+    IState getPrevious(){
+        return previous;
     }
 }
