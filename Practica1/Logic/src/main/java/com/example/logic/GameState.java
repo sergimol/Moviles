@@ -129,28 +129,30 @@ public class GameState implements IState {
                 board.resetAllowChangeStatesCells();
             }
 
+            if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN) {
 
-            //FUNCIONALIDAD BOTON RENDIRSE
-            if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
-                engine.setState(previous);
-            }
-            //FUNCIONALIDAD BOTON COMPROBAR
-            if (comprobarBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
-                //wrongCount, missingCount
-                if (!showingWrong) {
-                    int a[] = board.checkBoard();
-                    wrongCount = a[0];
-                    missingCount = a[1];
-                    //Si has completado el puzzle
-                    if (wrongCount == 0 && missingCount == 0) {
-                        FinalState st = new FinalState();
-                        st.setPrevious(this);
-                        engine.setState(st);
-                        st.init(engine);
-                    } else {
-                        timer.setTimer(2);
-                        timer.startTimer();
-                        showingWrong = true;
+                //FUNCIONALIDAD BOTON RENDIRSE
+                if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                    engine.setState(previous);
+                }
+                //FUNCIONALIDAD BOTON COMPROBAR
+                if (comprobarBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                    //wrongCount, missingCount
+                    if (!showingWrong) {
+                        int a[] = board.checkBoard();
+                        wrongCount = a[0];
+                        missingCount = a[1];
+                        //Si has completado el puzzle
+                        if (wrongCount == 0 && missingCount == 0) {
+                            FinalState st = new FinalState();
+                            st.setPrevious(this);
+                            engine.setState(st);
+                            st.init(engine);
+                        } else {
+                            timer.setTimer(2);
+                            timer.startTimer();
+                            showingWrong = true;
+                        }
                     }
                 }
             }

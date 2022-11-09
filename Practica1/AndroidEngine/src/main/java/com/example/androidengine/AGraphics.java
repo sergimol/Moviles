@@ -21,7 +21,7 @@ public class AGraphics implements IGraphics {
 
     private AssetManager assetManager;
 
-    IImage image_;
+    //IImage image_;
 
     public AGraphics(SurfaceView window, AssetManager aManager) {
         myView = window;
@@ -31,7 +31,7 @@ public class AGraphics implements IGraphics {
         paint.setColor(0XFF000000);     //Color negro predefinido
 
         assetManager = aManager;
-        image_ = newImage("apedra.png");
+        //image_ = newImage("apedra.png");
     }
 
 
@@ -91,7 +91,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, float x, float y, float width, float height) {
-        canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        canvas.drawBitmap(((AImage) image).getImage(), 0, 0, paint);
     }
 
     @Override
@@ -160,12 +160,8 @@ public class AGraphics implements IGraphics {
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
         canvas.drawColor(0xFF000000);               //Pinta de negro
 
-        //Pintar blanco
-        setColor(0XFFFFFFFF);
-        drawRect(0, 900, 500, 500);
-
-        if (image_ != null)
-            canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        //if (image_ != null)
+            //canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
     }
 
     @Override

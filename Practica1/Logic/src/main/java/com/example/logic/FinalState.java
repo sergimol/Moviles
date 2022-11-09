@@ -53,12 +53,15 @@ public class FinalState implements IState {
         ListIterator<IInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             IInput.TouchEvent o = i.next();
-            //FUNCIONALIDAD BOTON VOLVER
-            if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
-                InitialState st = new InitialState();
-                st.setPrevious(this);
-                engine.setState(st);
-                st.init(engine);
+            if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN) {
+
+                //FUNCIONALIDAD BOTON VOLVER
+                if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                    InitialState st = new InitialState();
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
+                }
             }
         }
 
