@@ -56,8 +56,8 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getXOnScreen() - graphics.getCanvasX();
-        evento.y = e.getYOnScreen() - graphics.getCanvasY();
+        evento.x = e.getX() - graphics.getCanvasX();
+        evento.y = e.getY() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_DOWN;
         evento.index = e.getID();
 
@@ -76,8 +76,8 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getXOnScreen() - graphics.getCanvasX();
-        evento.y = e.getYOnScreen() - graphics.getCanvasY();
+        evento.x = e.getX() - graphics.getCanvasX();
+        evento.y = e.getY() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_UP;
         evento.index = e.getID();
 
@@ -100,8 +100,8 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getXOnScreen() - graphics.getCanvasX();
-        evento.y = e.getYOnScreen() - graphics.getCanvasY();
+        evento.x = e.getX() - graphics.getCanvasX();
+        evento.y = e.getY() - graphics.getCanvasY();
         evento.type = InputTouchType.TOUCH_MOVE;
         evento.index = e.getID();
         evento.source = e.getSource();

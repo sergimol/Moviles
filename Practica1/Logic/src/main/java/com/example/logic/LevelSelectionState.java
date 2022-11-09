@@ -15,7 +15,7 @@ public class LevelSelectionState implements IState {
     IFont text;
     IEngine engine;
     IState previous = null;
-
+    Button myBoton;
     public LevelSelectionState() {
 
     }
@@ -25,6 +25,12 @@ public class LevelSelectionState implements IState {
         engine = e;
 
         volver = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
+        myBoton = new Button(volver, "jugar",
+                1.0f/2.0f,
+                1.0f/2.0f,
+                1.0f/3.0f,
+                1.0f/10.0f);
+
     }
 
     @Override
@@ -46,6 +52,8 @@ public class LevelSelectionState implements IState {
             word = "Selecciona el tamaño del puzzle";
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
 
+            if (myBoton != null)
+            myBoton.render(graphics);
         //Render GameState
 //        word = "← Rendirse";
 //        graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));

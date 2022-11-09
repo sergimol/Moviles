@@ -2,6 +2,8 @@ package com.example.interfaces;
 
 public interface IGraphics {
 
+    int getCanvasY();
+
     IImage newImage(String name);
 
     IFont newFont(String filename, int styleFlags, int size);
@@ -52,4 +54,5 @@ public interface IGraphics {
 
     float relationAspectDimension();
 
+    int getCanvasX();
 }

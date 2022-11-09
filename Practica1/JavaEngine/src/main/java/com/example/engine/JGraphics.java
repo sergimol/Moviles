@@ -58,10 +58,11 @@ public class JGraphics implements IGraphics {
         canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
     }
 
-
+    @Override
     public int getCanvasX(){
         return centricoCanvasX;
     }
+    @Override
     public int getCanvasY(){
         return centricoCanvasY;
     }

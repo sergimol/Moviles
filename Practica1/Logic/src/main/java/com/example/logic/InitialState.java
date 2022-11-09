@@ -22,6 +22,7 @@ public class InitialState implements IState {
     ITimer timer;
     IFont playButton;
     IEngine engine;
+    Button myBoton;
 
     public InitialState() {
 
@@ -33,9 +34,16 @@ public class InitialState implements IState {
         engine = e;
         //añadir una imagen
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (4f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
+        playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (4f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
         timer = e.getTimer();
         timer.setTimer(2);
         timer.startTimer();
+        myBoton = new Button(title, "jugar",
+                1.0f/2.0f,
+                1.0f/2.0f,
+                1.0f/3.0f,
+                1.0f/10.0f);
+
     }
 
     @Override
@@ -59,6 +67,8 @@ public class InitialState implements IState {
                 graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.5));
             }
         }
+        if (myBoton != null)
+            myBoton.render(graphics);
     }
 
     @Override
@@ -72,10 +82,13 @@ public class InitialState implements IState {
                 //FUNCIONALIDAD BOTON JUGAR
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine
-                LevelSelectionState st = new LevelSelectionState();
-                st.setPrevious(this);
-                engine.setState(st);
-                st.init(engine);
+
+                if (myBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))){
+                    LevelSelectionState st = new LevelSelectionState();
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
+                }
             }
         }
 

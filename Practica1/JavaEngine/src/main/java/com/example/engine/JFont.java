@@ -43,7 +43,7 @@ public class JFont implements IFont {
 
     @Override
     public boolean isUnderlined() {
-        return isUnderlined();
+        return false;
     }
 
     @Override
@@ -58,6 +58,6 @@ public class JFont implements IFont {
 
     @Override
     public void DoUnderLined() {
-        
+
     }
 }

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import com.example.engine.JEngine;
 import com.example.logic.GameState;
 import com.example.logic.InitialState;
+import com.example.logic.LevelSelectionState;
 
 public class DesktopGame {
 
@@ -15,7 +16,7 @@ public class DesktopGame {
         window.setVisible(true);
 
         //Creamos el Engine
-        GameState state = new GameState(10, 15);
+        InitialState state = new InitialState();
         JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
         state.init(javaEngine);
