@@ -63,22 +63,20 @@ public class Cell {
         switch (state) {
             case Grey:
                 graphics.setColor(0x808080);
-                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Red:
                 graphics.setColor(0xFF0000);
-                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Blue:
                 graphics.setColor(0x0000FF);
-                graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
                 break;
             case Empty:
                 graphics.setColor(0);
                 graphics.drawRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), cellSide - 1, cellSide - 1);
                 graphics.drawLine(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), zeroX + xPos * (cellSide + cellSpacing) + cellSide - 1, zeroY + yPos * (cellSide + cellSpacing) + cellSide - 1);
-                break;
+                return;
         }
+        graphics.fillRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing) , cellSide, cellSide);
     }
 }
 
