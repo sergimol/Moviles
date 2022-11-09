@@ -60,7 +60,7 @@ public class InitialState implements IState {
         if (title != null) {
             graphics.setFont(title, 28);
             word = "NANOGRAMOS";
-            graphics.setColor(0X00000000);
+            graphics.setColor(0XFF000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
         }
         if (myBoton != null)
