@@ -9,6 +9,8 @@ public interface IEngine {
 
     IState getState();
 
+    ITimer getTimer();
+
     public void pause();
 
     public void resume();

@@ -34,8 +34,6 @@ public class JGraphics implements IGraphics {
 //    private int canvasWidth;
 //    private int canvasHeight;
 
-    // El valor para escalar objetos respecto al tamaño ideal y que se irá actualizando respecto del tamaño del canvas
-    private float scale;
     //private Thread renderThread;
 
     public JGraphics(JFrame window) {
@@ -89,7 +87,6 @@ public class JGraphics implements IGraphics {
         } catch (FontFormatException e) {
             e.printStackTrace();
         }
-
 
         return null;
     }
@@ -192,7 +189,7 @@ public class JGraphics implements IGraphics {
 
     @Override
     public float getScale() {
-        return scale;
+        return (float) canvas.getTransform().getScaleX();
     }
 
     @Override
@@ -230,39 +227,6 @@ public class JGraphics implements IGraphics {
 
         translate(centricoCanvasX, centricoCanvasY);
         canvas.scale(ESCALAX, ESCALAY);
-
-
-        ////////////////////////////////
-//        this.canvas.setTransform(new AffineTransform());
-//
-//        float w = getWidth() / 2;
-//        float h = getHeight() / 3;
-//
-//        int xTranslation = myView.getInsets().right;
-//        int yTranslation = myView.getInsets().top;
-//        if (w != h) {
-//            if (w < h) {
-//                canvasWidth = getWidth();
-//                canvasHeight = getWidth() * 3 / 2;
-//
-//                //el alto es mayor que el ancho
-//                yTranslation += ((getHeight() - canvasHeight) / 2);
-//            } else {
-//                canvasHeight = getHeight();
-//                canvasWidth = getHeight() * 2 / 3;
-//
-//                //el ancho es mayor que el alto
-//                xTranslation = (getWidth() - canvasWidth) / 2;
-//            }
-//        }
-//
-//        //scale = (float) (canvasHeight * canvasWidth) / (PREFFERED_CANVAS_HEIGHT * PREFFERED_CANVAS_WIDTH);
-//        float scaleX = (float) canvasWidth / PREFFERED_CANVAS_WIDTH;
-//        float scaleY = (float) canvasHeight / PREFFERED_CANVAS_HEIGHT;
-//        scale = Math.min(scaleX, scaleY);
-//        translate(xTranslation, yTranslation);
-///////////////////////////
-
 
         clear(0XFFFFFFFF);
 

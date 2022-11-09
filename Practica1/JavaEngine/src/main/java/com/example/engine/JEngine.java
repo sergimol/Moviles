@@ -5,6 +5,7 @@ import com.example.interfaces.IGraphics;
 import com.example.interfaces.IEngine;
 import com.example.interfaces.IInput;
 import com.example.interfaces.IState;
+import com.example.interfaces.ITimer;
 
 import javax.swing.JFrame;
 
@@ -16,6 +17,7 @@ public class JEngine implements IEngine, Runnable {
     private JGraphics graphics;
     private JAudio audio;
     private JInput myInput;
+    private JTimer timer;
 
 
     private Thread renderThread;
@@ -34,6 +36,9 @@ public class JEngine implements IEngine, Runnable {
 
         //Inicializamos el Input (Solo raton de momento)
         myInput = new JInput(window, graphics);
+
+        //Inicializamos el timer
+        timer = new JTimer();
 
         resume();   //Lanza el run()
     }
@@ -87,6 +92,9 @@ public class JEngine implements IEngine, Runnable {
     }
 
     @Override
+    public ITimer getTimer() { return timer; }
+
+    @Override
     public void pause() {
 
     }
@@ -101,7 +109,7 @@ public class JEngine implements IEngine, Runnable {
     }
 
     @Override
-    public void setState(IState st){
+    public void setState(IState st) {
         currentState = st;
     }
 }

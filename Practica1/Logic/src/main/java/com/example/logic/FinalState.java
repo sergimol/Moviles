@@ -9,17 +9,16 @@ import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-public class LevelSelectionState extends GameState {
+public class FinalState extends GameState {
     IFont title;
 
-    public LevelSelectionState(int x, int y) {
+    public FinalState(int x, int y) {
         super(x, y);
     }
 
     @Override
     public void init(IEngine e) {
         engine = e;
-
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (3f * Math.log(e.getGraphics().relationAspectDimension()) * e.getGraphics().getScale()));
     }
 
@@ -31,17 +30,12 @@ public class LevelSelectionState extends GameState {
         String word;
         graphics.setColor(0X00000000);
 
-        //Render LevelSelectionState
-            word = "← Volver";
-            graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));
-            word = "Selecciona el tamaño del puzzle";
-            graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
-
-        //Render GameState
-//        word = "← Rendirse";
-//        graphics.drawText(word, (int) graphics.getOriginalWidth() * 0.05f, (int) (graphics.getOriginalHeight() * 0.05));
-//        word = "\uD83D\uDD0D︎Comprobar";
-//        graphics.drawText(word, (int) graphics.getOriginalWidth() - graphics.getFontWidth(word), (int) (graphics.getOriginalHeight() * 0.05));
+        //Render FinalState
+        word = "Volver";
+        graphics.drawText(word, (int) graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.9));
+        graphics.setFont(title);
+        word = "ENHORABUENA";
+        graphics.drawText(word, (int) graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
     }
 
     @Override
@@ -53,8 +47,8 @@ public class LevelSelectionState extends GameState {
             IInput.TouchEvent o = i.next();
             if ((((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN)) {
 
-                //FUNCIONALIDAD PASAR AL ESTADO FINAL
-                FinalState st = new FinalState(10, 10);
+                //FUNCIONALIDAD BOTON VOLVER
+                InitialState st = new InitialState(10, 10);
                 st.setPrevious(this);
                 engine.setState(st);
                 st.init(engine);
@@ -64,3 +58,4 @@ public class LevelSelectionState extends GameState {
         engine.getInput().emptyTouchEvents();
     }
 }
+
