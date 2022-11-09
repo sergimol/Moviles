@@ -39,7 +39,7 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
     @Override
     public List<TouchEvent> getTouchEvents() {
-        return eventList;
+        return  new ArrayList<>(eventList);
     }
 
     //habra que vaciar eventualmente la lista de inputs procesados para que no ocupen toda la memoria.
