@@ -121,7 +121,7 @@ public class Board {
     }
 
     void render(IGraphics graphics) {
-        graphics.setColor(0);
+        graphics.setColor(0xFF000000);
 
         for (int i = 0; i < xValues.size(); ++i) {
             Vector<Integer> aux = xValues.get(i);

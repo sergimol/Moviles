@@ -80,9 +80,8 @@ public class AGraphics implements IGraphics {
 
     @Override
     public IFont newFont(String filename, int styleFlags, int size) {
-//        AFont aFont = new aFont(filename, styleFlags, size);
-//        return aFont;
-        return null;
+        AFont aFont = new AFont(filename, styleFlags, size,assetManager);
+        return aFont;
     }
 
     @Override
@@ -145,14 +144,12 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void drawText(String text, float x, float y) {
-
         canvas.drawText(text, x, y, paint);
-
     }
 
     @Override
     public void setFont(IFont font, float size) {
-        paint.setTextSize(size/getScale());
+        paint.setTextSize(size);
         paint.setTypeface(((AFont)font).font_);
     }
 

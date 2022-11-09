@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,7 +30,7 @@ public class JFont implements IFont {
     }
 
     @Override
-    public int getSize() {
+    public float getSize() {
         return font_.getSize();
     }
 

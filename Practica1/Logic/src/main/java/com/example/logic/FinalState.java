@@ -40,7 +40,7 @@ public class FinalState implements IState {
             backBoton.render(graphics);
 
         String word;
-        graphics.setColor(0);
+        graphics.setColor(0xFF000000);
         graphics.setFont(title,20);
         word = "ENHORABUENA";
         graphics.drawText(word, (int) graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));

@@ -54,10 +54,9 @@ public class Button {
 
         if (fuente != null){
             graphics.setFont(fuente,TextSize);
-            graphics.setColor(0);
+            graphics.setColor(0xFF000000);
             graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
         }
-
     }
 
     void setColor(int c) {

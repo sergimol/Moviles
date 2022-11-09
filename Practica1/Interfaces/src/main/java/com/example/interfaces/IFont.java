@@ -1,7 +1,7 @@
 package com.example.interfaces;
 
 public interface IFont {
-    int getSize();
+    float getSize();
 
     boolean isBold();
 

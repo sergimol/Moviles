@@ -71,7 +71,7 @@ public class Cell {
                 graphics.setColor(0x0000FF);
                 break;
             case Empty:
-                graphics.setColor(0);
+                graphics.setColor(0xFF000000);
                 graphics.drawRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), cellSide - 1, cellSide - 1,1);
                 graphics.drawLine(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), zeroX + xPos * (cellSide + cellSpacing) + cellSide - 1, zeroY + yPos * (cellSide + cellSpacing) + cellSide - 1);
                 return;
