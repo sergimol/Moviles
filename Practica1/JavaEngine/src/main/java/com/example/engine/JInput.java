@@ -1,7 +1,6 @@
 package com.example.engine;
 
 
-
 import com.example.interfaces.IInput;
 
 import java.awt.Component;
@@ -9,9 +8,10 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList; //<----------- podemos usarlo¿?
 
 
-
 import java.util.List;
+
 import javax.swing.JFrame;
+
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
@@ -26,7 +26,7 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         frame.addMouseListener(this);
         frame.addMouseMotionListener(this);
         eventList = new ArrayList<TouchEvent>();
-        graphics  = jg;
+        graphics = jg;
 
     }
 
@@ -39,12 +39,12 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
     @Override
     public List<TouchEvent> getTouchEvents() {
-        return  new ArrayList<>(eventList);
+        return new ArrayList<>(eventList);
     }
 
     //habra que vaciar eventualmente la lista de inputs procesados para que no ocupen toda la memoria.
     @Override
-    public void emptyTouchEvents(){
+    public void emptyTouchEvents() {
         eventList.clear();
     }
 
@@ -56,8 +56,11 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getX() - graphics.getCanvasX();
-        evento.y = e.getY() - graphics.getCanvasY();
+
+        //System.out.println("Coordenadas del origen del canvas: " + graphics.getCanvasX() + " " + graphics.getCanvasY() + " con una escala de: " + graphics.getScale());
+        evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
+        evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
+
         evento.type = InputTouchType.TOUCH_DOWN;
         evento.index = e.getID();
 
@@ -66,18 +69,19 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         evento.source = e.getSource();
 
         //podemos consumir el evento para que en el caso de que el canvas sea hijo de algun otro objeto, se termine aqui la propagacion de este y el padre no tenga que vovler a procesar este input (evitando asi que se registre otra vez el input)
-       //ejemplo de esot es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubois, de formar que solo el cubo clickado proceasa el input)ç
+        //ejemplo de esot es querer registrar el pulsado de un cubo que es  hijo de el canvas con el resto de cubois, de formar que solo el cubo clickado proceasa el input)ç
         e.consume();
 
     }
+
     public void mouseReleased(MouseEvent e) {
 
         //repetir esta estructura con el resto de eventos que queramos registrar
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getX() - graphics.getCanvasX();
-        evento.y = e.getY() - graphics.getCanvasY();
+        evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
+        evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
         evento.type = InputTouchType.TOUCH_UP;
         evento.index = e.getID();
 
@@ -90,9 +94,16 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         e.consume();
 
     }
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {}
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
+    }
+
     //movimiento del raton
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -100,8 +111,8 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
         Event evento = new Event();
         //evento.x = e.getX();
         //evento.y = e.getY();
-        evento.x = e.getX() - graphics.getCanvasX();
-        evento.y = e.getY() - graphics.getCanvasY();
+        evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
+        evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
         evento.type = InputTouchType.TOUCH_MOVE;
         evento.index = e.getID();
         evento.source = e.getSource();

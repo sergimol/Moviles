@@ -30,8 +30,8 @@ public interface IInput {
 
         }
 
-        public int x;
-        public int y;
+        public float x;
+        public float y;
 
         public InputTouchType type;
         public int index;   //Indice del evento dentro del este de eventos
