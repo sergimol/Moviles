@@ -3,10 +3,9 @@ package com.example.logic;
 import com.example.interfaces.IEngine;
 import com.example.interfaces.IGraphics;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.Vector;
-
-import jdk.internal.net.http.common.Pair;
 
 public class Board {
     private int xSize, ySize;
@@ -14,57 +13,57 @@ public class Board {
     private float cellSide, cellSpacing;
     Cell cells[][];
 
-    Cell getCell(int x, int y){
+    Cell getCell(int x, int y) {
         return cells[x][y];
     }
+
     Vector<Vector<Integer>> xValues = new Vector<>();
     Vector<Vector<Integer>> yValues = new Vector<>();
 
-    Board(int x, int y){
+    Board(int x, int y) {
         xSize = x;
         ySize = y;
         cells = new Cell[xSize][ySize];
         createRandomBoard();
     }
 
-    void init(IEngine e){
-        xZeroCord = (int)e.getGraphics().getOriginalWidth() / 5;
-        yZeroCord = (int)e.getGraphics().getOriginalHeight() / 3;
-        int xSizeBoard = (int)e.getGraphics().getOriginalWidth() - xZeroCord;
-        int ySizeBoard = (int)e.getGraphics().getOriginalHeight() - yZeroCord;
+    void init(IEngine e) {
+        xZeroCord = (int) e.getGraphics().getOriginalWidth() / 5;
+        yZeroCord = (int) e.getGraphics().getOriginalHeight() / 3;
+        int xSizeBoard = (int) e.getGraphics().getOriginalWidth() - xZeroCord;
+        int ySizeBoard = (int) e.getGraphics().getOriginalHeight() - yZeroCord;
         int cellSizeX = xSizeBoard / xSize;
         int cellSizeY = ySizeBoard / ySize;
         cellSide = Math.min(cellSizeX, cellSizeY);
-        int spaceX = (int)(xSizeBoard - cellSide * xSize);
-        int spaceY = (int)(ySizeBoard - cellSide * ySize);
-        cellSpacing = Math.min((xSizeBoard - cellSide * xSize) / xSize, ((int)e.getGraphics().getOriginalHeight() - yZeroCord - cellSide * ySize) / ySize);
+        int spaceX = (int) (xSizeBoard - cellSide * xSize);
+        int spaceY = (int) (ySizeBoard - cellSide * ySize);
+        cellSpacing = Math.min((xSizeBoard - cellSide * xSize) / xSize, ((int) e.getGraphics().getOriginalHeight() - yZeroCord - cellSide * ySize) / ySize);
         cellSide -= cellSpacing;
     }
 
-    int getxSize(){
+    int getxSize() {
         return xSize;
     }
 
-    int getySize(){
+    int getySize() {
         return ySize;
     }
 
-    void createRandomBoard(){
+    void createRandomBoard() {
         boolean good = false;
         Random rd = new Random();
         int xConsecutives = 0, yConsecutives = 0;
-        for(int i = 0; i < xSize; i++)
-            for(int j = 0; j < ySize; j++){
+        for (int i = 0; i < xSize; i++)
+            for (int j = 0; j < ySize; j++) {
                 good = rd.nextBoolean();
                 cells[i][j] = new Cell(i, j, good);
-                if(good){
+                if (good) {
                     xConsecutives++;
                     yConsecutives++;
-                }
-                else{
+                } else {
                     //xValues.elementAt(i).add(xConsecutives);
                     xConsecutives = 0;
-                    if(yConsecutives != 0){
+                    if (yConsecutives != 0) {
                         //yValues.elementAt(j).add(yConsecutives);
                         yConsecutives = 0;
                     }
@@ -72,31 +71,34 @@ public class Board {
             }
     }
 
-    Pair<Integer, Integer> checkBoard(){
+    int[] checkBoard() {
+        int a[] = new int[2];
         int wrongCount = 0;
         int missingCount = 0;
         checkStates check;
         cellStates state;
-        for(int i = 0; i < xSize; ++i)
-            for(int j = 0; j < ySize; ++j){
+        for (int i = 0; i < xSize; ++i)
+            for (int j = 0; j < ySize; ++j) {
                 check = cells[i][j].checkCell();
                 state = cells[i][j].getState();
-                if(check == checkStates.Wrong){
+                if (check == checkStates.Wrong) {
                     wrongCount++;
-                }
-                else if(check == checkStates.Missing)
+                } else if (check == checkStates.Missing)
                     missingCount++;
             }
-        return new Pair<>(wrongCount, missingCount);
+        a[0] = wrongCount;
+        a[1] = missingCount;
+
+        return a;
     }
 
-    void resetAllowChangeStatesCells(){
-        for(int i = 0; i < xSize; ++i)
-            for(int j = 0; j < ySize; ++j)
+    void resetAllowChangeStatesCells() {
+        for (int i = 0; i < xSize; ++i)
+            for (int j = 0; j < ySize; ++j)
                 cells[i][j].resetAllowChange();
     }
 
-    void render(IGraphics graphics){
+    void render(IGraphics graphics) {
         graphics.setColor(0);
         graphics.drawRect(xZeroCord - 1, yZeroCord - 1, (cellSide + cellSpacing) * xSize + 1, (cellSide + cellSpacing) * ySize + 1);
         for (int i = 0; i < xSize; ++i) {
@@ -106,13 +108,13 @@ public class Board {
         }
     }
 
-    void handleInput(float x, float y){
-        if(x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize){
+    void handleInput(float x, float y) {
+        if (x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize) {
             float xInBoard = (x - xZeroCord) / (cellSide + cellSpacing);
             float yInBoard = (y - yZeroCord) / (cellSide + cellSpacing);
             //int logicX = ;
             //int logicY = ;
-            cells[(int)xInBoard][(int)yInBoard].changeState();
+            cells[(int) xInBoard][(int) yInBoard].changeState();
         }
     }
 }

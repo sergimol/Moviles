@@ -11,7 +11,7 @@ public class DesktopGame {
 
     public static void main(String[] args) {
         JFrame window = new JFrame("Mi aplicación");
-        window.setSize(80, 60);
+        window.setSize(400, 600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
 

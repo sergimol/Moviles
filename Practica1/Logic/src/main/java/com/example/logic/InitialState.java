@@ -19,7 +19,6 @@ import java.util.logging.Level;
 public class InitialState implements IState {
 
     IFont title;
-    ITimer timer;
     IFont playButton;
     IEngine engine;
     Button myBoton;
@@ -32,13 +31,9 @@ public class InitialState implements IState {
     @Override
     public void init(IEngine e) {
         engine = e;
-        //añadir una imagen
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
-        //timer = e.getTimer();
-        //timer.setTimer(2);
-        //timer.startTimer();
         myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFAF33);
     }
 

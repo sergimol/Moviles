@@ -11,8 +11,6 @@ import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-import jdk.internal.net.http.common.Pair;
-
 
 public class GameState implements IState {
     IEngine engine;
@@ -40,7 +38,7 @@ public class GameState implements IState {
 
         font = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         backBoton = new Button(font, "Rendirse", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF);
-        comprobarBoton = new Button(font, "Comprobar", e.getGraphics().getOriginalWidth() - e.getGraphics().getOriginalWidth() * 0.23f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF);
+        comprobarBoton = new Button(font, "Comprobar", e.getGraphics().getOriginalWidth() - e.getGraphics().getOriginalWidth() * 0.23f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.4f, e.getGraphics().getOriginalHeight() * 0.08f, 0XFFFFFFFF);
         timer = e.getTimer();
 
 
@@ -68,14 +66,26 @@ public class GameState implements IState {
         } else {
             String word;
             if (font != null) {
-                graphics.setFont(font);
-                if (missingCount > 1)
-                    word = "Te falta " + missingCount + " casillas";
-                else
-                    word = "Te falta " + missingCount + " casilla";
+                int auxWrongCount = wrongCount;
+                int auxMissingCount = missingCount;
+                System.out.println("Missing: " + missingCount + ", Wrong: " + wrongCount);
 
-                graphics.setColor(0XFF000000);
+                graphics.setFont(font);
+                if (auxMissingCount > 1)
+                    word = "Te falta " + auxMissingCount + " casillas";
+                else
+                    word = "Te falta " + auxMissingCount + " casilla";
+
+                graphics.setColor(0XFFFF0000);
                 graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
+
+                if (auxWrongCount > 1)
+                    word = "Tienes mal " + auxWrongCount + " casillas";
+                else
+                    word = "Tienes mal " + auxWrongCount + " casilla";
+
+                graphics.setColor(0XFFFF0000);
+                graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.15));
             }
         }
         board.render(graphics);
@@ -127,19 +137,21 @@ public class GameState implements IState {
             //FUNCIONALIDAD BOTON COMPROBAR
             if (comprobarBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                 //wrongCount, missingCount
-                Pair<Integer, Integer> pair = board.checkBoard();
-                wrongCount = pair.first;
-                missingCount = pair.second;
-                //Si has completado el puzzle
-                if (wrongCount == 0 && missingCount == 0) {
-                    FinalState st = new FinalState();
-                    st.setPrevious(this);
-                    engine.setState(st);
-                    st.init(engine);
-                } else {
-                    timer.setTimer(2);
-                    timer.startTimer();
-                    showingWrong = true;
+                if (!showingWrong) {
+                    int a[] = board.checkBoard();
+                    wrongCount = a[0];
+                    missingCount = a[1];
+                    //Si has completado el puzzle
+                    if (wrongCount == 0 && missingCount == 0) {
+                        FinalState st = new FinalState();
+                        st.setPrevious(this);
+                        engine.setState(st);
+                        st.init(engine);
+                    } else {
+                        timer.setTimer(2);
+                        timer.startTimer();
+                        showingWrong = true;
+                    }
                 }
             }
         }
