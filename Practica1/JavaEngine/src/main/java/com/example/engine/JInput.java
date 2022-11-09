@@ -79,8 +79,6 @@ public class JInput implements IInput, MouseListener, MouseMotionListener {
 
         //repetir esta estructura con el resto de eventos que queramos registrar
         Event evento = new Event();
-        //evento.x = e.getX();
-        //evento.y = e.getY();
         evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
         evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
         evento.type = InputTouchType.TOUCH_UP;

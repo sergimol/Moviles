@@ -37,7 +37,8 @@ public class InitialState implements IState {
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
-        myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0XFFAF33,20);
+
+        myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         imagen = e.getGraphics().newImage("apedra.png");
     }
 
@@ -51,13 +52,13 @@ public class InitialState implements IState {
     public void render(IGraphics graphics) {
 
 
-        if (imagen != null){
-            graphics.drawImage(imagen,100,10,10,10);
+        if (imagen != null) {
+            //graphics.drawImage(imagen,100,10,10,10);
         }
         //renderizar otro objeto como puede ser el boton
         String word;
         if (title != null) {
-            graphics.setFont(title,28);
+            graphics.setFont(title, 28);
             word = "NANOGRAMOS";
             graphics.setColor(0X00000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
@@ -68,6 +69,7 @@ public class InitialState implements IState {
 
     @Override
     public void handleInput() {
+
         List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
 
         ListIterator<IInput.TouchEvent> i = events.listIterator();
@@ -86,9 +88,9 @@ public class InitialState implements IState {
                     st.init(engine);
                 }
             }
-        }
 
-        engine.getInput().emptyTouchEvents();
+            engine.getInput().emptyTouchEvents();
+        }
     }
 
     @Override

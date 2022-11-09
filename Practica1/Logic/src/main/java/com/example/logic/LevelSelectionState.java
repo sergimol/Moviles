@@ -30,13 +30,14 @@ public class LevelSelectionState implements IState {
         backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF,20);
 
         botonesNiveles = new Button[2][3];
-        botonesNiveles[0][0] = new Button(volver, "4x4", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
-        botonesNiveles[0][1] = new Button(volver, "5x5", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
-        botonesNiveles[0][2] = new Button(volver, "5x10", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
 
-        botonesNiveles[1][0] = new Button(volver, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
-        botonesNiveles[1][1] = new Button(volver, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
-        botonesNiveles[1][2] = new Button(volver, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0X808080,10);
+        botonesNiveles[0][0] = new Button(volver, "4x4", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
+        botonesNiveles[0][1] = new Button(volver, "5x5", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
+        botonesNiveles[0][2] = new Button(volver, "5x10", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
+
+        botonesNiveles[1][0] = new Button(volver, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
+        botonesNiveles[1][1] = new Button(volver, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
+        botonesNiveles[1][2] = new Button(volver, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
 
 
     }

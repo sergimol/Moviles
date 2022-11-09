@@ -4,10 +4,12 @@ import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -28,17 +30,24 @@ public class JGraphics implements IGraphics {
     private float ORIGINAL_CANVAS_WIDTH;
     private float ORIGINAL_CANVAS_HEIGHT;
 
+    //COORDENADAS (0,0) DEL CANVAS
     private int centricoCanvasX;
     private int centricoCanvasY;
 
+    //ESCALA ACTUALIZADA DEL CANVAS
     private float scale;
 
     public JGraphics(JFrame window) {
         //Inicializacion de myView
         myView = window;
 
-        //Guardamos valores
+        //Inicializacion de buffer
+        myView.createBufferStrategy(2);
+        buffer = myView.getBufferStrategy();
+        //Inicializacion de canvas
+        canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
 
+        //VALORES ORIGINALES DEL WINDOW
         ORIGINAL_CANVAS_WIDTH = window.getHeight();
         ORIGINAL_CANVAS_HEIGHT = window.getWidth();
         if (ORIGINAL_CANVAS_WIDTH <= ORIGINAL_CANVAS_HEIGHT * 2 / 3) {
@@ -46,13 +55,6 @@ public class JGraphics implements IGraphics {
         } else {
             ORIGINAL_CANVAS_WIDTH = ORIGINAL_CANVAS_HEIGHT * 2.0f / 3.0f;
         }
-
-
-        //Inicializacion de buffer
-        myView.createBufferStrategy(2);
-        buffer = myView.getBufferStrategy();
-        //Inicializacion de canvas
-        canvas = (Graphics2D) buffer.getDrawGraphics();    //se supone que sobra porque lo cogemos en cada prepareFrame
 
         actualizaEscala();
     }
@@ -143,7 +145,9 @@ public class JGraphics implements IGraphics {
     }
 
     @Override
-    public void drawRect(float cx, float cy, float sideX, float sideY) {
+    public void drawRect(float cx, float cy, float sideX, float sideY, float strokeSize) {
+        Stroke stroke1 = new BasicStroke(strokeSize);
+        this.canvas.setStroke(stroke1);
         this.canvas.drawRect((int) cx, (int) cy, (int) sideX, (int) sideY);
     }
 
@@ -173,7 +177,7 @@ public class JGraphics implements IGraphics {
 
     }
 
-    //DEVUELVEN TAMAÑO DEL CANVAS SIN ESCALA
+    //DEVUELVEN TAMANO DEL CANVAS SIN ESCALA
     public float getOriginalWidth() {
         return ORIGINAL_CANVAS_WIDTH;
     }
@@ -196,7 +200,8 @@ public class JGraphics implements IGraphics {
         return scale;
     }
 
-    void actualizaEscala() {
+    @Override
+    public void actualizaEscala() {
         float w = getWidth();
         float h = getHeight();
 
@@ -234,9 +239,6 @@ public class JGraphics implements IGraphics {
         canvas.scale(ESCALAX, ESCALAY);
 
         clear(0XFFFFFFFF);
-
-        //canvas.drawRect(0, 0, 20, 20);
-        //canvas.drawRect(canvasWidth - 20, 0, 20, 20);
     }
 
     @Override

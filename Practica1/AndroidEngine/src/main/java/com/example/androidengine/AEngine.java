@@ -24,8 +24,8 @@ public class AEngine implements IEngine, Runnable {
     private AGraphics graphics;
 
     private AAudio audio;
-    //private AInput myInput;
-    private  AInput myInput;
+
+    private AInput myInput;
 
 
     private Thread renderThread;
@@ -35,8 +35,7 @@ public class AEngine implements IEngine, Runnable {
         assetManager = assetM;
         graphics = new AGraphics(window, assetManager);
         audio = new AAudio(assetManager);
-        System.out.println("input init prepared!");
-        myInput = new AInput(window);
+        myInput = new AInput(window, graphics);
 
         audio.newSound("train", "train.wav");
         //audio.playSound("train");
@@ -54,6 +53,9 @@ public class AEngine implements IEngine, Runnable {
         }
         while (running && graphics.getWidth() == 0) ; //Por si tarda en inicializarse la ventana
 
+        graphics.init();
+        getState().init(this);
+
         //Time deltaTime
         long lastFrameTime = System.nanoTime();
         long informePrevio = lastFrameTime;     //Informe de los fps
@@ -67,6 +69,7 @@ public class AEngine implements IEngine, Runnable {
             //Informe FPS
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
+            currentState.handleInput();
             //currentState.update(elapsedTime);
 
             if (currentTime - informePrevio > 1000000000l) {
@@ -91,7 +94,7 @@ public class AEngine implements IEngine, Runnable {
 
     @Override
     public IInput getInput() {
-        return null;
+        return myInput;
     }
 
     @Override
@@ -129,10 +132,14 @@ public class AEngine implements IEngine, Runnable {
     @Override
     public void resume() {
         if (!running) {
-            running = true;
             renderThread = new Thread(this);
             renderThread.start();
+            running = true;
         }
+    }
+
+    public boolean getRunning() {
+        return running;
     }
 
     @Override

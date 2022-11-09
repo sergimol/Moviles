@@ -13,12 +13,14 @@ import java.util.List;
 public class AInput extends View implements IInput, View.OnTouchListener {
 
     private List<TouchEvent> eventList;
+    private AGraphics graphics;
 
-    public AInput(SurfaceView window) {
+    public AInput(SurfaceView window, AGraphics jg) {
         super(window.getContext());
         window.setOnTouchListener(this);
         System.out.println("input init!");
         eventList = new ArrayList<TouchEvent>();
+        graphics = jg;
     }
 
     @Override
@@ -41,11 +43,12 @@ public class AInput extends View implements IInput, View.OnTouchListener {
         //System.out.println("un evento!");
         //recoger datos del evento, posicion y tipo, añadirlo a la lista de eventos
         Event evento = new Event();
-        evento.x = e.getX();
-        evento.y = e.getY();
+        evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
+        evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
+        //System.out.println("Coordenadas: " +  evento.x + ", " + evento.y);
         evento.type = InputTouchType.values()[e.getAction()];
 
-        System.out.println(e.getAction());
+        //System.out.println(e.getAction());
 
         evento.index = e.getActionIndex();
 

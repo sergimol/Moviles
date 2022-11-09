@@ -72,7 +72,7 @@ public class Cell {
                 break;
             case Empty:
                 graphics.setColor(0);
-                graphics.drawRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), cellSide - 1, cellSide - 1);
+                graphics.drawRect(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), cellSide - 1, cellSide - 1,1);
                 graphics.drawLine(zeroX + xPos * (cellSide + cellSpacing), zeroY + yPos * (cellSide + cellSpacing), zeroX + xPos * (cellSide + cellSpacing) + cellSide - 1, zeroY + yPos * (cellSide + cellSpacing) + cellSide - 1);
                 return;
         }

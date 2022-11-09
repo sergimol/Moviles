@@ -14,31 +14,57 @@ import com.example.interfaces.IImage;
 import java.io.IOException;
 
 public class AGraphics implements IGraphics {
+    private AssetManager assetManager;
+
     private SurfaceView myView;
     private SurfaceHolder holder;
     private Canvas canvas;
 
     private Paint paint;    //Para elegir colores en hexadecimal
 
-    private AssetManager assetManager;
+    // VALORES ORIGINALES DEL WINDOW
+    private float ORIGINAL_CANVAS_WIDTH;
+    private float ORIGINAL_CANVAS_HEIGHT;
 
-    IImage image_;
+    //COORDENADAS (0,0) DEL CANVAS
+    private int centricoCanvasX;
+    private int centricoCanvasY;
+
+    //ESCALA ACTUALIZADA DEL CANVAS
+    private float scale;
 
     public AGraphics(SurfaceView window, AssetManager aManager) {
+        assetManager = aManager;
+
         myView = window;
-        holder = window.getHolder();
+        holder = myView.getHolder();
+        canvas = new Canvas();    //se supone que sobra porque lo cogemos en cada prepareFrame
 
         paint = new Paint();
-        paint.setColor(0XFF000000);     //Color negro predefinido
-
-        assetManager = aManager;
-        image_ = newImage("apedra.png");
     }
 
+    public void init() {
+        //VALORES ORIGINALES DEL WINDOW
+        ORIGINAL_CANVAS_WIDTH = myView.getWidth();
+        ORIGINAL_CANVAS_HEIGHT = myView.getHeight();
+        if (ORIGINAL_CANVAS_WIDTH <= ORIGINAL_CANVAS_HEIGHT * 2 / 3) {
+            ORIGINAL_CANVAS_HEIGHT = ORIGINAL_CANVAS_WIDTH * 3.0f / 2.0f;
+        } else {
+            ORIGINAL_CANVAS_WIDTH = ORIGINAL_CANVAS_HEIGHT * 2.0f / 3.0f;
+        }
+
+        paint.setColor(0XFF000000);     //Color negro predefinido
+        actualizaEscala();
+    }
+
+    @Override
+    public int getCanvasX() {
+        return centricoCanvasX;
+    }
 
     @Override
     public int getCanvasY() {
-        return 0;
+        return centricoCanvasY;
     }
 
     @Override
@@ -62,7 +88,7 @@ public class AGraphics implements IGraphics {
     @Override
     public void clear(int color) {
         paint.setColor(color);
-        canvas.drawPaint(paint);
+        canvas.drawColor(paint.getColor());
     }
 
     @Override
@@ -102,11 +128,13 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void fillRect(float cx, float cy, float sideX, float sideY) {
-
+        paint.setStrokeWidth(0);
+        canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
     @Override
-    public void drawRect(float cx, float cy, float sideX, float sideY) {
+    public void drawRect(float cx, float cy, float sideX, float sideY, float strokeSize) {
+        paint.setStrokeWidth(strokeSize);
         canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
@@ -133,14 +161,15 @@ public class AGraphics implements IGraphics {
 
     }
 
+    //DEVUELVEN TAMANO DEL CANVAS SIN ESCALA
     @Override
     public float getOriginalWidth() {
-        return 0;
+        return ORIGINAL_CANVAS_WIDTH;
     }
 
     @Override
     public float getOriginalHeight() {
-        return 0;
+        return ORIGINAL_CANVAS_HEIGHT;
     }
 
     @Override
@@ -155,22 +184,32 @@ public class AGraphics implements IGraphics {
 
     @Override
     public float getScale() {
-        return 0;
+        return scale;
+    }
+
+    @Override
+    public void actualizaEscala() {
+        float w = getWidth();
+        float h = getHeight();
+
+        if (w <= h * 2.0f / 3.0f) {
+            //Nos quedamos con el ancho
+            scale = (float) ((float) getWidth() / (float) ORIGINAL_CANVAS_WIDTH);
+        } else {
+            //Nos quedamos con el alto
+            scale = (float) ((float) getHeight() / (float) ORIGINAL_CANVAS_HEIGHT);
+        }
     }
 
     @Override
     public void prepareFrame() {
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
-        canvas.drawColor(0xFFffffff);               //Pinta de negro
+        canvas.drawColor(0xFFFFFFFF);               //Pinta de blanco
 
         //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo tony
         //nos hemos fumado todo, siete porro'
-        setColor(0XFF000000);
-
-        //if (image_ != null)
-          //  drawImage(image_,0,0,10,10);
-            //canvas.drawBitmap(((AImage) image_).getImage(), 0, 0, paint);
+        //setColor(0XFF000000);
     }
 
     @Override
@@ -185,11 +224,15 @@ public class AGraphics implements IGraphics {
 
     @Override
     public float relationAspectDimension() {
-        return 0;
-    }
+        float w = getWidth();
+        float h = getHeight();
 
-    @Override
-    public int getCanvasX() {
-        return 0;
+        if (w <= h * 2.0f / 3.0f) {
+            //Nos quedamos con el ancho
+            return w;
+        } else {
+            //Nos quedamos con el alto
+            return h;
+        }
     }
 }

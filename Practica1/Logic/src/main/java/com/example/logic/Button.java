@@ -37,7 +37,7 @@ public class Button {
         SizeX = sizeX_;
         SizeY = sizeY_;
         color = c;
-        TextSize = TextSize_; f.getSize();
+        TextSize = TextSize_;
     }
 
 
@@ -66,7 +66,7 @@ public class Button {
 
     boolean click(float x, float y) {
 
-        //System.out.println("pos " + x + " " + y + " limites " + clickTopX + " " + clickTopY + " botton " + clickBottomX + " " + clickBottomY);
+        System.out.println("pos " + x + " " + y + " limites " + clickTopX + " " + clickTopY + " botton " + clickBottomX + " " + clickBottomY);
 
         if (x >= clickTopX && x < clickBottomX)
             if (y >= clickTopY && y < clickBottomY) {

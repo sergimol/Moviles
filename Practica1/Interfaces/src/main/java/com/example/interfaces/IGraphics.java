@@ -2,20 +2,15 @@ package com.example.interfaces;
 
 public interface IGraphics {
 
-    int getCanvasY();
-
     IImage newImage(String name);
-
     IFont newFont(String filename, int styleFlags, int size);
 
     void clear(int color);
 
     void translate(float x, float y);
-
     void scale(float x, float y);
 
     void save();
-
     void restore();
 
     void setColor(int color);
@@ -24,7 +19,7 @@ public interface IGraphics {
 
     void fillRect(float cx, float cy, float sideX, float sideY);
 
-    void drawRect(float cx, float cy, float sideX, float sideY);
+    void drawRect(float cx, float cy, float sideX, float sideY, float strokeSize);
 
     void drawCircle(float x, float y, float r);
 
@@ -44,7 +39,15 @@ public interface IGraphics {
 
     int getHeight();
 
+    int getCanvasY();
+
+    int getCanvasX();
+
+    float relationAspectDimension();
+
     float getScale();
+
+    void actualizaEscala();
 
     void prepareFrame();
 
@@ -52,7 +55,4 @@ public interface IGraphics {
 
     float getFontWidth(String text);
 
-    float relationAspectDimension();
-
-    int getCanvasX();
 }

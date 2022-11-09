@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         androidEngine.setState(state);
-        state.init(androidEngine);
+        //state.init(androidEngine);
     }
 
     @Override
