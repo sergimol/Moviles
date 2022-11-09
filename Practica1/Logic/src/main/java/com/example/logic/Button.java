@@ -75,7 +75,7 @@ void render(IGraphics graphics) {
 
 }
 
-boolean click(int x, int y){
+boolean click(float x, float y){
 
     System.out.println("pos " + x + " " +y + " limites " + clickTopX + " " +clickTopY + " botton " + clickBottomX + " " + clickBottomY);
 

@@ -11,6 +11,7 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IInput;
 import com.example.interfaces.IState;
+import com.example.interfaces.ITimer;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ public class AEngine implements IEngine, Runnable {
 
     private AAudio audio;
     //private AInput myInput;
+    private  AInput myInput;
 
 
     private Thread renderThread;
@@ -33,12 +35,16 @@ public class AEngine implements IEngine, Runnable {
         assetManager = assetM;
         graphics = new AGraphics(window, assetManager);
         audio = new AAudio(assetManager);
+        System.out.println("input init prepared!");
+        myInput = new AInput(window);
 
         audio.newSound("train", "train.wav");
         //audio.playSound("train");
 
         audio.newSound("clown", "clown.mp3");
         //audio.playSound("clown");
+
+        //el input
     }
 
     @Override
@@ -96,6 +102,11 @@ public class AEngine implements IEngine, Runnable {
     @Override
     public IState getState() {
         return currentState;
+    }
+
+    @Override
+    public ITimer getTimer() {
+        return null;
     }
 
     @Override
