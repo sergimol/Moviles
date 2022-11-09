@@ -17,8 +17,6 @@ public class JFont implements IFont {
     //styleFlags is for bold + italic...
     JFont(String name, int styleFlags, int size) throws IOException, FontFormatException {
         font_ = new Font(name, styleFlags, size);
-
-
         //path a ruta del asset a partir de la raiz del proyecto
         InputStream is = new FileInputStream(new File(name));
         font_ = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -45,5 +43,20 @@ public class JFont implements IFont {
     @Override
     public boolean isUnderlined() {
         return isUnderlined();
+    }
+
+    @Override
+    public void DoItalic() {
+        font_ = font_.deriveFont(Font.ITALIC);
+    }
+
+    @Override
+    public void DoBold() {
+        font_ = font_.deriveFont(Font.BOLD);
+    }
+
+    @Override
+    public void DoUnderLined() {
+        
     }
 }

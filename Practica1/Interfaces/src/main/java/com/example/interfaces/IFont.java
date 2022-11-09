@@ -8,4 +8,10 @@ public interface IFont {
     boolean isItalic();
 
     boolean isUnderlined();
+
+    void DoItalic();
+    void DoBold();
+    void DoUnderLined();
+
+
 }
