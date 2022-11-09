@@ -33,7 +33,7 @@ public class AInput extends View implements IInput, View.OnTouchListener {
 
     @Override
     public List<TouchEvent> getTouchEvents() {
-        return null;
+        return new ArrayList<>(eventList);
     }
 
     @Override
