@@ -1,10 +1,7 @@
 package com.example.androidengine;
 
 import android.content.res.AssetManager;
-import android.os.Bundle;
 import android.view.SurfaceView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.interfaces.IAudio;
 import com.example.interfaces.IEngine;
@@ -40,9 +37,6 @@ public class AEngine implements IEngine, Runnable {
         myInput = new AInput(window, graphics);
         timer = new ATimer();
 
-        audio.newSound("clown", "clown.mp3");
-        //audio.playSound("clown");
-
     }
 
     @Override
@@ -55,6 +49,7 @@ public class AEngine implements IEngine, Runnable {
         graphics.init();
         //System.out.println(graphics.getScale());
         getState().init(this);
+        getState().start();
 
         //Time deltaTime
         long lastFrameTime = System.nanoTime();
