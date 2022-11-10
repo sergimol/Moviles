@@ -17,7 +17,7 @@ public class JFont implements IFont {
     JFont(String name, int styleFlags, int size) throws IOException, FontFormatException {
         font_ = new Font(name, styleFlags, size);
 
-        //path a ruta del asset a partir de la raiz del proyecto
+        //path a ruta del asset a partir de la raiz del proyecto, tamaño, estilo...
         InputStream is = new FileInputStream(new File(name));
         font_ = Font.createFont(Font.TRUETYPE_FONT, is);
         font_ = font_.deriveFont((float) size);
