@@ -61,6 +61,7 @@ public class JEngine implements IEngine, Runnable {
             //Esto se supone certificado perfecto
             do {
                 this.graphics.prepareFrame();
+                this.timer.update(elapsedTime);
                 this.currentState.render(graphics);
                 this.graphics.finishFrame();
                 this.graphics.restore();

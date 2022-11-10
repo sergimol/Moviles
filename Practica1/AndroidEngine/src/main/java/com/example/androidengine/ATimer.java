@@ -2,10 +2,10 @@ package com.example.androidengine;
 
 import com.example.interfaces.ITimer;
 
-public class ATimer implements ITimer, Runnable {
+public class ATimer implements ITimer {
 
-    float OriginalTime;
-    float TimeLeft;
+    float originalTime;
+    float timeLeft;
 
     private Thread renderThread;
     boolean running;
@@ -16,50 +16,33 @@ public class ATimer implements ITimer, Runnable {
 
     @Override
     public void setTimer(float time) {
-        OriginalTime = time;
-        TimeLeft = OriginalTime;
+        originalTime = time;
+        timeLeft = originalTime;
     }
 
     @Override
     public void startTimer() {
-        resume();
+        running = true;;
     }
 
     @Override
     public float getTimeLeft() {
-        return TimeLeft;
+        return timeLeft;
     }
 
     @Override
     public boolean isEnded() {
-        return TimeLeft <= 0;
+        return timeLeft <= 0;
     }
 
     @Override
-    public void run() {
+    public void update(double deltaTime) {
         if (running) {
-            long lastFrameTime = System.nanoTime();
-            while (OriginalTime > 0 && TimeLeft > 0) {
-                long currentTime = System.nanoTime();
-                long nanoElapsedTime = currentTime - lastFrameTime;
-                lastFrameTime = currentTime;
-
-                // Actualizacion del deltaTime
-                double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-
-                //Actualizacion variable tiempo
-                TimeLeft -= elapsedTime;
-            }
-            running = false;
-        }
-    }
-
-    @Override
-    public void resume() {
-        if (!running) {
-            running = true;
-            renderThread = new Thread(this);
-            renderThread.start();
+            //Actualizacion variable tiempo
+            timeLeft -= deltaTime;
+            System.out.println(timeLeft);
+            if(timeLeft <= 0)
+                running = false;
         }
     }
 }

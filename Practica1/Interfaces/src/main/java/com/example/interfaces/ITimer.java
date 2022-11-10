@@ -10,5 +10,5 @@ public interface ITimer {
 
     boolean isEnded();
 
-    public void resume();
+    public void update(double deltaTime);
 }

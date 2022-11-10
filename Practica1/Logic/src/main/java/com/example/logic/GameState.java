@@ -49,7 +49,7 @@ public class GameState implements IState {
     @Override
     public void update(double deltaTime) {
         if (timer != null) {
-            if (timer.getTimeLeft() <= 0 && showingWrong) {
+            if (timer.isEnded() && showingWrong) {
                 showingWrong = false;
                 board.resetRedCells();
             }
