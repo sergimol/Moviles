@@ -27,7 +27,6 @@ public class JEngine implements IEngine, Runnable {
         graphics = new JGraphics(window);
         window.setIgnoreRepaint(true);
         window.setVisible(true);
-
         //Inicializamos el audio
         audio = new JAudio();
 //        audio.newSound("train_0", "train.wav");

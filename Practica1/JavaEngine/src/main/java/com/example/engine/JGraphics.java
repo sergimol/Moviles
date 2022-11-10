@@ -217,6 +217,7 @@ public class JGraphics implements IGraphics {
     @Override
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
+        this.myView.setBackground(Color.white);
         save();
 
         //TOMA DE ESCALA
