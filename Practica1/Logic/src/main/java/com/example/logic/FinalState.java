@@ -15,8 +15,10 @@ public class FinalState implements IState {
     IFont volver;
     Button backBoton;
     IEngine engine;
+    Board board;
 
-    public FinalState() {
+    public FinalState(Board b) {
+        board = b;
     }
 
     @Override
@@ -44,6 +46,8 @@ public class FinalState implements IState {
         graphics.setFont(title,20);
         word = "ENHORABUENA";
         graphics.drawText(word, (int) graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.1));
+
+        board.renderWin(graphics);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class FinalState implements IState {
                 //FUNCIONALIDAD BOTON VOLVER
                 if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
                     InitialState st = new InitialState();
-                    st.setPrevious(this);
+                    //st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
