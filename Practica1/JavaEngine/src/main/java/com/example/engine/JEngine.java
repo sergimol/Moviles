@@ -29,12 +29,8 @@ public class JEngine implements IEngine, Runnable {
         window.setVisible(true);
         //Inicializamos el audio
         audio = new JAudio();
-//        audio.playSound("train_0");
-//        audio.loop("train_0", true);
-
         //Inicializamos el Input (Solo raton de momento)
         myInput = new JInput(window, graphics);
-
         //Inicializamos el timer
         timer = new JTimer();
 
@@ -53,11 +49,12 @@ public class JEngine implements IEngine, Runnable {
             // Actualizacion del deltaTime
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
+            //Actualizacion del input y update del state
             this.currentState.handleInput();
             this.currentState.update(elapsedTime);
 
-            //Esto se supone certificado perfecto
             do {
+                //Actualizacion del render
                 this.graphics.prepareFrame();
                 this.timer.update(elapsedTime);
                 this.currentState.render(graphics);

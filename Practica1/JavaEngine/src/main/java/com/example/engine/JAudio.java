@@ -20,7 +20,7 @@ public class JAudio implements IAudio {
     @Override
     public ISound newSound(String sampleName,String fileName) {
         JSound sample = new JSound(path + fileName);    //Creamos el sample
-        samplesLibrary.put(sampleName, sample);                   //Lo anadimos a la libreria
+        samplesLibrary.put(sampleName, sample);                 //Lo anadimos a la libreria
         return sample;
     }
 
