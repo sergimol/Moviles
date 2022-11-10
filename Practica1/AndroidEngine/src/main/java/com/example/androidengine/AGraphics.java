@@ -38,14 +38,13 @@ public class AGraphics implements IGraphics {
 
         myView = window;
         holder = myView.getHolder();
-        canvas = holder.lockCanvas();    //se supone que sobra porque lo cogemos en cada prepareFrame
 
         paint = new Paint();
     }
 
     public void init() {
         while (this.holder.getSurfaceFrame().width() == 0) ;
-
+        canvas = holder.lockCanvas();
         //VALORES ORIGINALES DEL WINDOW
         ORIGINAL_CANVAS_WIDTH = holder.getSurfaceFrame().width();
         ORIGINAL_CANVAS_HEIGHT = holder.getSurfaceFrame().height();
@@ -202,6 +201,21 @@ public class AGraphics implements IGraphics {
             //Nos quedamos con el alto
             scale = (float) ((float) getHeight() / (float) ORIGINAL_CANVAS_HEIGHT);
         }
+
+        float ESCALAX = scale;
+        float ESCALAY = scale;
+
+        int CENTROX = (int) (getWidth() / 2);
+        int CENTROY = (int) (getHeight() / 2);
+
+        int CENTROCANVASX = (int) (ORIGINAL_CANVAS_WIDTH * ESCALAX) / 2;
+        int CENTROCANVASY = (int) (ORIGINAL_CANVAS_HEIGHT * ESCALAY) / 2;
+
+        centricoCanvasX = CENTROX - CENTROCANVASX;
+        centricoCanvasY = CENTROY - CENTROCANVASY;
+
+        System.out.println(centricoCanvasX + " " + centricoCanvasY);
+        /*canvas.scale(ESCALAX, ESCALAY);*/
     }
 
     @Override
@@ -209,8 +223,9 @@ public class AGraphics implements IGraphics {
 
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
+        canvas.save();
+        translate(centricoCanvasX, centricoCanvasY);
         canvas.drawColor(0xFFFFFFFF);               //Pinta de blanco
-
         //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo tony
         //nos hemos fumado todo, siete porro'
         //setColor(0XFF000000);
@@ -218,6 +233,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void finishFrame() {
+        canvas.restore();
         holder.unlockCanvasAndPost(canvas);         //Desbloquea el canvas para mostrar lo pintado
     }
 
