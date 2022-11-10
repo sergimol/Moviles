@@ -142,4 +142,9 @@ public class LevelSelectionState implements IState {
     public void setPrevious(IState st) {
         previous = st;
     }
+
+    @Override
+    public IState getprevious() {
+        return previous;
+    }
 }

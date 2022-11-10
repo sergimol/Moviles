@@ -40,9 +40,6 @@ public class AEngine implements IEngine, Runnable {
         myInput = new AInput(window, graphics);
         timer = new ATimer();
 
-        audio.newSound("train", "train.wav");
-        //audio.playSound("train");
-
         audio.newSound("clown", "clown.mp3");
         //audio.playSound("clown");
 

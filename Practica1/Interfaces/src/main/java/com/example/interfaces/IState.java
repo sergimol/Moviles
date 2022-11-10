@@ -11,4 +11,5 @@ public interface IState {
 
     void setPrevious(IState st);
 
+    IState getprevious();
 }

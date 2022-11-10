@@ -24,6 +24,7 @@ public class InitialState implements IState {
     IEngine engine;
     Button myBoton;
     IImage imagen;
+    IState previous = null;
 
 
     public InitialState() {
@@ -40,6 +41,10 @@ public class InitialState implements IState {
 
         myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         imagen = e.getGraphics().newImage("apedra.png");
+
+        e.getAudio().playSound("music");
+        e.getAudio().loop("music", true);
+
     }
 
     @Override
@@ -70,8 +75,8 @@ public class InitialState implements IState {
     @Override
     public void handleInput() {
 
-        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
 
+        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
         ListIterator<IInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             IInput.TouchEvent o = i.next();
@@ -96,6 +101,11 @@ public class InitialState implements IState {
     @Override
     public void setPrevious(IState st) {
 
+    }
+
+    @Override
+    public IState getprevious() {
+        return previous;
     }
 
 

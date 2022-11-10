@@ -13,6 +13,7 @@ import java.util.ListIterator;
 public class FinalState implements IState {
     IFont title;
     IFont volver;
+    IState previous = null;
     Button backBoton;
     IEngine engine;
     Board board;
@@ -62,10 +63,10 @@ public class FinalState implements IState {
 
                 //FUNCIONALIDAD BOTON VOLVER
                 if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
-                    InitialState st = new InitialState();
+                    //InitialState st = new InitialState();
                     //st.setPrevious(this);
-                    engine.setState(st);
-                    st.init(engine);
+                    engine.setState(previous.getprevious().getprevious());
+                    //st.init(engine);
                 }
             }
         }
@@ -75,7 +76,12 @@ public class FinalState implements IState {
 
     @Override
     public void setPrevious(IState st) {
+        previous = st;
+    }
 
+    @Override
+    public IState getprevious() {
+        return previous;
     }
 }
 

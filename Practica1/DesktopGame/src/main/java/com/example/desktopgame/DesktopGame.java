@@ -19,7 +19,11 @@ public class DesktopGame {
         JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
         state.init(javaEngine);
+
+
         ResourceLoader resourceLoader = new ResourceLoader();
         resourceLoader.loadResources(javaEngine);
+
+
     }
 }

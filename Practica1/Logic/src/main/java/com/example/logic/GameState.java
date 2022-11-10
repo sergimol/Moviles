@@ -126,7 +126,7 @@ public class GameState implements IState {
                         //Si has completado el puzzle
                         if (wrongCount == 0 && missingCount == 0) {
                             FinalState st = new FinalState(board);
-                            //st.setPrevious(this);
+                            st.setPrevious(this);
                             engine.setState(st);
                             st.init(engine);
                         } else {
@@ -144,6 +144,11 @@ public class GameState implements IState {
     @Override
     public void setPrevious(IState st) {
         previous = st;
+    }
+
+    @Override
+    public IState getprevious() {
+        return previous;
     }
 
     IState getPrevious() {
