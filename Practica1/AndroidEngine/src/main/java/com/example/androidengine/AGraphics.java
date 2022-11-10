@@ -155,8 +155,8 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void setFont(IFont font, float size) {
-        paint.setTextSize(size);
-        paint.setTypeface(((AFont) font).font_);
+        paint.setTextSize(font.getSize()/scale);
+        paint.setTypeface(((AFont)font).font_);
     }
 
     @Override
@@ -206,6 +206,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void prepareFrame() {
+
         while (!holder.getSurface().isValid()) ;
         canvas = holder.lockCanvas();               //Lockea el canvas para refrescarlo
         canvas.drawColor(0xFFFFFFFF);               //Pinta de blanco

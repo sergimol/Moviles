@@ -31,7 +31,7 @@ public class JFont implements IFont {
 
     @Override
     public float getSize() {
-        return font_.getSize();
+        return originalSize_;
     }
 
     @Override

@@ -34,9 +34,10 @@ public class GameState implements IState {
     @Override
     public void init(IEngine e) {
         engine = e;
-        board.init(e);
+
 
         font = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        board.init(e, font);
         backBoton = new Button(font, "Rendirse", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF,20);
         comprobarBoton = new Button(font, "Comprobar", e.getGraphics().getOriginalWidth() - e.getGraphics().getOriginalWidth() * 0.23f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.4f, e.getGraphics().getOriginalHeight() * 0.08f, 0XFFFFFFFF,15);
         timer = e.getTimer();
@@ -50,6 +51,7 @@ public class GameState implements IState {
         if (timer != null) {
             if (timer.getTimeLeft() <= 0 && showingWrong) {
                 showingWrong = false;
+                board.resetRedCells();
             }
         }
 
@@ -144,8 +146,8 @@ public class GameState implements IState {
                         missingCount = a[1];
                         //Si has completado el puzzle
                         if (wrongCount == 0 && missingCount == 0) {
-                            FinalState st = new FinalState();
-                            st.setPrevious(this);
+                            FinalState st = new FinalState(board);
+                            //st.setPrevious(this);
                             engine.setState(st);
                             st.init(engine);
                         } else {
