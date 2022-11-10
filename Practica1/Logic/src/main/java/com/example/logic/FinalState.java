@@ -32,6 +32,11 @@ public class FinalState implements IState {
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
     public void update(double deltaTime) {
 
     }

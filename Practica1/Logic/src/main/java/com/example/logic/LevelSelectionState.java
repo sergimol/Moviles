@@ -43,6 +43,11 @@ public class LevelSelectionState implements IState {
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
     public void update(double deltaTime) {
 
     }

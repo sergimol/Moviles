@@ -17,8 +17,6 @@ public class Cell {
     cellStates state = cellStates.Grey;
     // True = casilla forma parte del dibujo, False = no forma parte
     boolean isGood;
-    // Espacio entre celdas en px a máxima resolución
-    private static int BASE_SPACING = 5;
     //booleano que permite el cambio
     boolean allowchange = true;
 
@@ -33,7 +31,9 @@ public class Cell {
     }
 
     void changeState() {
+        // Cambia el estado al siguiente
         if (allowchange) {
+                                        // Length - 1 para no acceder a las celdas rojas 
             if (state.ordinal() + 1 < cellStates.values().length - 1)
                 state = cellStates.values()[state.ordinal() + 1];
             else state = cellStates.values()[0];

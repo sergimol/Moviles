@@ -1,21 +1,15 @@
 package com.example.logic;
 
-import java.awt.Font;
-
 import com.example.interfaces.IEngine;
 import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 import com.example.interfaces.IImage;
 import com.example.interfaces.IInput;
 import com.example.interfaces.IState;
-import com.example.interfaces.ITimer;
 
-import java.awt.Component;
-import java.awt.Image;
-import java.util.Iterator;
+import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Level;
 
 public class InitialState implements IState {
 
@@ -42,9 +36,12 @@ public class InitialState implements IState {
         myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         imagen = e.getGraphics().newImage("apedra.png");
 
-        e.getAudio().playSound("music");
-        e.getAudio().loop("music", true);
+    }
 
+    @Override
+    public void start() {
+        engine.getAudio().playSound("music");
+        engine.getAudio().loop("music", true);
     }
 
     @Override

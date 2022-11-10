@@ -23,7 +23,7 @@ public class DesktopGame {
 
         ResourceLoader resourceLoader = new ResourceLoader();
         resourceLoader.loadResources(javaEngine);
-
+        state.start();
 
     }
 }
