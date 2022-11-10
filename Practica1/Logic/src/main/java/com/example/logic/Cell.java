@@ -62,13 +62,13 @@ public class Cell {
     void render(IGraphics graphics, int zeroX, int zeroY, float cellSide, float cellSpacing) {
         switch (state) {
             case Grey:
-                graphics.setColor(0x808080);
+                graphics.setColor(0xFF808080);
                 break;
             case Red:
-                graphics.setColor(0xFF0000);
+                graphics.setColor(0xFFFF0000);
                 break;
             case Blue:
-                graphics.setColor(0x0000FF);
+                graphics.setColor(0xFF0000FF);
                 break;
             case Empty:
                 graphics.setColor(0xFF000000);

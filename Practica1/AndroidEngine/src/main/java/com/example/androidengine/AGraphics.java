@@ -38,15 +38,17 @@ public class AGraphics implements IGraphics {
 
         myView = window;
         holder = myView.getHolder();
-        canvas = new Canvas();    //se supone que sobra porque lo cogemos en cada prepareFrame
+        canvas = holder.lockCanvas();    //se supone que sobra porque lo cogemos en cada prepareFrame
 
         paint = new Paint();
     }
 
     public void init() {
+        while (this.holder.getSurfaceFrame().width() == 0) ;
+
         //VALORES ORIGINALES DEL WINDOW
-        ORIGINAL_CANVAS_WIDTH = myView.getWidth();
-        ORIGINAL_CANVAS_HEIGHT = myView.getHeight();
+        ORIGINAL_CANVAS_WIDTH = holder.getSurfaceFrame().width();
+        ORIGINAL_CANVAS_HEIGHT = holder.getSurfaceFrame().height();
         if (ORIGINAL_CANVAS_WIDTH <= ORIGINAL_CANVAS_HEIGHT * 2 / 3) {
             ORIGINAL_CANVAS_HEIGHT = ORIGINAL_CANVAS_WIDTH * 3.0f / 2.0f;
         } else {
@@ -55,6 +57,8 @@ public class AGraphics implements IGraphics {
 
         paint.setColor(0XFF000000);     //Color negro predefinido
         actualizaEscala();
+        System.out.println(scale);
+        //canvas.scale(scale, scale);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class AGraphics implements IGraphics {
 
     @Override
     public IFont newFont(String filename, int styleFlags, int size) {
-        AFont aFont = new AFont(filename, styleFlags, size,assetManager);
+        AFont aFont = new AFont(filename, styleFlags, size, assetManager);
         return aFont;
     }
 
@@ -128,12 +132,14 @@ public class AGraphics implements IGraphics {
     @Override
     public void fillRect(float cx, float cy, float sideX, float sideY) {
         paint.setStrokeWidth(0);
+        paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
     @Override
     public void drawRect(float cx, float cy, float sideX, float sideY, float strokeSize) {
-        paint.setStrokeWidth(strokeSize);
+        paint.setStrokeWidth(strokeSize * 5);
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
@@ -150,7 +156,7 @@ public class AGraphics implements IGraphics {
     @Override
     public void setFont(IFont font, float size) {
         paint.setTextSize(size);
-        paint.setTypeface(((AFont)font).font_);
+        paint.setTypeface(((AFont) font).font_);
     }
 
     @Override
@@ -186,8 +192,8 @@ public class AGraphics implements IGraphics {
 
     @Override
     public void actualizaEscala() {
-        float w = getWidth();
-        float h = getHeight();
+        float w = holder.getSurfaceFrame().width();
+        float h = holder.getSurfaceFrame().height();
 
         if (w <= h * 2.0f / 3.0f) {
             //Nos quedamos con el ancho

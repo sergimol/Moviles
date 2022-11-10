@@ -54,6 +54,7 @@ public class AEngine implements IEngine, Runnable {
         while (running && graphics.getWidth() == 0) ; //Por si tarda en inicializarse la ventana
 
         graphics.init();
+        //System.out.println(graphics.getScale());
         getState().init(this);
 
         //Time deltaTime
