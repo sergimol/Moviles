@@ -4,7 +4,6 @@ import com.example.interfaces.IEngine;
 import com.example.interfaces.IFont;
 import com.example.interfaces.IGraphics;
 
-import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.Vector;
 
@@ -172,11 +171,12 @@ public class Board {
         }
     }
 
-    void handleInput(float x, float y) {
+    void handleInput(float x, float y, IEngine e) {
         if (x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize) {
             float xInBoard = (x - xZeroCord) / (cellSide + cellSpacing);
             float yInBoard = (y - yZeroCord) / (cellSide + cellSpacing);
             cells[(int) xInBoard][(int) yInBoard].changeState();
+            e.getAudio().playSound("pop");
         }
     }
 }

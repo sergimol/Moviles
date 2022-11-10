@@ -105,7 +105,7 @@ public class GameState implements IState {
             if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN || ((IInput.Event) o).type == IInput.InputTouchType.TOUCH_MOVE) {
                 float xInCanvas = ((IInput.Event) o).x;
                 float yInCanvas = ((IInput.Event) o).y;
-                board.handleInput(xInCanvas, yInCanvas);
+                board.handleInput(xInCanvas, yInCanvas, engine);
             } else if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_UP) {
                 board.resetAllowChangeStatesCells();
             }

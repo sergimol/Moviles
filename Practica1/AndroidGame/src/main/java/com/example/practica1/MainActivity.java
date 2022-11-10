@@ -1,7 +1,5 @@
 package com.example.practica1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,9 +7,11 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.androidengine.AEngine;
-import com.example.logic.GameState;
 import com.example.logic.InitialState;
+import com.example.logic.ResourceLoader;
 
 import java.io.IOException;
 
@@ -44,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportActionBar().hide();
 
+        ResourceLoader resourceLoader = new ResourceLoader();
+
         //Creamos el Engine y lo inicializamos
         InitialState state = new InitialState();
 
         try {
             androidEngine = new AEngine(window, assetManager);
             androidEngine.setState(state);
+            resourceLoader.loadResources(androidEngine);
         } catch (IOException e) {
             e.printStackTrace();
         }

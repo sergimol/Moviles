@@ -1,11 +1,10 @@
 package com.example.desktopgame;
 
-import javax.swing.JFrame;
-
 import com.example.engine.JEngine;
-import com.example.logic.GameState;
 import com.example.logic.InitialState;
-import com.example.logic.LevelSelectionState;
+import com.example.logic.ResourceLoader;
+
+import javax.swing.JFrame;
 
 public class DesktopGame {
 
@@ -20,5 +19,7 @@ public class DesktopGame {
         JEngine javaEngine = new JEngine(window);
         javaEngine.setState(state);
         state.init(javaEngine);
+        ResourceLoader resourceLoader = new ResourceLoader();
+        resourceLoader.loadResources(javaEngine);
     }
 }

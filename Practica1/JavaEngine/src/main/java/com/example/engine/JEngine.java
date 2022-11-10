@@ -29,7 +29,6 @@ public class JEngine implements IEngine, Runnable {
         window.setVisible(true);
         //Inicializamos el audio
         audio = new JAudio();
-//        audio.newSound("train_0", "train.wav");
 //        audio.playSound("train_0");
 //        audio.loop("train_0", true);
 
