@@ -1,15 +1,16 @@
-package com.example.engine;
+package com.example.androidengine;
 
 import com.example.interfaces.ITimer;
 
-public class JTimer implements ITimer, Runnable {
+public class ATimer implements ITimer, Runnable {
+
     float OriginalTime;
     float TimeLeft;
 
     private Thread renderThread;
     boolean running;
 
-    public JTimer() {
+    public ATimer() {
         running = false;
     }
 
@@ -62,3 +63,4 @@ public class JTimer implements ITimer, Runnable {
         }
     }
 }
+

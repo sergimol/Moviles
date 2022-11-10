@@ -27,6 +27,8 @@ public class AEngine implements IEngine, Runnable {
 
     private AInput myInput;
 
+    private ATimer timer;
+
 
     private Thread renderThread;
     private AssetManager assetManager;
@@ -36,6 +38,7 @@ public class AEngine implements IEngine, Runnable {
         graphics = new AGraphics(window, assetManager);
         audio = new AAudio(assetManager);
         myInput = new AInput(window, graphics);
+        timer = new ATimer();
 
         audio.newSound("train", "train.wav");
         //audio.playSound("train");
@@ -43,7 +46,6 @@ public class AEngine implements IEngine, Runnable {
         audio.newSound("clown", "clown.mp3");
         //audio.playSound("clown");
 
-        //el input
     }
 
     @Override
@@ -100,7 +102,7 @@ public class AEngine implements IEngine, Runnable {
 
     @Override
     public IAudio getAudio() {
-        return null;
+        return audio;
     }
 
     @Override
@@ -110,7 +112,7 @@ public class AEngine implements IEngine, Runnable {
 
     @Override
     public ITimer getTimer() {
-        return null;
+        return timer;
     }
 
     @Override
