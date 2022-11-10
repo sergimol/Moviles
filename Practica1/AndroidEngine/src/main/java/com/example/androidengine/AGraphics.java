@@ -44,7 +44,7 @@ public class AGraphics implements IGraphics {
 
     public void init() {
         while (this.holder.getSurfaceFrame().width() == 0) ;
-        canvas = holder.lockCanvas();
+
         //VALORES ORIGINALES DEL WINDOW
         ORIGINAL_CANVAS_WIDTH = holder.getSurfaceFrame().width();
         ORIGINAL_CANVAS_HEIGHT = holder.getSurfaceFrame().height();
