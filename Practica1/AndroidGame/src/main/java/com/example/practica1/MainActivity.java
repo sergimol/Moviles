@@ -70,3 +70,17 @@ public class MainActivity extends AppCompatActivity {
         androidEngine.pause();
     }
 }
+
+/*
+    Quitar interfaces
+    Manifest
+        Documento XML que describe la aplicacion
+        Contiene informacion sobre el nombre del paquete
+        Que servicios necesita (si necesita internet)
+        Requisitos de software
+        Version y codificacion de la aplicacion y donde se instala
+        Si queremos que se ejecute con algun tema especial (tamaño completo y sin barra)
+        Esto es lo que coge el googlePlay para ver que te pide
+
+
+* */
