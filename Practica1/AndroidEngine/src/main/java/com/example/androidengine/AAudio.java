@@ -9,16 +9,14 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.interfaces.IAudio;
-import com.example.interfaces.ISound;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class AAudio implements IAudio {
+public class AAudio {
 
     //HasMap para cargar los sonidos y buscarlos por su nombre
-    HashMap<String, ISound> samplesLibrary;
+    HashMap<String, ASound> samplesLibrary;
 
     AssetManager assetManager;
     //SoundPool soundPool;
@@ -30,8 +28,7 @@ public class AAudio implements IAudio {
         //soundPool = new SoundPool.Builder().setMaxStreams(5).build();
     }
 
-    @Override
-    public ISound newSound(String sampleName, String fileName) {
+    public ASound newSound(String sampleName, String fileName) {
         ASound sample = null;    //Creamos el sample
         try {
             sample = new ASound(fileName, assetManager);
@@ -50,29 +47,24 @@ public class AAudio implements IAudio {
 
     }
 
-    @Override
     public void playSound(String fileName) {
         if (samplesLibrary != null && samplesLibrary.get(fileName) != null) {
             samplesLibrary.get(fileName).play();
         }
     }
 
-    @Override
     public void pause(String fileName) {
 
     }
 
-    @Override
     public void resume(String fileName) {
 
     }
 
-    @Override
     public void stop(String fileName) {
 
     }
 
-    @Override
     public void loop(String fileName, boolean loopCondition) {
 
     }

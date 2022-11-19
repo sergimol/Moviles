@@ -5,11 +5,9 @@ import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 
-import com.example.interfaces.ISound;
-
 import java.io.IOException;
 
-public class ASound implements ISound {
+public class ASound {
 
     MediaPlayer mediaPlayer;
 
@@ -22,27 +20,22 @@ public class ASound implements ISound {
     }
 
 
-    @Override
     public void play() {
         mediaPlayer.start();
     }
 
-    @Override
     public void pause() {
         mediaPlayer.pause();
     }
 
-    @Override
     public void resume() {
         mediaPlayer.start();
     }
 
-    @Override
     public void stop() {
         mediaPlayer.stop();
     }
 
-    @Override
     public void loop(boolean loopCondition) {
         mediaPlayer.setLooping(loopCondition);
     }

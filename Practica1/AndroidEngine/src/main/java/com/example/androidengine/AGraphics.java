@@ -7,13 +7,9 @@ import android.util.TypedValue;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-import com.example.interfaces.IImage;
-
 import java.io.IOException;
 
-public class AGraphics implements IGraphics {
+public class AGraphics {
     private AssetManager assetManager;
 
     private SurfaceView myView;
@@ -60,18 +56,15 @@ public class AGraphics implements IGraphics {
         //canvas.scale(scale, scale);
     }
 
-    @Override
     public int getCanvasX() {
         return centricoCanvasX;
     }
 
-    @Override
     public int getCanvasY() {
         return centricoCanvasY;
     }
 
-    @Override
-    public IImage newImage(String name) {
+    public AImage newImage(String name) {
         try {
             AImage aImage = new AImage(name, assetManager);
             return aImage;
@@ -81,115 +74,94 @@ public class AGraphics implements IGraphics {
         return null;
     }
 
-    @Override
-    public IFont newFont(String filename, int styleFlags, int size) {
+    public AFont newFont(String filename, int styleFlags, int size) {
         AFont aFont = new AFont(filename, styleFlags, size, assetManager);
         return aFont;
     }
 
-    @Override
     public void clear(int color) {
         paint.setColor(color);
         canvas.drawColor(paint.getColor());
     }
 
-    @Override
     public void translate(float x, float y) {
         canvas.translate(x, y);
     }
 
-    @Override
     public void scale(float x, float y) {
         canvas.scale(x, y);
     }
 
-    @Override
     public void save() {
         canvas.save();
     }
 
-    @Override
     public void restore() {
         canvas.restore();
     }
 
-    @Override
     public void setColor(int color) {
         paint.setColor(color);
     }
 
-    @Override
-    public void drawImage(IImage image, float x, float y, float width, float height) {
-        canvas.drawBitmap(((AImage) image).getImage(), x, y, paint);
+    public void drawImage(AImage image, float x, float y, float width, float height) {
+        canvas.drawBitmap(image.getImage(), x, y, paint);
     }
 
-    @Override
     public void drawCircle(float x, float y, float r) {
         canvas.drawCircle(x, y, r, paint);
     }
 
-    @Override
     public void fillRect(float cx, float cy, float sideX, float sideY) {
         paint.setStrokeWidth(0);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
-    @Override
     public void drawRect(float cx, float cy, float sideX, float sideY, float strokeSize) {
         paint.setStrokeWidth(strokeSize * 5);
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(cx, cy, cx + sideX, cy + sideY, paint);
     }
 
-    @Override
     public void drawLine(float initX, float initY, float endX, float endY) {
         canvas.drawLine(initX, initY, endX, endY, paint);
     }
 
-    @Override
     public void drawText(String text, float x, float y) {
         canvas.drawText(text, x, y, paint);
     }
 
-    @Override
-    public void setFont(IFont font, float size) {
+    public void setFont(AFont font, float size) {
         paint.setTextSize(font.getSize()/scale);
-        paint.setTypeface(((AFont)font).font_);
+        paint.setTypeface(font.font_);
     }
 
-    @Override
     public void setResolution() {
 
     }
 
     //DEVUELVEN TAMANO DEL CANVAS SIN ESCALA
-    @Override
     public float getOriginalWidth() {
         return ORIGINAL_CANVAS_WIDTH;
     }
 
-    @Override
     public float getOriginalHeight() {
         return ORIGINAL_CANVAS_HEIGHT;
     }
 
-    @Override
     public int getWidth() {
         return myView.getWidth();
     }
 
-    @Override
     public int getHeight() {
         return myView.getHeight();
     }
 
-    @Override
     public float getScale() {
         return scale;
     }
 
-    @Override
     public void actualizaEscala() {
         float w = holder.getSurfaceFrame().width();
         float h = holder.getSurfaceFrame().height();
@@ -218,7 +190,6 @@ public class AGraphics implements IGraphics {
         /*canvas.scale(ESCALAX, ESCALAY);*/
     }
 
-    @Override
     public void prepareFrame() {
 
         while (!holder.getSurface().isValid()) ;
@@ -231,18 +202,15 @@ public class AGraphics implements IGraphics {
         //setColor(0XFF000000);
     }
 
-    @Override
     public void finishFrame() {
         canvas.restore();
         holder.unlockCanvasAndPost(canvas);         //Desbloquea el canvas para mostrar lo pintado
     }
 
-    @Override
     public float getFontWidth(String text) {
         return paint.measureText(text, 0, text.length());
     }
 
-    @Override
     public float relationAspectDimension() {
         float w = getWidth();
         float h = getHeight();

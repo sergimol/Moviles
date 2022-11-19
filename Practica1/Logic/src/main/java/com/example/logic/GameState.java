@@ -12,18 +12,16 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class GameState implements IState {
-    IEngine engine;
+public class GameState extends State {
     Board board;
     int xCells, yCells;
-    IState previous = null;
-    IFont font;
+    AFont font;
     Button backBoton;
     Button comprobarBoton;
 
     int wrongCount, missingCount;
     boolean showingWrong = false;
-    ITimer timer;
+    ATimer timer;
 
     public GameState(int x, int y) {
         xCells = x;
@@ -32,7 +30,7 @@ public class GameState implements IState {
     }
 
     @Override
-    public void init(IEngine e) {
+    public void init(AEngine e) {
         engine = e;
 
 
@@ -64,7 +62,7 @@ public class GameState implements IState {
     }
 
     @Override
-    public void render(IGraphics graphics) {
+    public void render(AGraphics graphics) {
         if (!showingWrong) {
             if (backBoton != null)
                 backBoton.render(graphics);
@@ -101,28 +99,28 @@ public class GameState implements IState {
     @Override
     public void handleInput() {
         //check touch cells and buttons to play
-        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
+        List<AInput.TouchEvent> events = engine.getInput().getTouchEvents();
 
-        ListIterator<IInput.TouchEvent> ev = events.listIterator();
+        ListIterator<AInput.TouchEvent> ev = events.listIterator();
         while (ev.hasNext()) {
-            IInput.TouchEvent o = ev.next();
+            AInput.TouchEvent o = ev.next();
 
-            if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN || ((IInput.Event) o).type == IInput.InputTouchType.TOUCH_MOVE) {
-                float xInCanvas = ((IInput.Event) o).x;
-                float yInCanvas = ((IInput.Event) o).y;
+            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN || ((AInput.Event) o).type == AInput.InputTouchType.TOUCH_MOVE) {
+                float xInCanvas = ((AInput.Event) o).x;
+                float yInCanvas = ((AInput.Event) o).y;
                 board.handleInput(xInCanvas, yInCanvas, engine);
-            } else if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_UP) {
+            } else if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_UP) {
                 board.resetAllowChangeStatesCells();
             }
 
-            if (((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN) {
+            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON RENDIRSE
-                if (backBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                if (backBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
                     engine.setState(previous);
                 }
                 //FUNCIONALIDAD BOTON COMPROBAR
-                if (comprobarBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                if (comprobarBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
                     //wrongCount, missingCount
                     if (!showingWrong) {
                         int a[] = board.checkBoard();
@@ -144,19 +142,5 @@ public class GameState implements IState {
             }
         }
         engine.getInput().emptyTouchEvents();
-    }
-
-    @Override
-    public void setPrevious(IState st) {
-        previous = st;
-    }
-
-    @Override
-    public IState getprevious() {
-        return previous;
-    }
-
-    IState getPrevious() {
-        return previous;
     }
 }

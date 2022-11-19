@@ -3,20 +3,14 @@ package com.example.androidengine;
 import android.content.res.AssetManager;
 import android.view.SurfaceView;
 
-import com.example.interfaces.IAudio;
-import com.example.interfaces.IEngine;
-import com.example.interfaces.IGraphics;
-import com.example.interfaces.IInput;
-import com.example.interfaces.IState;
-import com.example.interfaces.ITimer;
-
 import java.io.IOException;
 
-public class AEngine implements IEngine, Runnable {
+public class AEngine implements Runnable {
 
     private boolean running = false;
 
-    private IState currentState;
+    //TODO estado base
+    private State currentState;
 
     private AGraphics graphics;
 
@@ -83,32 +77,26 @@ public class AEngine implements IEngine, Runnable {
         }
     }
 
-    @Override
-    public IGraphics getGraphics() {
+    public AGraphics getGraphics() {
         return graphics;
     }
 
-    @Override
-    public IInput getInput() {
+    public AInput getInput() {
         return myInput;
     }
 
-    @Override
-    public IAudio getAudio() {
+    public AAudio getAudio() {
         return audio;
     }
 
-    @Override
-    public IState getState() {
+    public State getState() {
         return currentState;
     }
 
-    @Override
-    public ITimer getTimer() {
+    public ATimer getTimer() {
         return timer;
     }
 
-    @Override
     public void pause() {
         if (running) {
             running = false;
@@ -125,7 +113,6 @@ public class AEngine implements IEngine, Runnable {
         }
     }
 
-    @Override
     public void resume() {
         if (!running) {
             renderThread = new Thread(this);
@@ -138,8 +125,7 @@ public class AEngine implements IEngine, Runnable {
         return running;
     }
 
-    @Override
-    public void setState(IState st) {
+    public void setState(State st) {
         currentState = st;
     }
 }

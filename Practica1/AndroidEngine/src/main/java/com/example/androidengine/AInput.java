@@ -5,12 +5,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.example.interfaces.IInput;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class AInput extends View implements IInput, View.OnTouchListener {
+public class AInput extends View implements View.OnTouchListener {
 
     private List<TouchEvent> eventList;
     private AGraphics graphics;
@@ -28,12 +26,10 @@ public class AInput extends View implements IInput, View.OnTouchListener {
         return super.callOnClick();
     }
 
-    @Override
     public void emptyTouchEvents() {
         eventList.clear();
     }
 
-    @Override
     public List<TouchEvent> getTouchEvents() {
         return new ArrayList<>(eventList);
     }

@@ -1,7 +1,5 @@
 package com.example.logic;
 
-import com.example.interfaces.IGraphics;
-
 enum cellStates {
     Grey, Blue, Empty, Red
 };
@@ -59,7 +57,7 @@ public class Cell {
             return checkStates.Correct;
     }
 
-    void render(IGraphics graphics, int zeroX, int zeroY, float cellSide, float cellSpacing) {
+    void render(AGraphics graphics, int zeroX, int zeroY, float cellSide, float cellSpacing) {
         switch (state) {
             case Grey:
                 graphics.setColor(0xFF808080);

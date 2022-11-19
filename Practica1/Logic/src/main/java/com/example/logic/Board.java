@@ -1,9 +1,5 @@
 package com.example.logic;
 
-import com.example.interfaces.IEngine;
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-
 import java.util.Random;
 import java.util.Vector;
 
@@ -11,7 +7,7 @@ public class Board {
     private int xSize, ySize;
     private int xZeroCord, yZeroCord;
     private float cellSide, cellSpacing;
-    IFont font;
+    AFont font;
     Cell cells[][];
 
     Cell getCell(int x, int y) {
@@ -39,7 +35,7 @@ public class Board {
         createRandomBoard();
     }
 
-    void init(IEngine e, IFont f) {
+    void init(AEngine e, AFont f) {
         // Coordenadas del canvas a partir de las cuales se dibuja el tablero
         xZeroCord = (int) e.getGraphics().getOriginalWidth() / 5;
         yZeroCord = (int) e.getGraphics().getOriginalHeight() / 3;
@@ -147,7 +143,7 @@ public class Board {
     }
 
     // Renderizado del tablero en el estado de juego
-    void render(IGraphics graphics) {
+    void render(AGraphics graphics) {
         // Establece el color y la fuente de los números
         graphics.setColor(0xFF000000);
         graphics.setFont(font,0.3f * (graphics.relationAspectDimension() / 10) / graphics.getScale());
@@ -182,7 +178,7 @@ public class Board {
     }
 
     // Renderizado del tablero en el estado final
-    void renderWin(IGraphics graphics){
+    void renderWin(AGraphics graphics){
         float canvasCenterX = graphics.getOriginalWidth() / 2;
         float canvasCenterY = graphics.getOriginalHeight() / 2;
         // Coloca el (0, 0) del tablero en el centro del canvas - la mitad del tamaño del tablero para centrarlo
@@ -198,7 +194,7 @@ public class Board {
         }
     }
 
-    void handleInput(float x, float y, IEngine e) {
+    void handleInput(float x, float y, AEngine e) {
         // Comprueba que las coordenadas del input estén dentro del tablero
         if (x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize) {
             // Convierte las coordenadas al número que corresponda entre 0 y xSize o 0 e ySize

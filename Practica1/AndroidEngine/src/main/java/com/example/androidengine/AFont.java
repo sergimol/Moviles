@@ -3,9 +3,7 @@ package com.example.androidengine;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
-import com.example.interfaces.IFont;
-
-public class AFont implements IFont {
+public class AFont {
 
     Typeface font_;
     float size;
@@ -14,37 +12,30 @@ public class AFont implements IFont {
         this.size = size_;
     }
 
-    @Override
     public float getSize() {
         return this.size;
     }
 
-    @Override
     public boolean isBold() {
         return font_.isBold();
     }
 
-    @Override
     public boolean isItalic() {
         return font_.isItalic();
     }
 
-    @Override
     public boolean isUnderlined() {
         return false;
     }
 
-    @Override
     public void DoItalic() {
 
     }
 
-    @Override
     public void DoBold() {
 
     }
 
-    @Override
     public void DoUnderLined() {
 
     }

@@ -1,9 +1,5 @@
 package com.example.logic;
 
-
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-
 import java.awt.Color;
 
 enum States {
@@ -13,7 +9,7 @@ enum States {
 
 public class Button {
 
-    private IFont fuente;
+    private AFont fuente;
     private String texto;
     private float PosX;
     private float PosY;
@@ -29,7 +25,7 @@ public class Button {
     int color;
 
 
-    Button(IFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_) {
+    Button(AFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_) {
         fuente = f;
         texto = text;
         PosX = x;
@@ -41,7 +37,7 @@ public class Button {
     }
 
 
-    void render(IGraphics graphics) {
+    void render(AGraphics graphics) {
         //calculo logico del cuadrado para el pulsado
         clickTopX = (PosX - (SizeX / 2));
         clickTopY = (PosY - (SizeY / 2));

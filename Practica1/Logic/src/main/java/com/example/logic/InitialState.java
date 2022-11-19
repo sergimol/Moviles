@@ -11,15 +11,12 @@ import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
-public class InitialState implements IState {
+public class InitialState extends State {
 
-    IFont title;
-    IFont playButton;
-    IEngine engine;
+    AFont title;
+    AFont playButton;
     Button myBoton;
-    IImage imagen;
-    IState previous = null;
-
+    AImage imagen;
 
     public InitialState() {
 
@@ -27,7 +24,7 @@ public class InitialState implements IState {
 
 
     @Override
-    public void init(IEngine e) {
+    public void init(AEngine e) {
         engine = e;
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
         title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -51,7 +48,7 @@ public class InitialState implements IState {
 
 
     @Override
-    public void render(IGraphics graphics) {
+    public void render(AGraphics graphics) {
 
 
         if (imagen != null) {
@@ -73,16 +70,16 @@ public class InitialState implements IState {
     public void handleInput() {
 
 
-        List<IInput.TouchEvent> events = engine.getInput().getTouchEvents();
-        ListIterator<IInput.TouchEvent> i = events.listIterator();
+        List<AInput.TouchEvent> events = engine.getInput().getTouchEvents();
+        ListIterator<AInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
-            IInput.TouchEvent o = i.next();
-            if ((((IInput.Event) o).type == IInput.InputTouchType.TOUCH_DOWN)) {
+            AInput.TouchEvent o = i.next();
+            if ((((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN)) {
                 //FUNCIONALIDAD BOTON JUGAR
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine
 
-                if (myBoton.click(((IInput.Event) o).x, (((IInput.Event) o).y))) {
+                if (myBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
                     LevelSelectionState st = new LevelSelectionState();
                     //GameState st = new GameState(5, 5);
                     st.setPrevious(this);
@@ -94,16 +91,5 @@ public class InitialState implements IState {
             engine.getInput().emptyTouchEvents();
         }
     }
-
-    @Override
-    public void setPrevious(IState st) {
-
-    }
-
-    @Override
-    public IState getprevious() {
-        return previous;
-    }
-
 
 }
