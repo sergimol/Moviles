@@ -7,7 +7,7 @@ import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
-import java.awt.Font;
+//import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -27,8 +27,8 @@ public class InitialState extends State {
     public void init(AEngine e) {
         engine = e;
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
-        playButton = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        playButton = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         imagen = e.getGraphics().newImage("apedra.png");
@@ -74,7 +74,7 @@ public class InitialState extends State {
         ListIterator<AInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             AInput.TouchEvent o = i.next();
-            if (o.type == AInput.InputTouchType.TOUCH_DOWN)) {
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
                 //FUNCIONALIDAD BOTON JUGAR
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine

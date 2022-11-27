@@ -6,7 +6,7 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
-import java.awt.Font;
+//import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -23,8 +23,8 @@ public class FinalState extends State {
     @Override
     public void init(AEngine e) {
         engine = e;
-        title = e.getGraphics().newFont("CuteEasterFont.ttf", Font.PLAIN, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
-        volver = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        volver = e.getGraphics().newFont("Larissa.ttf",1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() - e.getGraphics().getOriginalHeight() * 0.1f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF, 15);
         engine.getAudio().playSound("tada");
     }
@@ -51,7 +51,7 @@ public class FinalState extends State {
         ListIterator<AInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             AInput.TouchEvent o = i.next();
-            if ((o.type == AInput.InputTouchType.TOUCH_DOWN) {
+            if ((o.type == AInput.InputTouchType.TOUCH_DOWN)) {
 
                 //FUNCIONALIDAD BOTON VOLVER
                 if (backBoton.click(o.x, o.y)) {

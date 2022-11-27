@@ -6,7 +6,7 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
-import java.awt.Font;
+//import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -24,7 +24,7 @@ public class LevelSelectionState extends State {
     public void init(AEngine e) {
         engine = e;
 
-        volver = e.getGraphics().newFont("Larissa.ttf", Font.PLAIN, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        volver = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         backBoton = new Button(volver, "← Volver", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF,20);
 
         botonesNiveles = new Button[2][3];
