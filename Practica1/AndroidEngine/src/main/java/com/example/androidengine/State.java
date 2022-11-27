@@ -1,9 +1,9 @@
-package com.example.logic;
+package com.example.androidengine;
 
 public abstract class State {
 
-    AEngine engine;
-    State previous = null;
+    public AEngine engine;
+    public State previous = null;
 
     public void init(AEngine e){}
 

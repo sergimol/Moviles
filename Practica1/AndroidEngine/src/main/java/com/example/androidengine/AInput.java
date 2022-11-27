@@ -10,6 +10,23 @@ import java.util.List;
 
 public class AInput extends View implements View.OnTouchListener {
 
+    public static enum InputTouchType{
+        TOUCH_DOWN,
+        TOUCH_UP,
+        TOUCH_MOVE
+    }
+
+    public static class TouchEvent{
+        public TouchEvent(){}
+
+        public float x;
+        public float y;
+
+        public InputTouchType type;
+        public int index;
+        public Object source;
+    }
+
     private List<TouchEvent> eventList;
     private AGraphics graphics;
 
@@ -38,17 +55,17 @@ public class AInput extends View implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent e) {
         //System.out.println("un evento!");
         //recoger datos del evento, posicion y tipo, añadirlo a la lista de eventos
-        Event evento = new Event();
-        evento.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
-        evento.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
+        TouchEvent event = new TouchEvent();
+        event.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
+        event.y = (e.getY() - graphics.getCanvasY()) / graphics.getScale();
         //System.out.println("Coordenadas: " +  evento.x + ", " + evento.y);
-        evento.type = InputTouchType.values()[e.getAction()];
+        event.type = InputTouchType.values()[e.getAction()];
 
         //System.out.println(e.getAction());
 
-        evento.index = e.getActionIndex();
+        event.index = e.getActionIndex();
 
-        eventList.add(evento);
+        eventList.add(event);
 
         return true;
     }

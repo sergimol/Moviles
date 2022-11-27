@@ -1,6 +1,7 @@
-package com.example.logic;
+package com.example.practica1;
 
-import java.awt.Color;
+import com.example.androidengine.AFont;
+import com.example.androidengine.AGraphics;
 
 enum States {
     normal, selected

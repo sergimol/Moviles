@@ -9,7 +9,6 @@ public class AEngine implements Runnable {
 
     private boolean running = false;
 
-    //TODO estado base
     private State currentState;
 
     private AGraphics graphics;

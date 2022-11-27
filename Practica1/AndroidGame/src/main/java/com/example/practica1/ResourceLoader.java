@@ -1,5 +1,7 @@
-package com.example.logic;
+package com.example.practica1;
 
+
+import com.example.androidengine.AEngine;
 
 public class ResourceLoader {
     public void loadResources(AEngine e){

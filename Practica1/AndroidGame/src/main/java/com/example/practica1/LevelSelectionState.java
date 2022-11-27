@@ -1,18 +1,18 @@
-package com.example.logic;
+package com.example.practica1;
 
-import com.example.interfaces.IEngine;
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-import com.example.interfaces.IInput;
-import com.example.interfaces.IState;
+import com.example.androidengine.AEngine;
+import com.example.androidengine.AFont;
+import com.example.androidengine.AGraphics;
+import com.example.androidengine.AInput;
+import com.example.androidengine.State;
 
 import java.awt.Font;
 import java.util.List;
 import java.util.ListIterator;
 
 public class LevelSelectionState extends State {
-    IFont volver;
-    IFont text;
+    AFont volver;
+    AFont text;
     Button backBoton;
     Button botonesNiveles[][];
 
@@ -93,42 +93,42 @@ public class LevelSelectionState extends State {
         while (i.hasNext()) {
             AInput.TouchEvent o = i.next();
 
-            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN) {
-                if (backBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
+                if (backBoton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
 
-                else if (botonesNiveles[0][0].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[0][0].click(o.x, o.y)) {
                     GameState st = new GameState(4, 4);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                else if (botonesNiveles[0][1].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[0][1].click(o.x, o.y)) {
                     GameState st = new GameState(5, 5);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                else if (botonesNiveles[0][2].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[0][2].click(o.x, o.y)) {
                     GameState st = new GameState(5, 10);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                else if (botonesNiveles[1][0].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[1][0].click(o.x, o.y)) {
                     GameState st = new GameState(8, 8);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                else if (botonesNiveles[1][1].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[1][1].click(o.x, o.y)) {
                     GameState st = new GameState(10, 10);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                else if (botonesNiveles[1][2].click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                else if (botonesNiveles[1][2].click(o.x, o.y)) {
                     GameState st = new GameState(10, 15);
                     st.setPrevious(this);
                     engine.setState(st);

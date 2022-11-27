@@ -10,8 +10,6 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidengine.AEngine;
-import com.example.logic.InitialState;
-import com.example.logic.ResourceLoader;
 
 import java.io.IOException;
 

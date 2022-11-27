@@ -1,11 +1,11 @@
-package com.example.logic;
+package com.example.practica1;
 
-import com.example.interfaces.IEngine;
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-import com.example.interfaces.IImage;
-import com.example.interfaces.IInput;
-import com.example.interfaces.IState;
+import com.example.androidengine.AEngine;
+import com.example.androidengine.AFont;
+import com.example.androidengine.AGraphics;
+import com.example.androidengine.AImage;
+import com.example.androidengine.AInput;
+import com.example.androidengine.State;
 
 import java.awt.Font;
 import java.util.List;
@@ -74,12 +74,12 @@ public class InitialState extends State {
         ListIterator<AInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             AInput.TouchEvent o = i.next();
-            if ((((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN)) {
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN)) {
                 //FUNCIONALIDAD BOTON JUGAR
                 //cambio a la siguiente escena
                 //creo al siguiente escena y la añado al engine
 
-                if (myBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                if (myBoton.click(o.x, o.y)) {
                     LevelSelectionState st = new LevelSelectionState();
                     //GameState st = new GameState(5, 5);
                     st.setPrevious(this);

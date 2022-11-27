@@ -1,4 +1,10 @@
-package com.example.logic;
+package com.example.practica1;
+
+import com.example.androidengine.AEngine;
+import com.example.androidengine.AFont;
+import com.example.androidengine.AGraphics;
+import com.example.androidengine.AInput;
+import com.example.androidengine.State;
 
 import java.awt.Font;
 import java.util.List;
@@ -45,10 +51,10 @@ public class FinalState extends State {
         ListIterator<AInput.TouchEvent> i = events.listIterator();
         while (i.hasNext()) {
             AInput.TouchEvent o = i.next();
-            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN) {
+            if ((o.type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON VOLVER
-                if (backBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                if (backBoton.click(o.x, o.y)) {
                     //InitialState st = new InitialState();
                     //st.setPrevious(this);
                     engine.setState(previous.getprevious().getprevious());

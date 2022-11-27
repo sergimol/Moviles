@@ -1,13 +1,14 @@
-package com.example.logic;
+package com.example.practica1;
 
-import com.example.interfaces.IEngine;
-import com.example.interfaces.IFont;
-import com.example.interfaces.IGraphics;
-import com.example.interfaces.IInput;
-import com.example.interfaces.IState;
-import com.example.interfaces.ITimer;
+import androidx.compose.ui.text.font.Font;
 
-import java.awt.Font;
+import com.example.androidengine.AEngine;
+import com.example.androidengine.AFont;
+import com.example.androidengine.AGraphics;
+import com.example.androidengine.AInput;
+import com.example.androidengine.ATimer;
+import com.example.androidengine.State;
+
 import java.util.List;
 import java.util.ListIterator;
 
@@ -105,22 +106,22 @@ public class GameState extends State {
         while (ev.hasNext()) {
             AInput.TouchEvent o = ev.next();
 
-            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN || ((AInput.Event) o).type == AInput.InputTouchType.TOUCH_MOVE) {
-                float xInCanvas = ((AInput.Event) o).x;
-                float yInCanvas = ((AInput.Event) o).y;
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN || o.type == AInput.InputTouchType.TOUCH_MOVE) {
+                float xInCanvas = o.x;
+                float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine);
-            } else if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_UP) {
+            } else if (o.type == AInput.InputTouchType.TOUCH_UP) {
                 board.resetAllowChangeStatesCells();
             }
 
-            if (((AInput.Event) o).type == AInput.InputTouchType.TOUCH_DOWN) {
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON RENDIRSE
-                if (backBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                if (backBoton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
                 //FUNCIONALIDAD BOTON COMPROBAR
-                if (comprobarBoton.click(((AInput.Event) o).x, (((AInput.Event) o).y))) {
+                if (comprobarBoton.click(o.x, o.y)) {
                     //wrongCount, missingCount
                     if (!showingWrong) {
                         int a[] = board.checkBoard();
