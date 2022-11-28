@@ -61,9 +61,6 @@ public class Button {
     }
 
     boolean click(float x, float y) {
-
-        System.out.println("pos " + x + " " + y + " limites " + clickTopX + " " + clickTopY + " botton " + clickBottomX + " " + clickBottomY);
-
         if (x >= clickTopX && x < clickBottomX)
             if (y >= clickTopY && y < clickBottomY) {
                 return true;

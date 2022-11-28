@@ -15,6 +15,7 @@ import java.util.ListIterator;
 
 public class GameState extends State {
     Board board;
+    lifes vidas;
     int xCells, yCells;
     AFont font;
     Button backBoton;
@@ -28,6 +29,7 @@ public class GameState extends State {
         xCells = x;
         yCells = y;
         board = new Board(xCells, yCells);
+        vidas = new lifes();
     }
 
     @Override
@@ -112,11 +114,17 @@ public class GameState extends State {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
+                //da igual el output
             }
             else if (o.type == AInput.InputTouchType.TOUCH_UP) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
-                board.handleInput(xInCanvas, yInCanvas, engine, true);
+                //comprobar que esa casilla es correcta y devolver un true or false para restar la vida
+                if (!board.handleInput(xInCanvas, yInCanvas, engine, true)){
+                    //en el caso de ser un error
+                    vidas.restLife();
+                    System.out.println("vidas restantes: " + vidas.getHearts());
+                }
                 board.resetAllowChangeStatesCells();
             }
 

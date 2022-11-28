@@ -199,15 +199,19 @@ public class Board {
         }
     }
 
-    void handleInput(float x, float y, AEngine e, boolean normaltouch) {
+    boolean handleInput(float x, float y, AEngine e, boolean normaltouch) {
         // Comprueba que las coordenadas del input estén dentro del tablero
         if (x >= xZeroCord && x <= xZeroCord + (cellSide + cellSpacing) * xSize && y >= yZeroCord && y <= yZeroCord + (cellSide + cellSpacing) * ySize) {
             // Convierte las coordenadas al número que corresponda entre 0 y xSize o 0 e ySize
             float xInBoard = (x - xZeroCord) / (cellSide + cellSpacing);
             float yInBoard = (y - yZeroCord) / (cellSide + cellSpacing);
-            // Accede a la celda en el tablero y cambia su estado
-            cells[(int) xInBoard][(int) yInBoard].changeState((normaltouch)?cellStates.Blue:cellStates.Empty);
             e.getAudio().playSound("pop");
+
+            // Accede a la celda en el tablero y cambia su estado
+            //devuelve en el caso de haber marcado como azul un error si la casilla era equivocada
+            return cells[(int) xInBoard][(int) yInBoard].changeState((normaltouch)?cellStates.Blue:cellStates.Empty);
         }
+        //de default no sera un error
+        return true;
     }
 }

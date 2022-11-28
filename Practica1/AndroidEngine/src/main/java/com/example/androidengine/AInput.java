@@ -53,7 +53,6 @@ public class AInput extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent e) {
-        //System.out.println("un evento!");
         //recoger datos del evento, posicion y tipo, añadirlo a la lista de eventos
         TouchEvent event = new TouchEvent();
         event.x = (e.getX() - graphics.getCanvasX()) / graphics.getScale();
@@ -61,7 +60,6 @@ public class AInput extends View implements View.OnTouchListener {
         //System.out.println("Coordenadas: " +  evento.x + ", " + evento.y);
         event.type = InputTouchType.values()[e.getAction()];
 
-        //System.out.println(e.getAction());
 
         event.index = e.getActionIndex();
 
