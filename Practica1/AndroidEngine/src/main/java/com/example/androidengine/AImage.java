@@ -24,4 +24,6 @@ public class AImage {
     public int getHeight() {
         return image_.getHeight();
     }
+
+    public Bitmap resizeImage(int width, int height){return Bitmap.createScaledBitmap(image_, width, height, true);}
 }

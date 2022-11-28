@@ -2,6 +2,7 @@ package com.example.practica1;
 
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
+import com.example.androidengine.AImage;
 
 enum States {
     normal, selected
@@ -10,6 +11,7 @@ enum States {
 
 public class Button {
 
+    //Font Button
     private AFont fuente;
     private String texto;
     private float PosX;
@@ -18,6 +20,9 @@ public class Button {
     private float SizeY;
     float TextSize;
 
+    //Image Button
+    private AImage imagen;
+    private boolean isButtonFont;
 
     private float clickTopX;
     private float clickTopY;
@@ -35,6 +40,16 @@ public class Button {
         SizeY = sizeY_;
         color = c;
         TextSize = TextSize_;
+        isButtonFont = true;
+    }
+
+    Button(AImage ima, float x, float y, float sizeX_, float sizeY_) {
+        imagen = ima;
+        PosX = x;
+        PosY = y;
+        SizeX = sizeX_;
+        SizeY = sizeY_;
+        isButtonFont = false;
     }
 
 
@@ -46,13 +61,17 @@ public class Button {
         clickBottomX = (clickTopX + SizeX);
         clickBottomY = (clickTopY + SizeY);
 
-        graphics.setColor(color);
-        graphics.fillRect(clickTopX, clickTopY, SizeX, SizeY);
+        if (isButtonFont) {
+            graphics.setColor(color);
+            graphics.fillRect(clickTopX, clickTopY, SizeX, SizeY);
 
-        if (fuente != null){
-            graphics.setFont(fuente,TextSize);
-            graphics.setColor(0xFF000000);
-            graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
+            if (fuente != null) {
+                graphics.setFont(fuente, TextSize);
+                graphics.setColor(0xFF000000);
+                graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
+            }
+        } else {
+            graphics.drawImage(imagen, clickTopX, clickTopY, (int) (clickBottomX - clickTopX), (int) (clickBottomY - clickTopY));
         }
     }
 

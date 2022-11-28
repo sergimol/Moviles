@@ -30,9 +30,12 @@ public class InitialState extends State {
         title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.6f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         playButton = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
-        myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         imagen = e.getGraphics().newImage("apedra.png");
 
+        //Font Button
+        //myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
+        //Image Button
+        myBoton = new Button(imagen, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class InitialState extends State {
 
 
         if (imagen != null) {
-            //graphics.drawImage(imagen,100,10,10,10);
+            graphics.drawImage(imagen,0,0, (int)graphics.getOriginalWidth(), (int)graphics.getOriginalHeight());
         }
         //renderizar otro objeto como puede ser el boton
         String word;
