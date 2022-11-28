@@ -46,7 +46,14 @@ public class Cell {
     }
 
     void changeState(cellStates newState) {
-        state = newState;
+
+        if (allowchange) {
+            // Length - 1 para no acceder a las celdas rojas
+            state = newState;
+            allowchange = !allowchange;
+        }
+
+
     }
 
     checkStates checkCell() {

@@ -106,11 +106,17 @@ public class GameState extends State {
         while (ev.hasNext()) {
             AInput.TouchEvent o = ev.next();
 
-            if (o.type == AInput.InputTouchType.TOUCH_DOWN || o.type == AInput.InputTouchType.TOUCH_MOVE) {
+            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
+            }
+            else if (o.type == AInput.InputTouchType.TOUCH_MOVE){
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
-                board.handleInput(xInCanvas, yInCanvas, engine);
-            } else if (o.type == AInput.InputTouchType.TOUCH_UP) {
+                board.handleInput(xInCanvas, yInCanvas, engine, false);
+            }
+            else if (o.type == AInput.InputTouchType.TOUCH_UP) {
+                float xInCanvas = o.x;
+                float yInCanvas = o.y;
+                board.handleInput(xInCanvas, yInCanvas, engine, true);
                 board.resetAllowChangeStatesCells();
             }
 
