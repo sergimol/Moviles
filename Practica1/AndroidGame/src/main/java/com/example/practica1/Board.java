@@ -152,19 +152,30 @@ public class Board {
         // Establece el color y la fuente de los números
         graphics.setColor(0xFF000000);
         graphics.setFont(font,0.3f * (graphics.relationAspectDimension() / 10) / graphics.getScale());
+        int minSpace;
+        int numOffset;
+        int lowestY = yZeroCord;
+
+        minSpace = xZeroCord / (ySize / 2 + ySize % 2);
         // Escribe los números que corresponden a los valores consecutivos de las columnas
         for(int i = 0; i < xValues.size(); ++i){
             Vector<Integer> aux = xValues.get(i);
             for (int j = aux.size() - 1; j >= 0; --j) {
-                graphics.drawText(String.valueOf(aux.get(j)), xZeroCord + (cellSide * i) + cellSide / 2, yZeroCord + xZeroCord / aux.size() - 5 - (aux.size() - j) * xZeroCord / aux.size());
+                numOffset = minSpace * 3 / 2 * (aux.size() - j);
+                int y = yZeroCord + minSpace - numOffset;
+                graphics.drawText(String.valueOf(aux.get(j)), xZeroCord + (cellSide * i) + cellSide / 2, y);
+                lowestY = Math.min(yZeroCord + minSpace - (minSpace * 3 / 2 * (aux.size() - j + 1)), lowestY);
             }
         }
 
-        // // Escribe los números que corresponden a los valores consecutivos de las filas
+        //Calcula el espacio mínimo entre números de la misma fila
+        minSpace = xZeroCord / (xSize / 2 + xSize % 2);
+        //Escribe los números que corresponden a los valores consecutivos de las filas
         for (int i = 0; i < yValues.size(); ++i) {
             Vector<Integer> aux = yValues.get(i);
             for (int j = aux.size() - 1; j >= 0; --j) {
-                graphics.drawText(String.valueOf(aux.get(j)), xZeroCord + xZeroCord / aux.size() - 10 - (aux.size() - j) * xZeroCord / aux.size(), yZeroCord + (cellSide * i) + cellSide / 2);
+                numOffset = minSpace * 2 / 3 * (aux.size() - j);
+                graphics.drawText(String.valueOf(aux.get(j)), xZeroCord - numOffset, yZeroCord + (cellSide * i) + cellSide / 2);
             }
         }
         // Rectángulo que rodea a las celdas
@@ -172,7 +183,7 @@ public class Board {
         // Rectángulo que rodea a los números de las filas
         graphics.drawRect(3, yZeroCord - 1, xZeroCord - 4, (cellSide + cellSpacing) * ySize + 1, 1);
         // Rectángulo que rodea a los números de las columnas
-        graphics.drawRect(xZeroCord - 1, yZeroCord - xZeroCord, (cellSide + cellSpacing) * xSize + 1, xZeroCord - 1, 1);
+        graphics.drawRect(xZeroCord - 1, lowestY, (cellSide + cellSpacing) * xSize + 1, yZeroCord - lowestY, 1);
 
         // Renderizado de las celdas
         for (int i = 0; i < xSize; ++i) {
