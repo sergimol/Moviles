@@ -36,8 +36,6 @@ public class LevelSelectionState extends State {
         botonesNiveles[1][0] = new Button(volver, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
         botonesNiveles[1][1] = new Button(volver, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
         botonesNiveles[1][2] = new Button(volver, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getOriginalWidth() * 0.2f, e.getGraphics().getOriginalWidth() * 0.2f, 0Xff808080,10);
-
-
     }
 
     @Override

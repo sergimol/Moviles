@@ -87,5 +87,19 @@ public class Button {
         return false;
     }
 
+    public int getSizeX() {
+        return (int) SizeX;
+    }
+
+    public int getSizeY() {
+        return (int) SizeY;
+    }
+
+    public void moveButton(int x, int y) {
+        PosX = x;
+        PosY = y;
+
+    }
+
 
 }
