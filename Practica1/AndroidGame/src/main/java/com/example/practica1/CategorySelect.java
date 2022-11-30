@@ -44,20 +44,20 @@ public class CategorySelect extends State {
         title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //CategoryButtons
         EasyButtonImage = e.getGraphics().newImage("EasyButton.png");
-        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MediumButtonImage = e.getGraphics().newImage("MediumButton.png");
-        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         ForestButtonImage = e.getGraphics().newImage("BlockedCategory.png");
-        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         DesertButtonImage = e.getGraphics().newImage("BlockedCategory.png");
-        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //MoneyButton
         MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
-        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.15f);
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) ( MoneyButton.getSizeY() / 2));
         //BackButton
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) ( BackButton.getSizeX() / 2), (int) ( BackButton.getSizeY() / 2));
 
     }

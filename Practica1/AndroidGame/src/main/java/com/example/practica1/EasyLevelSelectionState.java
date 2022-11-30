@@ -31,7 +31,7 @@ public class EasyLevelSelectionState extends State {
 
         //BackButton
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
         //Botones niveles
@@ -43,16 +43,13 @@ public class EasyLevelSelectionState extends State {
         float ButtonSizeX = 0.18f;
         float ButtonSizeY = 0.18f;
 
+        float originalScaleWidth = e.getGraphics().getCanvasAspectRelationWidth();
+        float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-
-
-
-
         for (int i = 0; i < 20; i++){
-            botonesNiveles[i/4][i%4] = new Button(true?levelUnlocked:levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int)(i%4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int)(i/4)) / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
+            botonesNiveles[i/4][i%4] = new Button(true?levelUnlocked:levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int)(i%4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int)(i/4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
         }
-
     }
 
     @Override

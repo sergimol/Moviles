@@ -5,6 +5,7 @@ import androidx.compose.ui.text.font.Font;
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
+import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.ATimer;
 import com.example.androidengine.State;
@@ -18,8 +19,12 @@ public class GameState extends State {
     lifes vidas;
     int xCells, yCells;
     AFont font;
-    Button backBoton;
-    Button comprobarBoton;
+
+    AImage SurrenderButtonImage;
+    Button SurrenderButton;
+
+    AImage CheckButtonImage;
+    Button CheckButton;
 
     int wrongCount, missingCount;
     boolean showingWrong = false;
@@ -37,8 +42,16 @@ public class GameState extends State {
         engine = e;
         font = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         board.init(e, font);
-        backBoton = new Button(font, "Rendirse", e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.05f, 0XFFFFFFFF,20);
-        comprobarBoton = new Button(font, "Comprobar", e.getGraphics().getOriginalWidth() - e.getGraphics().getOriginalWidth() * 0.23f, e.getGraphics().getOriginalHeight() * 0.04f, e.getGraphics().getOriginalWidth() * 0.4f, e.getGraphics().getOriginalHeight() * 0.08f, 0XFFFFFFFF,15);
+
+        //SurrenderButton
+        SurrenderButtonImage = e.getGraphics().newImage("SurrenderButton.png");
+        SurrenderButton = new Button(SurrenderButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
+        SurrenderButton.moveButton((int) (SurrenderButton.getSizeX() / 2), (int) (SurrenderButton.getSizeY() / 2));
+        //CheckButton
+        CheckButtonImage = e.getGraphics().newImage("CheckButton.png");
+        CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
+        CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) ( CheckButton.getSizeY() / 2));
+
         timer = e.getTimer();
     }
 
@@ -63,10 +76,10 @@ public class GameState extends State {
     @Override
     public void render(AGraphics graphics) {
         if (!showingWrong) {
-            if (backBoton != null)
-                backBoton.render(graphics);
-            if (comprobarBoton != null)
-                comprobarBoton.render(graphics);
+            if (SurrenderButton != null)
+                SurrenderButton.render(graphics);
+            if (CheckButton != null)
+                CheckButton.render(graphics);
         } else {
             String word;
             if (font != null) {
@@ -74,7 +87,7 @@ public class GameState extends State {
                 int auxMissingCount = missingCount;
                 System.out.println("Missing: " + missingCount + ", Wrong: " + wrongCount);
 
-                graphics.setFont(font,20);
+                graphics.setFont(font, 20);
                 if (auxMissingCount > 1)
                     word = "Te falta " + auxMissingCount + " casillas";
                 else
@@ -105,18 +118,16 @@ public class GameState extends State {
             AInput.TouchEvent o = ev.next();
 
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
-            }
-            else if (o.type == AInput.InputTouchType.TOUCH_MOVE){
+            } else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
                 //da igual el output
-            }
-            else if (o.type == AInput.InputTouchType.TOUCH_UP) {
+            } else if (o.type == AInput.InputTouchType.TOUCH_UP) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 //comprobar que esa casilla es correcta y devolver un true or false para restar la vida
-                if (!board.handleInput(xInCanvas, yInCanvas, engine, true)){
+                if (!board.handleInput(xInCanvas, yInCanvas, engine, true)) {
                     //en el caso de ser un error
                     vidas.restLife();
                     System.out.println("vidas restantes: " + vidas.getHearts());
@@ -127,11 +138,11 @@ public class GameState extends State {
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON RENDIRSE
-                if (backBoton.click(o.x, o.y)) {
+                if (SurrenderButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
                 //FUNCIONALIDAD BOTON COMPROBAR
-                if (comprobarBoton.click(o.x, o.y)) {
+                if (CheckButton.click(o.x, o.y)) {
                     //wrongCount, missingCount
                     if (!showingWrong) {
                         int a[] = board.checkBoard();

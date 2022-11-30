@@ -29,7 +29,7 @@ public class ShopState extends State {
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) ( BackButton.getSizeX() / 2), (int) ( BackButton.getSizeY() / 2));
 
     }
@@ -47,7 +47,7 @@ public class ShopState extends State {
     public void render(AGraphics graphics) {
         //Background
         if (background != null) {
-            graphics.drawImage(background,0,0, (int)graphics.getOriginalWidth(), (int)graphics.getOriginalHeight());
+            graphics.drawImage(background,0,0, (int)graphics.getCanvasAspectRelationWidth(), (int)graphics.getCanvasAspectRelationHeight());
         }
         if (BackButton != null)
             BackButton.render(graphics);

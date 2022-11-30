@@ -39,13 +39,13 @@ public class InitialState extends State {
 
         //StoryButton
         StoryButtonImage = e.getGraphics().newImage("Story.png");
-        StoryButton = new Button(StoryButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        StoryButton = new Button(StoryButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //ArcadeButton
         ArcadeButtonImage = e.getGraphics().newImage("ArcadeButton.png");
-        ArcadeButton = new Button(ArcadeButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.6f, e.getGraphics().getOriginalHeight() * 0.15f);
+        ArcadeButton = new Button(ArcadeButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //MoneyButton
         MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
-        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getOriginalWidth() * 0.15f, e.getGraphics().getOriginalHeight() * 0.15f);
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
         //Font Button

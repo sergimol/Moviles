@@ -1,6 +1,8 @@
 package com.example.androidengine;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 public class AGraphics {
     private AssetManager assetManager;
+    private Resources resourceManager;
 
     private SurfaceView myView;
     private SurfaceHolder holder;
@@ -19,9 +22,12 @@ public class AGraphics {
 
     private Paint paint;    //Para elegir colores en hexadecimal
 
-    // VALORES ORIGINALES DEL WINDOW
+    // VALORES DEL CANVAS ADAPTADO A LA PANTALLA
     private float ORIGINAL_CANVAS_WIDTH;
     private float ORIGINAL_CANVAS_HEIGHT;
+    // VALORES DEL CANVAS ADAPTADO A LA PANTALLA CON RELACION 2/3
+    private float ORIGINAL_CANVAS_WIDTH_RELATION;
+    private float ORIGINAL_CANVAS_HEIGHT_RELATION;
 
     //COORDENADAS (0,0) DEL CANVAS
     private int centricoCanvasX;
@@ -30,8 +36,9 @@ public class AGraphics {
     //ESCALA ACTUALIZADA DEL CANVAS
     private float scale;
 
-    public AGraphics(SurfaceView window, AssetManager aManager) {
+    public AGraphics(SurfaceView window, AssetManager aManager, Resources ResourceManager) {
         assetManager = aManager;
+        resourceManager = ResourceManager;
 
         myView = window;
         holder = myView.getHolder();
@@ -42,16 +49,30 @@ public class AGraphics {
     public void init() {
         while (this.holder.getSurfaceFrame().width() == 0) ;
 
-        //VALORES ORIGINALES DEL WINDOW
+        //VALORES DEL CANVAS ADAPTADO A LA PANTALLA
         ORIGINAL_CANVAS_WIDTH = holder.getSurfaceFrame().width();
         ORIGINAL_CANVAS_HEIGHT = holder.getSurfaceFrame().height();
-        if (ORIGINAL_CANVAS_WIDTH <= ORIGINAL_CANVAS_HEIGHT * 2 / 3) {
-            ORIGINAL_CANVAS_HEIGHT = ORIGINAL_CANVAS_WIDTH * 3.0f / 2.0f;
-        } else {
-            ORIGINAL_CANVAS_WIDTH = ORIGINAL_CANVAS_HEIGHT * 2.0f / 3.0f;
-        }
 
-        paint.setColor(0XFF000000);     //Color negro predefinido
+        //VALORES DEL CANVAS CON RELACION 2/3
+        ORIGINAL_CANVAS_WIDTH_RELATION = ORIGINAL_CANVAS_WIDTH;
+        ORIGINAL_CANVAS_HEIGHT_RELATION = ORIGINAL_CANVAS_HEIGHT;
+
+
+        if (ORIGINAL_CANVAS_WIDTH_RELATION <= ORIGINAL_CANVAS_HEIGHT_RELATION * 2 / 3) {
+            ORIGINAL_CANVAS_HEIGHT_RELATION = ORIGINAL_CANVAS_WIDTH_RELATION * 3.0f / 2.0f;
+        } else {
+            ORIGINAL_CANVAS_WIDTH_RELATION = ORIGINAL_CANVAS_HEIGHT_RELATION * 2.0f / 3.0f;
+        }
+        //ESCALAR A 2/3 EN VERTICAL
+        if (resourceManager.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ORIGINAL_CANVAS_WIDTH = ORIGINAL_CANVAS_WIDTH_RELATION;
+            ORIGINAL_CANVAS_HEIGHT = ORIGINAL_CANVAS_HEIGHT_RELATION;
+        }
+        //No hace falta porque los valores por defecto son los de la pantalla
+//        else if (resourceManager.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){}
+
+        //Color negro predefinido
+        paint.setColor(0XFF000000);
         actualizaEscala();
         System.out.println(scale);
         //canvas.scale(scale, scale);
@@ -152,6 +173,14 @@ public class AGraphics {
 
     public float getOriginalHeight() {
         return ORIGINAL_CANVAS_HEIGHT;
+    }
+
+    public float getCanvasAspectRelationWidth() {
+        return ORIGINAL_CANVAS_WIDTH_RELATION;
+    }
+
+    public float getCanvasAspectRelationHeight() {
+        return ORIGINAL_CANVAS_HEIGHT_RELATION;
     }
 
     public int getWidth() {

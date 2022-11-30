@@ -1,6 +1,7 @@
 package com.example.practica1;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private AEngine androidEngine;
     private SurfaceView window;
     private AssetManager assetManager;
+    private Resources resourcesManager;
 
 
     @Override
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         assetManager = getAssets();
+        resourcesManager = getResources();
 
         //Creamos el SurfaceView y lo inicializamos
         window = new SurfaceView(this);
@@ -48,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
         InitialState state = new InitialState();
 
         try {
-            androidEngine = new AEngine(window, assetManager);
+            androidEngine = new AEngine(window, assetManager, resourcesManager);
             androidEngine.setState(state);
             resourceLoader.loadResources(androidEngine);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void onResume() {

@@ -1,6 +1,7 @@
 package com.example.androidengine;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.view.SurfaceView;
 
 import java.io.IOException;
@@ -22,10 +23,12 @@ public class AEngine implements Runnable {
 
     private Thread renderThread;
     private AssetManager assetManager;
+    private Resources resourcesManager;
 
-    public AEngine(SurfaceView window, AssetManager assetM) throws IOException {
+    public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM) throws IOException {
         assetManager = assetM;
-        graphics = new AGraphics(window, assetManager);
+        resourcesManager = resourcesM;
+        graphics = new AGraphics(window, assetManager, resourcesM);
         audio = new AAudio(assetManager);
         myInput = new AInput(window, graphics);
         timer = new ATimer();
