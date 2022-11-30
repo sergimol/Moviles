@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class EasyLevelSelectionState extends State {
+public class CategoryLevelSelectionState extends State {
     AFont text;
     Button BackButton;
     AImage BackButtonImage;
@@ -21,7 +21,7 @@ public class EasyLevelSelectionState extends State {
     AImage levelUnlocked;
     AImage levelLocked;
 
-    public EasyLevelSelectionState() {
+    public CategoryLevelSelectionState() {
 
     }
 
@@ -120,16 +120,6 @@ public class EasyLevelSelectionState extends State {
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
-                } else if (botonesNiveles[0][1].click(o.x, o.y)) {
-
-                } else if (botonesNiveles[0][2].click(o.x, o.y)) {
-
-                } else if (botonesNiveles[1][0].click(o.x, o.y)) {
-
-                } else if (botonesNiveles[1][1].click(o.x, o.y)) {
-
-                } else if (botonesNiveles[1][2].click(o.x, o.y)) {
-
                 }
             }
         }

@@ -109,7 +109,7 @@ public class CategorySelect extends State {
                 //creo al siguiente escena y la añado al engine
 
                 if (EasyButton.click(o.x, o.y)) {
-                    EasyLevelSelectionState st = new EasyLevelSelectionState();
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState();
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
