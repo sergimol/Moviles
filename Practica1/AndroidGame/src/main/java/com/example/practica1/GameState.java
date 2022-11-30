@@ -57,6 +57,13 @@ public class GameState extends State {
         CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) ( CheckButton.getSizeY() / 2));
 
         timer = e.getTimer();
+
+
+        vidas.setHeart(e.getGraphics().newImage("apedra.png"));
+        vidas.setContainer(e.getGraphics().newImage("HeartImage.png"));
+        vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
+        vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
+        vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
     }
 
     @Override
@@ -110,6 +117,7 @@ public class GameState extends State {
             }
         }
         board.render(graphics);
+        vidas.render(graphics);
     }
 
     @Override
@@ -134,6 +142,9 @@ public class GameState extends State {
                 if (!board.handleInput(xInCanvas, yInCanvas, engine, true)) {
                     //en el caso de ser un error
                     vidas.subtractLife();
+                    if (vidas.getHearts() <= 0){
+                        engine.setState(previous);
+                    }
                     System.out.println("vidas restantes: " + vidas.getHearts());
                 }
                 board.resetAllowChangeStatesCells();
