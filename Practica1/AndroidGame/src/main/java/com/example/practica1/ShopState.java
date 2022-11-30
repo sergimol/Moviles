@@ -1,5 +1,7 @@
 package com.example.practica1;
 
+import android.graphics.Bitmap;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -17,6 +19,7 @@ public class ShopState extends State {
 
     Button BackButton;
     AImage BackButtonImage;
+
     public ShopState() {
     }
 
@@ -30,7 +33,7 @@ public class ShopState extends State {
         //BackButton
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        BackButton.moveButton((int) ( BackButton.getSizeX() / 2), (int) ( BackButton.getSizeY() / 2));
+        BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
     }
 
@@ -47,7 +50,8 @@ public class ShopState extends State {
     public void render(AGraphics graphics) {
         //Background
         if (background != null) {
-            graphics.drawImage(background,0,0, (int)graphics.getCanvasAspectRelationWidth(), (int)graphics.getCanvasAspectRelationHeight());
+            background.resizeImage((int) graphics.getCanvasAspectRelationWidth(), (int) graphics.getCanvasAspectRelationHeight());
+            graphics.drawImage(background, engine.getGraphics().getOriginalWidth() / 2 - background.getWidth() / 2, engine.getGraphics().getOriginalHeight() / 2 - background.getHeight() / 2, background.getWidth(), background.getHeight());
         }
         if (BackButton != null)
             BackButton.render(graphics);

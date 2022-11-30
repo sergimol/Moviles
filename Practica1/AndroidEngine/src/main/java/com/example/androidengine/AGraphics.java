@@ -129,8 +129,8 @@ public class AGraphics {
     public void drawImage(AImage image, float x, float y, int width, int height) {
 
         //Imprimir imagen
-        Bitmap imageResized = image.resizeImage((int) width, (int) height);
-        canvas.drawBitmap(imageResized, x, y, paint);
+        image.resizeImage((int) width, (int) height);
+        canvas.drawBitmap(image.getImage(), x, y, paint);
     }
 
     public void drawCircle(float x, float y, float r) {

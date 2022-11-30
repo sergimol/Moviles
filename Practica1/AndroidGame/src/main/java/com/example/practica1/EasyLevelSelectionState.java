@@ -15,6 +15,8 @@ public class EasyLevelSelectionState extends State {
     AFont text;
     Button BackButton;
     AImage BackButtonImage;
+    Button MoneyButton;
+    AImage MoneyButtonImage;
     Button botonesNiveles[][];
     AImage levelUnlocked;
     AImage levelLocked;
@@ -33,6 +35,11 @@ public class EasyLevelSelectionState extends State {
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
+        //MoneyButton
+        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
+
 
         //Botones niveles
         botonesNiveles = new Button[5][4];
@@ -47,8 +54,8 @@ public class EasyLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-        for (int i = 0; i < 20; i++){
-            botonesNiveles[i/4][i%4] = new Button(true?levelUnlocked:levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int)(i%4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int)(i/4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
+        for (int i = 0; i < 20; i++) {
+            botonesNiveles[i / 4][i % 4] = new Button(true ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
         }
     }
 
@@ -78,6 +85,8 @@ public class EasyLevelSelectionState extends State {
         }
         if (BackButton != null)
             BackButton.render(graphics);
+        if (MoneyButton != null)
+            MoneyButton.render(graphics);
 
         if (botonesNiveles != null) {
             //Recorro columnas
@@ -101,6 +110,11 @@ public class EasyLevelSelectionState extends State {
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
+                } else if (MoneyButton.click(o.x, o.y)) {
+                    ShopState st = new ShopState();
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
                 } else if (botonesNiveles[0][0].click(o.x, o.y)) {
                     GameState st = new GameState(4, 4);
                     st.setPrevious(this);

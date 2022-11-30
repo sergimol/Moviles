@@ -16,6 +16,8 @@ public class LevelSelectionState extends State {
 
     Button BackButton;
     AImage BackButtonImage;
+    Button MoneyButton;
+    AImage MoneyButtonImage;
     Button botonesNiveles[][];
 
     public LevelSelectionState() {
@@ -29,7 +31,11 @@ public class LevelSelectionState extends State {
         //BackButton
         BackButtonImage = e.getGraphics().newImage("BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        BackButton.moveButton((int) ( BackButton.getSizeX() / 2), (int) ( BackButton.getSizeY() / 2));
+        BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
+        //MoneyButton
+        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
         volver = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         botonesNiveles = new Button[2][3];
@@ -61,13 +67,17 @@ public class LevelSelectionState extends State {
         graphics.setColor(0XFFFFC874);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
-        String word;
-        word = "Selecciona el tamaño del puzzle";
-        graphics.setColor(0XFF000000);
-        graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
-
+        if (volver != null) {
+            String word;
+            word = "Selecciona el tamaño del puzzle";
+            graphics.setColor(0XFF000000);
+            graphics.setFont(volver, 20);
+            graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
+        }
         if (BackButton != null)
             BackButton.render(graphics);
+        if (MoneyButton != null)
+            MoneyButton.render(graphics);
 
         if (botonesNiveles != null) {
             //Recorro columnas
@@ -92,6 +102,11 @@ public class LevelSelectionState extends State {
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
+                } else if (MoneyButton.click(o.x, o.y)) {
+                    ShopState st = new ShopState();
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
                 } else if (botonesNiveles[0][0].click(o.x, o.y)) {
                     GameState st = new GameState(4, 4);
                     st.setPrevious(this);
