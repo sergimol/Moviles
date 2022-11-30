@@ -1,11 +1,11 @@
 package com.example.practica1;
 
-public class lifes {
-    int maxLifes = 3;
+public class Lives {
+    int maxLives = 3;
     int hearts = 3;
 
 
-    public void restLife(){
+    public void subtractLife(){
         hearts--;
     }
     public void addLife(){

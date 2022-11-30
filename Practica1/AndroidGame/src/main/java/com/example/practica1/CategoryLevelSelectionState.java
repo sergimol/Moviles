@@ -11,9 +11,9 @@ import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ListIterator;
@@ -25,7 +25,7 @@ public class CategoryLevelSelectionState extends State {
     AImage BackButtonImage;
     Button MoneyButton;
     AImage MoneyButtonImage;
-    Button botonesNiveles[][];
+    Button levelsButtons[][];
     AImage levelUnlocked;
     AImage levelLocked;
 
@@ -50,7 +50,7 @@ public class CategoryLevelSelectionState extends State {
 
 
         //Botones niveles
-        botonesNiveles = new Button[5][4];
+        levelsButtons = new Button[5][4];
         levelUnlocked = e.getGraphics().newImage("LevelUnlocked.png");
         levelLocked = e.getGraphics().newImage("LevelLocked.png");
 
@@ -63,45 +63,45 @@ public class CategoryLevelSelectionState extends State {
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
 
-        boolean[] desbloqueos = cargardesbloqueos("desbloqueos_prueba4");
+        boolean[] unlocks = loadUnlocks("desbloqueos_prueba4");
 
         for (int i = 0; i < 20; i++) {
-            botonesNiveles[i / 4][i % 4] = new Button(desbloqueos[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
+            levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
         }
 
 
         //simular un desbloqueo cada vez que abramos esta pestaña
         int i = 0;
-        while (i < desbloqueos.length){
-            if (!desbloqueos[i]){
-                desbloqueos[i] = true;
-                i = desbloqueos.length;
+        while (i < unlocks.length){
+            if (!unlocks[i]){
+                unlocks[i] = true;
+                i = unlocks.length;
             }
             i++;
         }
-        guardardesbloqueos(desbloqueos, "desbloqueos_prueba4");
+        saveUnlocks(unlocks, "desbloqueos_prueba4");
 
     }
 
 
-    public void guardardesbloqueos(boolean[] desbloqueos, String nombre){
-        Context context = engine.getContexto();
+    public void saveUnlocks(boolean[] unlocks, String name){
+        Context context = engine.getContext();
         try {
-            FileOutputStream f = context.openFileOutput(nombre,
+            FileOutputStream f = context.openFileOutput(name,
                     Context.MODE_PRIVATE);
-            String texto = "" + desbloqueos.length;
-            for (int i = 0; i < desbloqueos.length; i++ ){
-                texto += ( "\n" + (desbloqueos[i]?1:0));
+            String text = "" + unlocks.length;
+            for (int i = 0; i < unlocks.length; i++ ){
+                text += ( "\n" + (unlocks[i]?1:0));
             }
-            f.write(texto.getBytes());
+            f.write(text.getBytes());
             f.close();
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
     }
 
-    public boolean[] cargardesbloqueos(String nombre){
-        Context context = engine.getContexto();
+    public boolean[] loadUnlocks(String nombre){
+        Context context = engine.getContext();
 
 
         String[] a = context.fileList();
@@ -111,40 +111,40 @@ public class CategoryLevelSelectionState extends State {
                 if (file.equals(nombre)) {
                     //file exits
                     FileInputStream f = context.openFileInput(nombre);
-                    BufferedReader entrada = new BufferedReader(
+                    BufferedReader input = new BufferedReader(
                             new InputStreamReader(f));
 
                     int n = 0;
-                    String linea;
-                    int cantidad;
-                    int readed;
+                    String line;
+                    int quantity;
+                    int read;
 
-                    linea = entrada.readLine();
-                    cantidad = Integer.parseInt(linea);
-                    boolean desbloqueos[] = new boolean[cantidad];
+                    line = input.readLine();
+                    quantity = Integer.parseInt(line);
+                    boolean []unlocks = new boolean[quantity];
 
                     do{
-                        linea = entrada.readLine();
-                        if (linea != null){
-                            readed = Integer.parseInt(linea);
-                            desbloqueos[n] = (readed == 1)?true:false;
+                        line = input.readLine();
+                        if (line != null){
+                            read = Integer.parseInt(line);
+                            unlocks[n] = (read == 1);
                             n++;
                         }
                     }
-                    while (n < cantidad && linea != null);
+                    while (n < quantity && line != null);
 
                     f.close();
-                    return desbloqueos;
+                    return unlocks;
                 }
             }
-            return crearArchivosGuardado();
+            return createSaveFiles();
         } catch (Exception e) {
             Log.e("guardados error", e.getMessage(), e);
             return null;
         }
     }
 
-    public boolean[] crearArchivosGuardado(){
+    public boolean[] createSaveFiles(){
         boolean[] res = new boolean[20];
         res[0] = true;
         return res;
@@ -180,12 +180,12 @@ public class CategoryLevelSelectionState extends State {
         if (MoneyButton != null)
             MoneyButton.render(graphics);
 
-        if (botonesNiveles != null) {
+        if (levelsButtons != null) {
             //Recorro columnas
-            for (int i = 0; i < botonesNiveles.length; ++i) {
+            for (int i = 0; i < levelsButtons.length; ++i) {
                 //Recorro filas
-                for (int w = 0; w < botonesNiveles[0].length; ++w) {
-                    botonesNiveles[i][w].render(graphics);
+                for (int w = 0; w < levelsButtons[0].length; ++w) {
+                    levelsButtons[i][w].render(graphics);
                 }
             }
         }
@@ -207,11 +207,16 @@ public class CategoryLevelSelectionState extends State {
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
-                } else if (botonesNiveles[0][0].click(o.x, o.y)) {
-                    GameState st = new GameState(4, 4);
-                    st.setPrevious(this);
-                    engine.setState(st);
-                    st.init(engine);
+                } else if (levelsButtons[0][0].click(o.x, o.y)) {
+                    try {
+                        String p = engine.getContext().getFilesDir().getAbsolutePath();
+                        GameState st = new GameState(engine.getAssets(), "00");
+                        st.setPrevious(this);
+                        engine.setState(st);
+                        st.init(engine);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         }

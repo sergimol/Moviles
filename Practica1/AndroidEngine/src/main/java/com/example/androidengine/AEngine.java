@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.view.SurfaceView;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class AEngine implements Runnable {
         contexto = c;
     }
 
-    public Context getContexto(){
+    public Context getContext(){
         return  contexto;
     }
 
@@ -115,6 +114,8 @@ public class AEngine implements Runnable {
     public ATimer getTimer() {
         return timer;
     }
+
+    public AssetManager getAssets() { return assetManager; }
 
     public void pause() {
         if (running) {

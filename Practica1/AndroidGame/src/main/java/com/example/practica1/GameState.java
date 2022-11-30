@@ -1,6 +1,7 @@
 package com.example.practica1;
 
-import androidx.compose.ui.text.font.Font;
+import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -10,14 +11,14 @@ import com.example.androidengine.AInput;
 import com.example.androidengine.ATimer;
 import com.example.androidengine.State;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
 
 public class GameState extends State {
     Board board;
-    lifes vidas;
-    int xCells, yCells;
+    Lives vidas;
     AFont font;
 
     AImage SurrenderButtonImage;
@@ -31,10 +32,13 @@ public class GameState extends State {
     ATimer timer;
 
     public GameState(int x, int y) {
-        xCells = x;
-        yCells = y;
-        board = new Board(xCells, yCells);
-        vidas = new lifes();
+        board = new Board(x, y);
+        vidas = new Lives();
+    }
+
+    public GameState(AssetManager assets, String level) throws IOException {
+        board = new Board(assets, level);
+        vidas = new Lives();
     }
 
     @Override
@@ -129,7 +133,7 @@ public class GameState extends State {
                 //comprobar que esa casilla es correcta y devolver un true or false para restar la vida
                 if (!board.handleInput(xInCanvas, yInCanvas, engine, true)) {
                     //en el caso de ser un error
-                    vidas.restLife();
+                    vidas.subtractLife();
                     System.out.println("vidas restantes: " + vidas.getHearts());
                 }
                 board.resetAllowChangeStatesCells();

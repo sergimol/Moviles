@@ -1,10 +1,15 @@
 package com.example.practica1;
+import android.content.res.AssetManager;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
-import com.example.practica1.cellStates;
-import com.example.practica1.checkStates;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Vector;
 
@@ -19,25 +24,38 @@ public class Board {
         return cells[x][y];
     }
 
-    Vector<Vector<Integer>> xValues;
     Vector<Vector<Integer>> yValues;
+    Vector<Vector<Integer>> xValues;
 
     Board(int x, int y) {
         // Nº de celdas en x
         xSize = x;
         // Nº de celdas en y
         ySize = y;
+        setArrays();
+        createRandomBoard();
+    }
+
+    Board(AssetManager assets, String levelName) throws IOException {
+        InputStream is = assets.open(levelName + ".txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        xSize = Integer.parseInt(br.readLine());
+        ySize = Integer.parseInt(br.readLine());
+        setArrays();
+        readBoard(br);
+    }
+
+    void setArrays(){
         // Array que guarda las celdas del tablero
         cells = new Cell[xSize][ySize];
         // Vector para guardar las celdas consecutivas en cada columna
-        xValues = new Vector<Vector<Integer>>(xSize);
+        yValues = new Vector<Vector<Integer>>(xSize);
         for (int i = 0; i < xSize; ++i)
-            xValues.add(new Vector<Integer>(ySize / 2 + ySize % 2));
+            yValues.add(new Vector<Integer>(ySize / 2 + ySize % 2));
         // Vector para guardar las celdas consecutivas en cada fila
-        yValues = new Vector<Vector<Integer>>(ySize);
+        xValues = new Vector<Vector<Integer>>(ySize);
         for (int j = 0; j < ySize; ++j)
-            yValues.add(new Vector<Integer>(xSize / 2 + xSize % 2));
-        createRandomBoard();
+            xValues.add(new Vector<Integer>(xSize / 2 + xSize % 2));
     }
 
     void init(AEngine e, AFont f) {
@@ -69,7 +87,7 @@ public class Board {
         boolean good = false;
         Random rd = new Random();
         // Contador de celdas consecutivas en la columna
-        int xConsecutives = 0;
+        int yConsecutives = 0;
         for (int i = 0; i < xSize; i++) {
             for (int j = 0; j < ySize; j++) {
                 // Asignación de un valor aleatorio a good
@@ -77,41 +95,93 @@ public class Board {
                 cells[i][j] = new Cell(i, j, good);
                 // Si es buena se aumenta el contador
                 if (good) {
+                    yConsecutives++;
+                }
+                // Si no se guarda el valor del contador y se reinicia
+                else if (yConsecutives > 0) {
+                    yValues.get(i).add(yConsecutives);
+                    yConsecutives = 0;
+                }
+            }
+            // Al llegar al final de la columna se guarda el contador si es mayor de 0 y se reinicia
+            if (yConsecutives > 0) {
+                yValues.get(i).add(yConsecutives);
+                yConsecutives = 0;
+            }
+        }
+
+        setxValues();
+    }
+
+    void readBoard(BufferedReader br) throws IOException{
+        boolean good;
+        String line;
+        int xConsecutives = 0;
+        int j = 0;
+        while((line = br.readLine()) != null && j < ySize){
+            String []split = line.split("");
+            for(int i = 0; i < xSize; ++i){
+                good = (Integer.parseInt(split[i]) == 1);
+                cells[i][j] = new Cell(i, j, good);
+                if (good) {
                     xConsecutives++;
                 }
                 // Si no se guarda el valor del contador y se reinicia
                 else if (xConsecutives > 0) {
-                    xValues.get(i).add(xConsecutives);
+                    xValues.get(j).add(xConsecutives);
                     xConsecutives = 0;
                 }
             }
-            // Al llegar al final de la columna se guarda el contador si es mayor de 0 y se reinicia
             if (xConsecutives > 0) {
-                xValues.get(i).add(xConsecutives);
+                xValues.get(j).add(xConsecutives);
                 xConsecutives = 0;
             }
+            j++;
         }
 
-        // Contador para guardar las celdas consecutivas en cada columnna
+        setyValues();
+    }
+
+    void setyValues(){
+        // Contador para guardar las celdas consecutivas en cada fila
         int yConsecutives = 0;
-        for (int j = 0; j < ySize; j++) {
-            for (int i = 0; i < xSize; i++) {
+        for (int i = 0; i < xSize; i++) {
+            for (int j = 0; j < ySize; j++) {
                 if (cells[i][j].isGood) {
                     yConsecutives++;
                 } else if (yConsecutives > 0) {
-                    yValues.get(j).add(yConsecutives);
+                    yValues.get(i).add(yConsecutives);
                     yConsecutives = 0;
                 }
             }
             if (yConsecutives > 0) {
-                yValues.get(j).add(yConsecutives);
+                yValues.get(i).add(yConsecutives);
                 yConsecutives = 0;
             }
         }
     }
 
+    void setxValues(){
+        // Contador para guardar las celdas consecutivas en cada columnna
+        int xConsecutives = 0;
+        for (int j = 0; j < ySize; j++) {
+            for (int i = 0; i < xSize; i++) {
+                if (cells[i][j].isGood) {
+                    xConsecutives++;
+                } else if (xConsecutives > 0) {
+                    xValues.get(j).add(xConsecutives);
+                    xConsecutives = 0;
+                }
+            }
+            if (xConsecutives > 0) {
+                xValues.get(j).add(xConsecutives);
+                xConsecutives = 0;
+            }
+        }
+    }
+
     int[] checkBoard() {
-        int a[] = new int[2];
+        int []a = new int[2];
         // Contadores para la cantidad de celdas erróneas y la cantidad que no está en la solución
         int wrongCount = 0;
         int missingCount = 0;
@@ -158,8 +228,8 @@ public class Board {
 
         minSpace = xZeroCord / (ySize / 2 + ySize % 2);
         // Escribe los números que corresponden a los valores consecutivos de las columnas
-        for(int i = 0; i < xValues.size(); ++i){
-            Vector<Integer> aux = xValues.get(i);
+        for(int i = 0; i < yValues.size(); ++i){
+            Vector<Integer> aux = yValues.get(i);
             for (int j = aux.size() - 1; j >= 0; --j) {
                 numOffset = minSpace * 3 / 2 * (aux.size() - j);
                 int y = yZeroCord + minSpace - numOffset;
@@ -171,8 +241,8 @@ public class Board {
         //Calcula el espacio mínimo entre números de la misma fila
         minSpace = xZeroCord / (xSize / 2 + xSize % 2);
         //Escribe los números que corresponden a los valores consecutivos de las filas
-        for (int i = 0; i < yValues.size(); ++i) {
-            Vector<Integer> aux = yValues.get(i);
+        for (int i = 0; i < xValues.size(); ++i) {
+            Vector<Integer> aux = xValues.get(i);
             for (int j = aux.size() - 1; j >= 0; --j) {
                 numOffset = minSpace * 2 / 3 * (aux.size() - j);
                 graphics.drawText(String.valueOf(aux.get(j)), xZeroCord - numOffset, yZeroCord + (cellSide * i) + cellSide / 2);
