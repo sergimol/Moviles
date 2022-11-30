@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         InitialState state = new InitialState();
 
         try {
-            androidEngine = new AEngine(window, assetManager, resourcesManager);
+            androidEngine = new AEngine(window, assetManager, resourcesManager, this);
             androidEngine.setState(state);
             resourceLoader.loadResources(androidEngine);
         } catch (IOException e) {

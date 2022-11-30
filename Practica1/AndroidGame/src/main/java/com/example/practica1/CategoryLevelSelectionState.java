@@ -1,5 +1,8 @@
 package com.example.practica1;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -7,6 +10,11 @@ import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -54,10 +62,94 @@ public class CategoryLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
+
+        boolean[] desbloqueos = cargardesbloqueos("desbloqueos_prueba4");
+
         for (int i = 0; i < 20; i++) {
-            botonesNiveles[i / 4][i % 4] = new Button(true ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
+            botonesNiveles[i / 4][i % 4] = new Button(desbloqueos[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
+        }
+
+
+        //simular un desbloqueo cada vez que abramos esta pestaña
+        int i = 0;
+        while (i < desbloqueos.length){
+            if (!desbloqueos[i]){
+                desbloqueos[i] = true;
+                i = desbloqueos.length;
+            }
+            i++;
+        }
+        guardardesbloqueos(desbloqueos, "desbloqueos_prueba4");
+
+    }
+
+
+    public void guardardesbloqueos(boolean[] desbloqueos, String nombre){
+        Context context = engine.getContexto();
+        try {
+            FileOutputStream f = context.openFileOutput(nombre,
+                    Context.MODE_PRIVATE);
+            String texto = "" + desbloqueos.length;
+            for (int i = 0; i < desbloqueos.length; i++ ){
+                texto += ( "\n" + (desbloqueos[i]?1:0));
+            }
+            f.write(texto.getBytes());
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
         }
     }
+
+    public boolean[] cargardesbloqueos(String nombre){
+        Context context = engine.getContexto();
+
+
+        String[] a = context.fileList();
+
+        try {
+            for (String file : a) {
+                if (file.equals(nombre)) {
+                    //file exits
+                    FileInputStream f = context.openFileInput(nombre);
+                    BufferedReader entrada = new BufferedReader(
+                            new InputStreamReader(f));
+
+                    int n = 0;
+                    String linea;
+                    int cantidad;
+                    int readed;
+
+                    linea = entrada.readLine();
+                    cantidad = Integer.parseInt(linea);
+                    boolean desbloqueos[] = new boolean[cantidad];
+
+                    do{
+                        linea = entrada.readLine();
+                        if (linea != null){
+                            readed = Integer.parseInt(linea);
+                            desbloqueos[n] = (readed == 1)?true:false;
+                            n++;
+                        }
+                    }
+                    while (n < cantidad && linea != null);
+
+                    f.close();
+                    return desbloqueos;
+                }
+            }
+            return crearArchivosGuardado();
+        } catch (Exception e) {
+            Log.e("guardados error", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public boolean[] crearArchivosGuardado(){
+        boolean[] res = new boolean[20];
+        res[0] = true;
+        return res;
+    }
+
 
     @Override
     public void start() {

@@ -1,9 +1,13 @@
 package com.example.androidengine;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.view.SurfaceView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AEngine implements Runnable {
@@ -20,19 +24,32 @@ public class AEngine implements Runnable {
 
     private ATimer timer;
 
+    private Context contexto;
 
     private Thread renderThread;
     private AssetManager assetManager;
     private Resources resourcesManager;
 
-    public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM) throws IOException {
+    public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c) throws IOException {
         assetManager = assetM;
         resourcesManager = resourcesM;
         graphics = new AGraphics(window, assetManager, resourcesM);
         audio = new AAudio(assetManager);
         myInput = new AInput(window, graphics);
         timer = new ATimer();
+        contexto = c;
+    }
 
+    public Context getContexto(){
+        return  contexto;
+    }
+
+    FileOutputStream writeStream(){
+        return  null;
+    }
+
+    FileInputStream readStream(){
+        return null;
     }
 
     @Override
