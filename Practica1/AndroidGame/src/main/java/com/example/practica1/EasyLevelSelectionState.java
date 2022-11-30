@@ -43,30 +43,15 @@ public class EasyLevelSelectionState extends State {
         float ButtonSizeX = 0.18f;
         float ButtonSizeY = 0.18f;
 
-        botonesNiveles[0][0] = new Button(levelUnlocked, e.getGraphics().getOriginalWidth() * (1 / 5.0f), e.getGraphics().getOriginalHeight() * (4 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[0][1] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (2 / 5.0f), e.getGraphics().getOriginalHeight() * (4 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[0][2] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (3 / 5.0f), e.getGraphics().getOriginalHeight() * (4 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[0][3] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (4 / 5.0f), e.getGraphics().getOriginalHeight() * (4 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
 
-        botonesNiveles[1][0] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (1 / 5.0f), e.getGraphics().getOriginalHeight() * (5 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[1][1] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (2 / 5.0f), e.getGraphics().getOriginalHeight() * (5 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[1][2] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (3 / 5.0f), e.getGraphics().getOriginalHeight() * (5 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[1][3] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (4 / 5.0f), e.getGraphics().getOriginalHeight() * (5 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
+        //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
 
-        botonesNiveles[2][0] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (1 / 5.0f), e.getGraphics().getOriginalHeight() * (6 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[2][1] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (2 / 5.0f), e.getGraphics().getOriginalHeight() * (6 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[2][2] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (3 / 5.0f), e.getGraphics().getOriginalHeight() * (6 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[2][3] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (4 / 5.0f), e.getGraphics().getOriginalHeight() * (6 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
 
-        botonesNiveles[3][0] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (1 / 5.0f), e.getGraphics().getOriginalHeight() * (7 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[3][1] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (2 / 5.0f), e.getGraphics().getOriginalHeight() * (7 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[3][2] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (3 / 5.0f), e.getGraphics().getOriginalHeight() * (7 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[3][3] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (4 / 5.0f), e.getGraphics().getOriginalHeight() * (7 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
 
-        botonesNiveles[4][0] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (1 / 5.0f), e.getGraphics().getOriginalHeight() * (8 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[4][1] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (2 / 5.0f), e.getGraphics().getOriginalHeight() * (8 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[4][2] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (3 / 5.0f), e.getGraphics().getOriginalHeight() * (8 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
-        botonesNiveles[4][3] = new Button(levelLocked, e.getGraphics().getOriginalWidth() * (4 / 5.0f), e.getGraphics().getOriginalHeight() * (8 / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
+
+        for (int i = 0; i < 20; i++){
+            botonesNiveles[i/4][i%4] = new Button(true?levelUnlocked:levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int)(i%4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int)(i/4)) / 9.0f), e.getGraphics().getOriginalWidth() * ButtonSizeX, e.getGraphics().getOriginalWidth() * ButtonSizeY);
+        }
 
     }
 
