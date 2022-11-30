@@ -59,6 +59,7 @@ public class GameState extends State {
         timer = e.getTimer();
 
 
+        //setteo de los corazones, que se podria poner mas bonito pero me gusta factorizar todo como la foctoiria de embutidos de mi pueblo dios que buenos estan
         vidas.setHeart(e.getGraphics().newImage("apedra.png"));
         vidas.setContainer(e.getGraphics().newImage("HeartImage.png"));
         vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
