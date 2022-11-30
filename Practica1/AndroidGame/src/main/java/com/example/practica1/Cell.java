@@ -51,11 +51,12 @@ public class Cell {
             // Length - 1 para no acceder a las celdas rojas
             state = newState;
             allowchange = !allowchange;
+            //comprobar si pertenece a la solucion en el caso de ser blue
+            if (newState == cellStates.Blue){
+                return checkStates.Correct == checkCell();
+            }
         }
-        //comprobar si pertenece a la solucion en el caso de ser blue
-        if (newState == cellStates.Blue){
-            return checkStates.Correct == checkCell();
-        }
+
         //default no se considerara un error
         return true;
 

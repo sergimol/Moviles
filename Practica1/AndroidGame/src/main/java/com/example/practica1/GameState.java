@@ -131,7 +131,8 @@ public class GameState extends State {
             AInput.TouchEvent o = ev.next();
 
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
-            } else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
+            }
+            else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
