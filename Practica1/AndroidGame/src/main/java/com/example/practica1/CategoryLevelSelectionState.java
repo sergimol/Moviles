@@ -165,7 +165,10 @@ public class CategoryLevelSelectionState extends State {
     @Override
     public void render(AGraphics graphics) {
         //Background
-        graphics.setColor(0XFFFFB23C);
+        if (engine.getStyle().equals("Preset"))
+            graphics.setColor(0XFFFFB23C);
+        else if (engine.getStyle().equals("Red"))
+            graphics.setColor(0XFFA64F59);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
         if (text != null) {
@@ -193,8 +196,8 @@ public class CategoryLevelSelectionState extends State {
             for (int i = 0; i < levelsButtons.length; ++i) {
                 //Recorro filas
                 for (int w = 0; w < levelsButtons[0].length; ++w) {
-                    //if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
-                    //    MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
+                    //if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                    //    levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
                     levelsButtons[i][w].render(graphics);
                 }
             }

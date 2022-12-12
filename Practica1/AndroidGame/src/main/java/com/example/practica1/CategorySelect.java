@@ -75,7 +75,10 @@ public class CategorySelect extends State {
     @Override
     public void render(AGraphics graphics) {
         //Background
-        graphics.setColor(0XFFFFC874);
+        if (engine.getStyle().equals("Preset"))
+            graphics.setColor(0XFFFFB23C);
+        else if (engine.getStyle().equals("Red"))
+            graphics.setColor(0XFFA64F59);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
         //Title
         if (title != null) {
