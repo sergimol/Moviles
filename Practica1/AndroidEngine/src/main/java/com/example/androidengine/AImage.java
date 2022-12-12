@@ -8,9 +8,11 @@ import java.io.IOException;
 
 public class AImage {
     private Bitmap image_;
+    private String name_;
 
     AImage(String name, AssetManager assetManager) throws IOException {
         image_ = BitmapFactory.decodeStream(assetManager.open(name));
+        name_ = name;
     }
 
     public Bitmap getImage() {
@@ -27,5 +29,9 @@ public class AImage {
 
     public void resizeImage(int width, int height) {
         image_ = Bitmap.createScaledBitmap(image_, width, height, true);
+    }
+
+    public String getName() {
+        return name_;
     }
 }

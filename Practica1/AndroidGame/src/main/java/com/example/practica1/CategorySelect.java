@@ -39,34 +39,37 @@ public class CategorySelect extends State {
     @Override
     public void init(AEngine e) {
         engine = e;
+
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
         title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //CategoryButtons
-        EasyButtonImage = e.getGraphics().newImage("EasyButton.png");
+        EasyButtonImage = e.getGraphics().newImage(engine.getStyle() + "EasyButton.png");
         EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        MediumButtonImage = e.getGraphics().newImage("MediumButton.png");
+        MediumButtonImage = e.getGraphics().newImage(engine.getStyle() + "MediumButton.png");
         MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        ForestButtonImage = e.getGraphics().newImage("BlockedCategory.png");
+        ForestButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
         ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        DesertButtonImage = e.getGraphics().newImage("BlockedCategory.png");
+        DesertButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
         DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) ( MoneyButton.getSizeY() / 2));
+        MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
         //BackButton
-        BackButtonImage = e.getGraphics().newImage("BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
-        BackButton.moveButton((int) ( BackButton.getSizeX() / 2), (int) ( BackButton.getSizeY() / 2));
+        BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
     }
 
     @Override
-    public void start() {}
+    public void start() {
+    }
 
     @Override
-    public void update(double deltaTime) {}
+    public void update(double deltaTime) {
+    }
 
 
     @Override
@@ -83,18 +86,36 @@ public class CategorySelect extends State {
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.25));
         }
         //Buttons
-        if (EasyButton != null)
+        if (EasyButton != null) {
+            if (!EasyButton.getImagen().getName().equals(engine.getStyle() + "EasyButton.png"))
+                EasyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "EasyButton.png"));
             EasyButton.render(graphics);
-        if (MediumButton != null)
+        }
+        if (MediumButton != null) {
+            if (!MediumButton.getImagen().getName().equals(engine.getStyle() + "MediumButton.png"))
+                MediumButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MediumButton.png"));
             MediumButton.render(graphics);
-        if (ForestButton != null)
+        }
+        if (ForestButton != null) {
+            if (!ForestButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
+                ForestButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
             ForestButton.render(graphics);
-        if (DesertButton != null)
+        }
+        if (DesertButton != null) {
+            if (!DesertButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
+                DesertButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
             DesertButton.render(graphics);
-        if (MoneyButton != null)
+        }
+        if (MoneyButton != null) {
+            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
-        if (BackButton != null)
+        }
+        if (BackButton != null) {
+            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
+        }
     }
 
     @Override

@@ -44,24 +44,25 @@ public class GameState extends State {
     @Override
     public void init(AEngine e) {
         engine = e;
+
         font = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         board.init(e, font);
 
         //SurrenderButton
-        SurrenderButtonImage = e.getGraphics().newImage("SurrenderButton.png");
+        SurrenderButtonImage = e.getGraphics().newImage(engine.getStyle() + "SurrenderButton.png");
         SurrenderButton = new Button(SurrenderButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
         SurrenderButton.moveButton((int) (SurrenderButton.getSizeX() / 2), (int) (SurrenderButton.getSizeY() / 2));
         //CheckButton
-        CheckButtonImage = e.getGraphics().newImage("CheckButton.png");
+        CheckButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
         CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
-        CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) ( CheckButton.getSizeY() / 2));
+        CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) (CheckButton.getSizeY() / 2));
 
         timer = e.getTimer();
 
 
         //setteo de los corazones, que se podria poner mas bonito pero me gusta factorizar todo como la foctoiria de embutidos de mi pueblo dios que buenos estan
-        vidas.setHeart(e.getGraphics().newImage("apedra.png"));
-        vidas.setContainer(e.getGraphics().newImage("HeartImage.png"));
+        vidas.setHeart(e.getGraphics().newImage(engine.getStyle() + "HeartImageFull.png"));
+        vidas.setContainer(e.getGraphics().newImage(engine.getStyle() + "HeartImage.png"));
         vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
         vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
         vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
@@ -88,10 +89,17 @@ public class GameState extends State {
     @Override
     public void render(AGraphics graphics) {
         if (!showingWrong) {
-            if (SurrenderButton != null)
+            if (SurrenderButton != null) {
+                if (!SurrenderButton.getImagen().getName().equals(engine.getStyle() + "SurrenderButton.png"))
+                    SurrenderButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "SurrenderButton.png"));
                 SurrenderButton.render(graphics);
-            if (CheckButton != null)
+            }
+            if (CheckButton != null) {
+                if (!CheckButton.getImagen().getName().equals(engine.getStyle() + "CheckButton.png"))
+                    CheckButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "CheckButton.png"));
                 CheckButton.render(graphics);
+            }
+
         } else {
             String word;
             if (font != null) {
@@ -131,8 +139,7 @@ public class GameState extends State {
             AInput.TouchEvent o = ev.next();
 
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
-            }
-            else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
+            } else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
@@ -144,7 +151,7 @@ public class GameState extends State {
                 if (!board.handleInput(xInCanvas, yInCanvas, engine, true)) {
                     //en el caso de ser un error
                     vidas.subtractLife();
-                    if (vidas.getHearts() <= 0){
+                    if (vidas.getHearts() <= 0) {
                         engine.setState(previous);
                     }
                     System.out.println("vidas restantes: " + vidas.getHearts());

@@ -101,5 +101,13 @@ public class Button {
 
     }
 
+    public void changeImage(AImage i) {
+        imagen = i;
+    }
+
+    public AImage getImagen() {
+        return imagen;
+    }
+
 
 }

@@ -29,11 +29,11 @@ public class LevelSelectionState extends State {
         engine = e;
 
         //BackButton
-        BackButtonImage = e.getGraphics().newImage("BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(engine.getStyle()+"BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle()+"MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
@@ -74,10 +74,18 @@ public class LevelSelectionState extends State {
             graphics.setFont(volver, 20);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
         }
-        if (BackButton != null)
+
+        if (BackButton != null) {
+            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
-        if (MoneyButton != null)
+        }
+        if (MoneyButton != null) {
+            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
+        }
+
 
         if (botonesNiveles != null) {
             //Recorro columnas

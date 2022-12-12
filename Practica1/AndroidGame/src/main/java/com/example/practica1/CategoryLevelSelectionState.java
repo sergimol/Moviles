@@ -40,19 +40,19 @@ public class CategoryLevelSelectionState extends State {
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //BackButton
-        BackButtonImage = e.getGraphics().newImage("BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
 
         //Botones niveles
         levelsButtons = new Button[5][4];
-        levelUnlocked = e.getGraphics().newImage("LevelUnlocked.png");
-        levelLocked = e.getGraphics().newImage("LevelLocked.png");
+        levelUnlocked = e.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png");
+        levelLocked = e.getGraphics().newImage(engine.getStyle() + "LevelLocked.png");
 
 
         float ButtonSizeX = 0.18f;
@@ -72,8 +72,8 @@ public class CategoryLevelSelectionState extends State {
 
         //simular un desbloqueo cada vez que abramos esta pestaña
         int i = 0;
-        while (i < unlocks.length){
-            if (!unlocks[i]){
+        while (i < unlocks.length) {
+            if (!unlocks[i]) {
                 unlocks[i] = true;
                 i = unlocks.length;
             }
@@ -84,14 +84,14 @@ public class CategoryLevelSelectionState extends State {
     }
 
 
-    public void saveUnlocks(boolean[] unlocks, String name){
+    public void saveUnlocks(boolean[] unlocks, String name) {
         Context context = engine.getContext();
         try {
             FileOutputStream f = context.openFileOutput(name,
                     Context.MODE_PRIVATE);
             String text = "" + unlocks.length;
-            for (int i = 0; i < unlocks.length; i++ ){
-                text += ( "\n" + (unlocks[i]?1:0));
+            for (int i = 0; i < unlocks.length; i++) {
+                text += ("\n" + (unlocks[i] ? 1 : 0));
             }
             f.write(text.getBytes());
             f.close();
@@ -100,7 +100,7 @@ public class CategoryLevelSelectionState extends State {
         }
     }
 
-    public boolean[] loadUnlocks(String nombre){
+    public boolean[] loadUnlocks(String nombre) {
         Context context = engine.getContext();
 
 
@@ -121,11 +121,11 @@ public class CategoryLevelSelectionState extends State {
 
                     line = input.readLine();
                     quantity = Integer.parseInt(line);
-                    boolean []unlocks = new boolean[quantity];
+                    boolean[] unlocks = new boolean[quantity];
 
-                    do{
+                    do {
                         line = input.readLine();
-                        if (line != null){
+                        if (line != null) {
                             read = Integer.parseInt(line);
                             unlocks[n] = (read == 1);
                             n++;
@@ -144,7 +144,7 @@ public class CategoryLevelSelectionState extends State {
         }
     }
 
-    public boolean[] createSaveFiles(){
+    public boolean[] createSaveFiles() {
         boolean[] res = new boolean[20];
         res[0] = true;
         return res;
@@ -175,16 +175,26 @@ public class CategoryLevelSelectionState extends State {
             graphics.setColor(0XFF000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.25));
         }
-        if (BackButton != null)
+
+        if (BackButton != null) {
+            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
-        if (MoneyButton != null)
+        }
+        if (MoneyButton != null) {
+            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
+        }
+
 
         if (levelsButtons != null) {
             //Recorro columnas
             for (int i = 0; i < levelsButtons.length; ++i) {
                 //Recorro filas
                 for (int w = 0; w < levelsButtons[0].length; ++w) {
+                    //if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                    //    MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
                     levelsButtons[i][w].render(graphics);
                 }
             }
@@ -214,7 +224,7 @@ public class CategoryLevelSelectionState extends State {
                         st.setPrevious(this);
                         engine.setState(st);
                         st.init(engine);
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }

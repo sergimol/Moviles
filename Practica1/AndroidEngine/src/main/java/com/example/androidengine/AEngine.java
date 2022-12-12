@@ -29,6 +29,8 @@ public class AEngine implements Runnable {
     private AssetManager assetManager;
     private Resources resourcesManager;
 
+    private String style;
+
     public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c) throws IOException {
         assetManager = assetM;
         resourcesManager = resourcesM;
@@ -37,17 +39,18 @@ public class AEngine implements Runnable {
         myInput = new AInput(window, graphics);
         timer = new ATimer();
         contexto = c;
+        style = "Preset";
     }
 
-    public Context getContext(){
-        return  contexto;
+    public Context getContext() {
+        return contexto;
     }
 
-    FileOutputStream writeStream(){
-        return  null;
+    FileOutputStream writeStream() {
+        return null;
     }
 
-    FileInputStream readStream(){
+    FileInputStream readStream() {
         return null;
     }
 
@@ -115,7 +118,9 @@ public class AEngine implements Runnable {
         return timer;
     }
 
-    public AssetManager getAssets() { return assetManager; }
+    public AssetManager getAssets() {
+        return assetManager;
+    }
 
     public void pause() {
         if (running) {
@@ -147,5 +152,13 @@ public class AEngine implements Runnable {
 
     public void setState(State st) {
         currentState = st;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String aux) {
+        style = aux;
     }
 }

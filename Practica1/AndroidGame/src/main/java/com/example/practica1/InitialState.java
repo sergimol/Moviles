@@ -26,7 +26,6 @@ public class InitialState extends State {
     AImage MoneyButtonImage;
 
     public InitialState() {
-
     }
 
 
@@ -38,13 +37,13 @@ public class InitialState extends State {
         playButton = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //StoryButton
-        StoryButtonImage = e.getGraphics().newImage("Story.png");
+        StoryButtonImage = e.getGraphics().newImage(engine.getStyle() + "Story.png");
         StoryButton = new Button(StoryButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //ArcadeButton
-        ArcadeButtonImage = e.getGraphics().newImage("ArcadeButton.png");
+        ArcadeButtonImage = e.getGraphics().newImage(engine.getStyle() + "ArcadeButton.png");
         ArcadeButton = new Button(ArcadeButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage("MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
@@ -72,12 +71,22 @@ public class InitialState extends State {
         graphics.setColor(0XFFFFB23C);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
         //Buttons
-        if (StoryButton != null)
+        if (StoryButton != null) {
+            if (!StoryButton.getImagen().getName().equals(engine.getStyle() + "Story.png"))
+                StoryButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "Story.png"));
             StoryButton.render(graphics);
-        if (ArcadeButton != null)
+        }
+
+        if (ArcadeButton != null) {
+            if (!ArcadeButton.getImagen().getName().equals(engine.getStyle() + "ArcadeButton.png"))
+                ArcadeButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "ArcadeButton.png"));
             ArcadeButton.render(graphics);
-        if (MoneyButton != null)
+        }
+        if (MoneyButton != null) {
+            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
+        }
 
         //renderizar otro objeto como puede ser el boton
         String word;
