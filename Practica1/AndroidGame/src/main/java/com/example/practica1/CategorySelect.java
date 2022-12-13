@@ -138,22 +138,22 @@ public class CategorySelect extends State {
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (MediumButton.click(o.x, o.y)) {
+                else if (MediumButton.click(o.x, o.y)) {
 
                 }
-                if (ForestButton.click(o.x, o.y)) {
+                else if (ForestButton.click(o.x, o.y)) {
 
                 }
-                if (DesertButton.click(o.x, o.y)) {
+                else if (DesertButton.click(o.x, o.y)) {
 
                 }
-                if (MoneyButton.click(o.x, o.y)) {
+                else if (MoneyButton.click(o.x, o.y)) {
                     ShopState st = new ShopState();
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
-                if (BackButton.click(o.x, o.y)) {
+                else if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
             }
