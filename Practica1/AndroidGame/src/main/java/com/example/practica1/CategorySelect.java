@@ -148,7 +148,7 @@ public class CategorySelect extends State {
 
                 }
                 else if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState();
+                    ShopState st = new ShopState(null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

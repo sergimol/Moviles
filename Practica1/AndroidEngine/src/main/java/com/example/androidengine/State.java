@@ -1,11 +1,19 @@
 package com.example.androidengine;
 
-public abstract class State {
+import android.os.Bundle;
+
+import java.io.Serializable;
+
+public abstract class State implements Serializable {
 
     public AEngine engine;
     public State previous = null;
 
-    public void init(AEngine e){}
+    public void init(AEngine e){
+        if (previous != null){
+            previous.init(e);
+        }
+    }
 
     public void start(){}
 
@@ -21,5 +29,8 @@ public abstract class State {
 
     public State getprevious() {
         return previous;
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
     }
 }

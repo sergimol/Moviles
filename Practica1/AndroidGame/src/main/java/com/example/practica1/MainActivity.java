@@ -12,19 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidengine.AEngine;
+import com.example.androidengine.State;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
 
     private AEngine androidEngine;
     private SurfaceView window;
     private AssetManager assetManager;
     private Resources resourcesManager;
-
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         window = new SurfaceView(this);
         setContentView(window);
 
+
+
+
+        System.out.println("contador: " + count);
 
         // fullscreen and remove support action bar
         if (Build.VERSION.SDK_INT < 16)
@@ -58,8 +64,42 @@ public class MainActivity extends AppCompatActivity {
 
         ResourceLoader resourceLoader = new ResourceLoader();
 
+
+        State state;
+        if (savedInstanceState != null){
+            count = savedInstanceState.getInt("contador",0);
+            count++;
+            //state = new InitialState();
+            Bundle scene = savedInstanceState.getBundle("Scene");
+            if (scene != null){ //una vez aqui nunca va a ser null pero proteccion
+                switch (scene.getInt("SceneType")){
+                    case 0:
+                        state = new InitialState(null);
+                        break;
+                    case 1:
+                        state = new LevelSelectionState(scene);
+                        break;
+                    case 2:
+                        state = new GameState(scene.getInt("x"), scene.getInt("y"), scene);
+                        break;
+                    case 3:
+                        state = new ShopState(scene);
+                        break;
+                    default:
+                        state = new InitialState(null);
+                        break;
+                }
+            }
+            else{
+                state = new InitialState(null);
+            }
+
+        }
+        else{
+            count = 0;
+            state = new InitialState(null);
+        }
         //Creamos el Engine y lo inicializamos
-        InitialState state = new InitialState();
 
         try {
             androidEngine = new AEngine(window, assetManager, resourcesManager, this);
@@ -82,7 +122,21 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         androidEngine.pause();
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("contador", count);
+        //hay que meter la escena principal
+        androidEngine.getState().onSaveInstanceState(outState);
+    }
+
+    //@Override
+    //public void onRestoreInstanceState(Bundle savedInstanceState ){
+        //super.OnRestoreInstanceState(savedInstanceState);
+
+    //}
 }
+
 
 /*
     Quitar interfaces

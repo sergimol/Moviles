@@ -1,5 +1,7 @@
 package com.example.practica1;
 
+import android.os.Bundle;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -20,12 +22,25 @@ public class LevelSelectionState extends State {
     AImage MoneyButtonImage;
     Button botonesNiveles[][];
 
-    public LevelSelectionState() {
-
+    public LevelSelectionState(Bundle savedData) {
+        if (savedData != null){
+            Bundle prevScene = savedData.getBundle("Scene");
+            if (prevScene != null){
+                switch (prevScene.getInt("SceneType")){
+                    case 0:
+                        previous = new InitialState(prevScene);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
+
         engine = e;
 
         //BackButton
@@ -119,32 +134,32 @@ public class LevelSelectionState extends State {
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][0].click(o.x, o.y)) {
-                    GameState st = new GameState(4, 4);
+                    GameState st = new GameState(4, 4, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][1].click(o.x, o.y)) {
-                    GameState st = new GameState(5, 5);
+                    GameState st = new GameState(5, 5, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][2].click(o.x, o.y)) {
-                    GameState st = new GameState(5, 10);
+                    GameState st = new GameState(5, 10, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][0].click(o.x, o.y)) {
-                    GameState st = new GameState(8, 8);
+                    GameState st = new GameState(8, 8, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][1].click(o.x, o.y)) {
-                    GameState st = new GameState(10, 10);
+                    GameState st = new GameState(10, 10, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][2].click(o.x, o.y)) {
-                    GameState st = new GameState(10, 15);
+                    GameState st = new GameState(10, 15, null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
@@ -153,4 +168,18 @@ public class LevelSelectionState extends State {
         }
         engine.getInput().emptyTouchEvents();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+
+
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 1);
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+
+        previous.onSaveInstanceState(estaEscena);
+    }
+
 }

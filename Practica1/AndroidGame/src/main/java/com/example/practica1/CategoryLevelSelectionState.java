@@ -216,7 +216,7 @@ public class CategoryLevelSelectionState extends State {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 } else if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState();
+                    ShopState st = new ShopState(null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

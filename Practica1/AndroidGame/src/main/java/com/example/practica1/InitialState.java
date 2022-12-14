@@ -1,5 +1,7 @@
 package com.example.practica1;
 
+import android.os.Bundle;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -25,12 +27,24 @@ public class InitialState extends State {
     Button MoneyButton;
     AImage MoneyButtonImage;
 
-    public InitialState() {
+    public InitialState(Bundle savedData) {
+        if (savedData != null){
+            Bundle PrevScene = savedData.getBundle("Scene");
+            if (PrevScene != null){
+                switch (PrevScene.getInt("SceneType")){
+                    case 0:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
         engine = e;
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
         title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -121,13 +135,13 @@ public class InitialState extends State {
                 }
 
                 if (ArcadeButton.click(o.x, o.y)) {
-                    LevelSelectionState st = new LevelSelectionState();
+                    LevelSelectionState st = new LevelSelectionState(null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 }
                 if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState();
+                    ShopState st = new ShopState(null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
@@ -136,6 +150,16 @@ public class InitialState extends State {
 
             engine.getInput().emptyTouchEvents();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 0);
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+        //hay que meter la escena principal
     }
 
 }

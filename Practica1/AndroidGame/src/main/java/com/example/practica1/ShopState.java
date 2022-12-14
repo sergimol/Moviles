@@ -1,6 +1,7 @@
 package com.example.practica1;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -26,12 +27,31 @@ public class ShopState extends State {
     Button RedStyleButton;
     AImage RedStyleButtonImage;
 
-    public ShopState() {
+    public ShopState(){}
+    public ShopState(Bundle savedData) {
+        if (savedData != null) {
+            Bundle PrevScene = savedData.getBundle("Scene");
+            switch (PrevScene.getInt("SceneType")) {
+                case 0:
+                    previous = new InitialState(PrevScene);
+                    break;
+                case 1:
+                    previous = new LevelSelectionState(PrevScene);
+                    break;
+                case 2:
+                    previous = new GameState(PrevScene.getInt("x"), PrevScene.getInt("y"), PrevScene);
+                    break;
+                default:
+                    previous = new InitialState(null);
+                    break;
+            }
+        }
     }
 
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
         engine = e;
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
@@ -100,4 +120,17 @@ public class ShopState extends State {
         }
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+
+
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 3);
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+
+        previous.onSaveInstanceState(estaEscena);
+    }
 }

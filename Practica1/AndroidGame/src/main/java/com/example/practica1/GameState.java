@@ -2,6 +2,7 @@ package com.example.practica1;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Bundle;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -31,9 +32,29 @@ public class GameState extends State {
     boolean showingWrong = false;
     ATimer timer;
 
-    public GameState(int x, int y) {
+    public GameState(int x, int y, Bundle savedData) {
         board = new Board(x, y);
         vidas = new Lives();
+
+
+        if (savedData != null){
+            Bundle prevScene = savedData.getBundle("Scene");
+            if (prevScene != null){
+                switch (prevScene.getInt("SceneType")){
+                    case 0:
+                        previous = new InitialState(prevScene);
+                        break;
+                    case 1:
+                        previous = new LevelSelectionState(prevScene);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+
     }
 
     public GameState(AssetManager assets, String level) throws IOException {
@@ -43,6 +64,7 @@ public class GameState extends State {
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
         engine = e;
 
         font = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -188,5 +210,18 @@ public class GameState extends State {
             }
         }
         engine.getInput().emptyTouchEvents();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 2);
+        estaEscena.putInt("x", board.getxSize());
+        estaEscena.putInt("y", board.getySize());
+
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+
+        previous.onSaveInstanceState(estaEscena);
     }
 }
