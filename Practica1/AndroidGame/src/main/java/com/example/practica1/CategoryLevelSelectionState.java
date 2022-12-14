@@ -1,6 +1,7 @@
 package com.example.practica1;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.example.androidengine.AEngine;
@@ -32,9 +33,24 @@ public class CategoryLevelSelectionState extends State {
     public CategoryLevelSelectionState() {
 
     }
+    public CategoryLevelSelectionState(Bundle savedData) {
+        if (savedData != null){
+            Bundle prevScene = savedData.getBundle("Scene");
+            if (prevScene != null){
+                switch (prevScene.getInt("SceneType")){
+                    case 5:
+                        previous = new CategorySelect(prevScene);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
         engine = e;
 
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -235,5 +251,19 @@ public class CategoryLevelSelectionState extends State {
         }
 
         engine.getInput().emptyTouchEvents();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+
+
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 4);
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+
+        previous.onSaveInstanceState(estaEscena);
     }
 }

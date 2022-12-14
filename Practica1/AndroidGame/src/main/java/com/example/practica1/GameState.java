@@ -47,6 +47,9 @@ public class GameState extends State {
                     case 1:
                         previous = new LevelSelectionState(prevScene);
                         break;
+                    case 4:
+                        previous = new CategoryLevelSelectionState(prevScene);
+                        break;
                     default:
                         break;
                 }

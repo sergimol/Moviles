@@ -1,5 +1,7 @@
 package com.example.practica1;
 
+import android.os.Bundle;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -34,10 +36,24 @@ public class CategorySelect extends State {
 
     public CategorySelect() {
     }
-
+    public CategorySelect(Bundle savedData) {
+        if (savedData != null){
+            Bundle prevScene = savedData.getBundle("Scene");
+            if (prevScene != null){
+                switch (prevScene.getInt("SceneType")){
+                    case 0:
+                        previous = new InitialState(prevScene);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     @Override
     public void init(AEngine e) {
+        super.init(e);
         engine = e;
 
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
@@ -162,5 +178,18 @@ public class CategorySelect extends State {
         }
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+
+
+        Bundle estaEscena = new Bundle();
+        estaEscena.putInt("SceneType", 5);
+        //de haber una PrevScene para seguir con este bucle de Bundles
+        outState.putBundle("Scene", estaEscena);
+
+        previous.onSaveInstanceState(estaEscena);
+    }
 }
 
