@@ -5,8 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class AImage {
+public class AImage implements Serializable {
     private Bitmap image_;
     private String name_;
 

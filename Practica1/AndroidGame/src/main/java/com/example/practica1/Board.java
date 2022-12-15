@@ -9,11 +9,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Vector;
 
-public class Board {
+public class Board implements Serializable {
     private int xSize, ySize;
     private int xZeroCord, yZeroCord;
     private float cellSide, cellSpacing;

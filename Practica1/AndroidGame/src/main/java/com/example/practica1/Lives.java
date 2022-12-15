@@ -1,9 +1,18 @@
 package com.example.practica1;
 
+import android.os.Bundle;
+
 import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
 
-public class Lives {
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Lives implements Serializable {
     int maxLives = 3;
     int hearts = 3;
 
@@ -47,5 +56,66 @@ public class Lives {
             g.drawImage(container, (posX * (1 + i) + spacing * (i)), posY, (int)sizeX, (int)sizeY);
         }
     }
+
+
+    public void metodoQueSerializa(){
+        try
+        {
+            FileOutputStream fos = new FileOutputStream("Corazones.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(hearts);
+            oos.close();
+            fos.close();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+
+
+    public void metodoQueDesSerializa(){
+        try
+        {
+            FileInputStream fis = new FileInputStream("Corazones.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            hearts = (int) ois.readObject();
+
+            ois.close();
+            fis.close();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+            return;
+        }
+        catch (ClassNotFoundException c)
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
+    }
+
+
+    public void save (Bundle outState){
+        outState.putSerializable("vidas", hearts);
+    }
+    public void load (Bundle saveState){
+        hearts = (int) saveState.getSerializable("vidas");
+    }
+
+    /*
+    private void writeObject(java.io.ObjectOutputStream out){
+        throws IOException;
+    }
+    private void readObject(java.io.ObjectInputStream in){
+        throws IOException, ClassNotFoundException;
+    }
+    private void readObjectNoData(){
+        throws ObjectStreamException;
+    }
+*/
 
 }

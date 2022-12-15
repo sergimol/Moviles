@@ -54,8 +54,10 @@ public class GameState extends State {
                         break;
                 }
             }
+            vidas.load(savedData);
         }
 
+        //vidas = (Lives) savedData.getSerializable("corazones");
 
 
     }
@@ -91,6 +93,8 @@ public class GameState extends State {
         vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
         vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
         vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+
+        //vidas.metodoQueDesSerializa();
     }
 
     @Override
@@ -226,5 +230,10 @@ public class GameState extends State {
         outState.putBundle("Scene", estaEscena);
 
         previous.onSaveInstanceState(estaEscena);
+
+        vidas.save(estaEscena);
+        //outState.putSerializable("corazones", vidas);
+        //vidas.metodoQueSerializa();
+
     }
 }

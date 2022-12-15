@@ -2,6 +2,8 @@ package com.example.practica1;
 
 import com.example.androidengine.AGraphics;
 
+import java.io.Serializable;
+
 enum cellStates {
     Grey, Blue, Empty, Red
 };
@@ -10,7 +12,7 @@ enum checkStates {
     Correct, Wrong, Missing
 };
 
-public class Cell {
+public class Cell implements Serializable {
     // Posiciones logicas dentro del tablero
     int xPos, yPos;
     // Estado de la casilla
