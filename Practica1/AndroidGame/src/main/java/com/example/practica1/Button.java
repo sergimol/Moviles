@@ -30,8 +30,10 @@ public class Button {
     private float clickBottomY;
     int color;
 
+    boolean buttonUnlocked;
 
-    Button(AFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_) {
+
+    Button(AFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_, boolean unlock) {
         fuente = f;
         texto = text;
         PosX = x;
@@ -41,15 +43,17 @@ public class Button {
         color = c;
         TextSize = TextSize_;
         isButtonFont = true;
+        buttonUnlocked = unlock;
     }
 
-    Button(AImage ima, float x, float y, float sizeX_, float sizeY_) {
+    Button(AImage ima, float x, float y, float sizeX_, float sizeY_, boolean unlock) {
         imagen = ima;
         PosX = x;
         PosY = y;
         SizeX = sizeX_;
         SizeY = sizeY_;
         isButtonFont = false;
+        buttonUnlocked = unlock;
     }
 
 
@@ -80,6 +84,8 @@ public class Button {
     }
 
     boolean click(float x, float y) {
+        if (!buttonUnlocked)
+            return false;
         if (x >= clickTopX && x < clickBottomX)
             if (y >= clickTopY && y < clickBottomY) {
                 return true;
@@ -109,5 +115,11 @@ public class Button {
         return imagen;
     }
 
+    public void unlockButton() {
+        buttonUnlocked = true;
+    }
 
+    public boolean isButtonUnlocked() {
+        return buttonUnlocked;
+    }
 }

@@ -36,12 +36,12 @@ public class GameState extends State {
         vidas = new Lives();
 
 
-        if (savedData != null){
+        if (savedData != null) {
             board = new Board();
 
             Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null){
-                switch (prevScene.getInt("SceneType")){
+            if (prevScene != null) {
+                switch (prevScene.getInt("SceneType")) {
                     case 0:
                         previous = new InitialState(prevScene);
                         break;
@@ -57,8 +57,8 @@ public class GameState extends State {
             }
             vidas.load(savedData);
             board.load(savedData);
-        }else{
-            board = new Board(x,y);
+        } else {
+            board = new Board(x, y);
         }
 
         //vidas = (Lives) savedData.getSerializable("corazones");
@@ -81,11 +81,11 @@ public class GameState extends State {
 
         //SurrenderButton
         SurrenderButtonImage = e.getGraphics().newImage(engine.getStyle() + "SurrenderButton.png");
-        SurrenderButton = new Button(SurrenderButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
+        SurrenderButton = new Button(SurrenderButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         SurrenderButton.moveButton((int) (SurrenderButton.getSizeX() / 2), (int) (SurrenderButton.getSizeY() / 2));
         //CheckButton
         CheckButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
-        CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f);
+        CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) (CheckButton.getSizeY() / 2));
 
         timer = e.getTimer();

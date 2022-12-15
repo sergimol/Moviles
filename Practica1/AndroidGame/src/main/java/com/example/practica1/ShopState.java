@@ -27,7 +27,9 @@ public class ShopState extends State {
     Button RedStyleButton;
     AImage RedStyleButtonImage;
 
-    public ShopState(){}
+    public ShopState() {
+    }
+
     public ShopState(Bundle savedData) {
         if (savedData != null) {
             Bundle PrevScene = savedData.getBundle("Scene");
@@ -58,14 +60,14 @@ public class ShopState extends State {
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
         BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
         PresetStyleButtonImage = e.getGraphics().newImage("PresetLevelUnlocked.png");
-        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         //ArcadeButton
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
-        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
     }
 
     @Override
@@ -123,7 +125,6 @@ public class ShopState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
 
 
         Bundle estaEscena = new Bundle();

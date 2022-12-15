@@ -33,11 +33,12 @@ public class CategoryLevelSelectionState extends State {
     public CategoryLevelSelectionState() {
 
     }
+
     public CategoryLevelSelectionState(Bundle savedData) {
-        if (savedData != null){
+        if (savedData != null) {
             Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null){
-                switch (prevScene.getInt("SceneType")){
+            if (prevScene != null) {
+                switch (prevScene.getInt("SceneType")) {
                     case 5:
                         previous = new CategorySelect(prevScene);
                         break;
@@ -57,11 +58,11 @@ public class CategoryLevelSelectionState extends State {
 
         //BackButton
         BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
         //MoneyButton
         MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
-        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
 
@@ -79,10 +80,11 @@ public class CategoryLevelSelectionState extends State {
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
 
-        boolean[] unlocks = loadUnlocks("desbloqueos_prueba4");
+
+        boolean[] unlocks = ((MainActivity)engine.getContext()).loadUnlocks("desbloqueos_prueba4", 20);
 
         for (int i = 0; i < 20; i++) {
-            levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY);
+            levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
         }
 
 
@@ -95,75 +97,8 @@ public class CategoryLevelSelectionState extends State {
             }
             i++;
         }
-        saveUnlocks(unlocks, "desbloqueos_prueba4");
+        ((MainActivity)engine.getContext()).saveUnlocks(unlocks, "desbloqueos_prueba4");
 
-    }
-
-
-    public void saveUnlocks(boolean[] unlocks, String name) {
-        Context context = engine.getContext();
-        try {
-            FileOutputStream f = context.openFileOutput(name,
-                    Context.MODE_PRIVATE);
-            String text = "" + unlocks.length;
-            for (int i = 0; i < unlocks.length; i++) {
-                text += ("\n" + (unlocks[i] ? 1 : 0));
-            }
-            f.write(text.getBytes());
-            f.close();
-        } catch (Exception e) {
-            Log.e("guardado", e.getMessage(), e);
-        }
-    }
-
-    public boolean[] loadUnlocks(String nombre) {
-        Context context = engine.getContext();
-
-
-        String[] a = context.fileList();
-
-        try {
-            for (String file : a) {
-                if (file.equals(nombre)) {
-                    //file exits
-                    FileInputStream f = context.openFileInput(nombre);
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(f));
-
-                    int n = 0;
-                    String line;
-                    int quantity;
-                    int read;
-
-                    line = input.readLine();
-                    quantity = Integer.parseInt(line);
-                    boolean[] unlocks = new boolean[quantity];
-
-                    do {
-                        line = input.readLine();
-                        if (line != null) {
-                            read = Integer.parseInt(line);
-                            unlocks[n] = (read == 1);
-                            n++;
-                        }
-                    }
-                    while (n < quantity && line != null);
-
-                    f.close();
-                    return unlocks;
-                }
-            }
-            return createSaveFiles();
-        } catch (Exception e) {
-            Log.e("guardados error", e.getMessage(), e);
-            return null;
-        }
-    }
-
-    public boolean[] createSaveFiles() {
-        boolean[] res = new boolean[20];
-        res[0] = true;
-        return res;
     }
 
 
@@ -212,8 +147,13 @@ public class CategoryLevelSelectionState extends State {
             for (int i = 0; i < levelsButtons.length; ++i) {
                 //Recorro filas
                 for (int w = 0; w < levelsButtons[0].length; ++w) {
-                    //if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
-                    //    levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
+                    if (levelsButtons[i][w].isButtonUnlocked()) {
+                        if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "LevelUnlocked.png"))
+                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png"));
+                    } else {
+                        if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "LevelLocked.png"))
+                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelLocked.png"));
+                    }
                     levelsButtons[i][w].render(graphics);
                 }
             }
@@ -236,15 +176,22 @@ public class CategoryLevelSelectionState extends State {
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
-                } else if (levelsButtons[0][0].click(o.x, o.y)) {
-                    try {
-                        String p = engine.getContext().getFilesDir().getAbsolutePath();
-                        GameState st = new GameState(engine.getAssets(), "00");
-                        st.setPrevious(this);
-                        engine.setState(st);
-                        st.init(engine);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                } else {
+                    for (int z = 0; z < levelsButtons.length; ++z) {
+                        //Recorro filas
+                        for (int w = 0; w < levelsButtons[0].length; ++w) {
+                            if (levelsButtons[z][w].click(o.x, o.y)) {
+                                try {
+                                    String p = engine.getContext().getFilesDir().getAbsolutePath();
+                                    GameState st = new GameState(engine.getAssets(), "00");
+                                    st.setPrevious(this);
+                                    engine.setState(st);
+                                    st.init(engine);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -256,7 +203,6 @@ public class CategoryLevelSelectionState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
 
 
         Bundle estaEscena = new Bundle();

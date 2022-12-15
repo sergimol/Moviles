@@ -36,11 +36,12 @@ public class CategorySelect extends State {
 
     public CategorySelect() {
     }
+
     public CategorySelect(Bundle savedData) {
-        if (savedData != null){
+        if (savedData != null) {
             Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null){
-                switch (prevScene.getInt("SceneType")){
+            if (prevScene != null) {
+                switch (prevScene.getInt("SceneType")) {
                     case 0:
                         previous = new InitialState(prevScene);
                         break;
@@ -61,20 +62,20 @@ public class CategorySelect extends State {
         title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //CategoryButtons
         EasyButtonImage = e.getGraphics().newImage(engine.getStyle() + "EasyButton.png");
-        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MediumButtonImage = e.getGraphics().newImage(engine.getStyle() + "MediumButton.png");
-        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
         ForestButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
-        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
         DesertButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
-        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
         //MoneyButton
         MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
-        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
         //BackButton
         BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
     }
@@ -153,23 +154,18 @@ public class CategorySelect extends State {
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
-                }
-                else if (MediumButton.click(o.x, o.y)) {
+                } else if (MediumButton.click(o.x, o.y)) {
 
-                }
-                else if (ForestButton.click(o.x, o.y)) {
+                } else if (ForestButton.click(o.x, o.y)) {
 
-                }
-                else if (DesertButton.click(o.x, o.y)) {
+                } else if (DesertButton.click(o.x, o.y)) {
 
-                }
-                else if (MoneyButton.click(o.x, o.y)) {
+                } else if (MoneyButton.click(o.x, o.y)) {
                     ShopState st = new ShopState(null);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
-                }
-                else if (BackButton.click(o.x, o.y)) {
+                } else if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
             }
@@ -181,7 +177,6 @@ public class CategorySelect extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
 
 
         Bundle estaEscena = new Bundle();

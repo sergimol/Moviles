@@ -1,9 +1,11 @@
 package com.example.practica1;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +19,11 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity implements Serializable {
@@ -38,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         //Creamos el SurfaceView y lo inicializamos
         window = new SurfaceView(this);
         setContentView(window);
-
-
 
 
         System.out.println("contador: " + count);
@@ -66,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 
         State state;
-        if (savedInstanceState != null){
-            count = savedInstanceState.getInt("contador",0);
+        if (savedInstanceState != null) {
+            count = savedInstanceState.getInt("contador", 0);
             count++;
             //state = new InitialState();
             Bundle scene = savedInstanceState.getBundle("Scene");
-            if (scene != null){ //una vez aqui nunca va a ser null pero proteccion
-                switch (scene.getInt("SceneType")){
+            if (scene != null) { //una vez aqui nunca va a ser null pero proteccion
+                switch (scene.getInt("SceneType")) {
                     case 0:
                         state = new InitialState(null);
                         break;
@@ -95,13 +99,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                         state = new InitialState(null);
                         break;
                 }
-            }
-            else{
+            } else {
                 state = new InitialState(null);
             }
 
-        }
-        else{
+        } else {
             count = 0;
             state = new InitialState(null);
         }
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         super.onPause();
         androidEngine.pause();
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -138,9 +141,76 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
     //@Override
     //public void onRestoreInstanceState(Bundle savedInstanceState ){
-        //super.OnRestoreInstanceState(savedInstanceState);
+    //super.OnRestoreInstanceState(savedInstanceState);
 
     //}
+
+    public void a(){
+
+    }
+
+    public void saveUnlocks(boolean[] unlocks, String name) {
+        try {
+            FileOutputStream f = openFileOutput(name,
+                    Context.MODE_PRIVATE);
+            String text = "" + unlocks.length;
+            for (int i = 0; i < unlocks.length; i++) {
+                text += ("\n" + (unlocks[i] ? 1 : 0));
+            }
+            f.write(text.getBytes());
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+    }
+
+    public boolean[] loadUnlocks(String nombre, int q) {
+
+        String[] a = fileList();
+
+        try {
+            int quantity = q;
+            for (String file : a) {
+                if (file.equals(nombre)) {
+                    //file exits
+                    FileInputStream f = openFileInput(nombre);
+                    BufferedReader input = new BufferedReader(
+                            new InputStreamReader(f));
+
+                    int n = 0;
+                    String line;
+                    int read;
+
+                    line = input.readLine();
+                    quantity = Integer.parseInt(line);
+                    boolean[] unlocks = new boolean[quantity];
+
+                    do {
+                        line = input.readLine();
+                        if (line != null) {
+                            read = Integer.parseInt(line);
+                            unlocks[n] = (read == 1);
+                            n++;
+                        }
+                    }
+                    while (n < quantity && line != null);
+
+                    f.close();
+                    return unlocks;
+                }
+            }
+            return createSaveFiles(quantity);
+        } catch (Exception e) {
+            Log.e("guardados error", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public boolean[] createSaveFiles(int quantity) {
+        boolean[] res = new boolean[quantity];
+        res[0] = true;
+        return res;
+    }
 }
 
 
