@@ -33,11 +33,12 @@ public class GameState extends State {
     ATimer timer;
 
     public GameState(int x, int y, Bundle savedData) {
-        board = new Board(x, y);
         vidas = new Lives();
 
 
         if (savedData != null){
+            board = new Board();
+
             Bundle prevScene = savedData.getBundle("Scene");
             if (prevScene != null){
                 switch (prevScene.getInt("SceneType")){
@@ -55,6 +56,9 @@ public class GameState extends State {
                 }
             }
             vidas.load(savedData);
+            board.load(savedData);
+        }else{
+            board = new Board(x,y);
         }
 
         //vidas = (Lives) savedData.getSerializable("corazones");
@@ -232,8 +236,8 @@ public class GameState extends State {
         previous.onSaveInstanceState(estaEscena);
 
         vidas.save(estaEscena);
+        board.save(estaEscena);
         //outState.putSerializable("corazones", vidas);
         //vidas.metodoQueSerializa();
-
     }
 }

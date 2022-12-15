@@ -1,5 +1,6 @@
 package com.example.practica1;
 import android.content.res.AssetManager;
+import android.os.Bundle;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -18,15 +19,22 @@ public class Board implements Serializable {
     private int xSize, ySize;
     private int xZeroCord, yZeroCord;
     private float cellSide, cellSpacing;
-    AFont font;
     Cell cells[][];
+
+    Vector<Vector<Integer>> yValues;
+    Vector<Vector<Integer>> xValues;
+
+    //no es serializable
+    AFont font;
 
     Cell getCell(int x, int y) {
         return cells[x][y];
     }
 
-    Vector<Vector<Integer>> yValues;
-    Vector<Vector<Integer>> xValues;
+
+    Board() {
+
+    }
 
     Board(int x, int y) {
         // Nº de celdas en x
@@ -296,4 +304,27 @@ public class Board implements Serializable {
         //de default no sera un error
         return true;
     }
+
+    public void save (Bundle outState){
+        //outState.putSerializable("BoardCells", hearts);
+        //todo esot hayq ue serializarlo
+        outState.putSerializable("Board_xSize", xSize);
+        outState.putSerializable("Board_ySize", ySize);
+        outState.putSerializable("Board_Cells", cells);
+        outState.putSerializable("Board_yValues", yValues);
+        outState.putSerializable("Board_xValues", xValues);
+
+
+    }
+    public void load (Bundle saveState){
+        //hearts = (int) saveState.getSerializable("vidas");
+
+        xSize = (int) saveState.getSerializable("Board_xSize");
+        ySize = (int) saveState.getSerializable("Board_ySize");
+        cells = (Cell[][]) saveState.getSerializable("Board_Cells");
+        yValues = (Vector<Vector<Integer>>) saveState.getSerializable("Board_yValues");
+        xValues = (Vector<Vector<Integer>>) saveState.getSerializable("Board_xValues");
+    }
+
+
 }
