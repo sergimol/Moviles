@@ -84,8 +84,11 @@ public class Button {
     }
 
     boolean click(float x, float y) {
-        if (!buttonUnlocked)
+        if (!buttonUnlocked) //! && No tiene dinero
             return false;
+        //else //! Si tiene dinero
+        //buttonUnlocked = true;
+
         if (x >= clickTopX && x < clickBottomX)
             if (y >= clickTopY && y < clickBottomY) {
                 return true;

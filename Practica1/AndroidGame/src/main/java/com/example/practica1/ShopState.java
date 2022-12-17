@@ -27,6 +27,9 @@ public class ShopState extends State {
     Button RedStyleButton;
     AImage RedStyleButtonImage;
 
+    String categoryType;
+    boolean[] unlocks;
+
     public ShopState() {
     }
 
@@ -64,10 +67,14 @@ public class ShopState extends State {
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
         PresetStyleButtonImage = e.getGraphics().newImage("PresetLevelUnlocked.png");
-        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
+        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[0]);
         //ArcadeButton
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
-        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
+        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1]);
+
+        categoryType="tienda_0";
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType, 2);
+        unlocks[0] = true;
     }
 
     @Override
@@ -114,6 +121,10 @@ public class ShopState extends State {
                 } else if (PresetStyleButton.click(o.x, o.y)) {
                     engine.setStyle("Preset");
                 } else if (RedStyleButton.click(o.x, o.y)) {
+                    if (!unlocks[1]) {
+                        unlocks[1] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
+                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType);
+                    }
                     engine.setStyle("Red");
                 }
             }
@@ -125,8 +136,6 @@ public class ShopState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
-
         Bundle estaEscena = new Bundle();
         estaEscena.putInt("SceneType", 3);
         //de haber una PrevScene para seguir con este bucle de Bundles

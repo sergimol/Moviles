@@ -30,8 +30,12 @@ public class CategoryLevelSelectionState extends State {
     AImage levelUnlocked;
     AImage levelLocked;
 
-    public CategoryLevelSelectionState() {
+    String categoryType;
+    boolean[] unlocks;
 
+
+    public CategoryLevelSelectionState(String category) {
+        categoryType = category;
     }
 
     public CategoryLevelSelectionState(Bundle savedData) {
@@ -79,9 +83,7 @@ public class CategoryLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-
-
-        boolean[] unlocks = ((MainActivity)engine.getContext()).loadUnlocks("desbloqueos_prueba4", 20);
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType + "_0", 20);
 
         for (int i = 0; i < 20; i++) {
             levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
@@ -97,21 +99,9 @@ public class CategoryLevelSelectionState extends State {
             }
             i++;
         }
-        ((MainActivity)engine.getContext()).saveUnlocks(unlocks, "desbloqueos_prueba4");
+        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + "_0");
 
     }
-
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void update(double deltaTime) {
-
-    }
-
 
     @Override
     public void render(AGraphics graphics) {
@@ -183,7 +173,7 @@ public class CategoryLevelSelectionState extends State {
                             if (levelsButtons[z][w].click(o.x, o.y)) {
                                 try {
                                     String p = engine.getContext().getFilesDir().getAbsolutePath();
-                                    GameState st = new GameState(engine.getAssets(), "00");
+                                    GameState st = new GameState(engine.getAssets(), (categoryType + z + w));
                                     st.setPrevious(this);
                                     engine.setState(st);
                                     st.init(engine);

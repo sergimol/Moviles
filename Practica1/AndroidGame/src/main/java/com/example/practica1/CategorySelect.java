@@ -34,6 +34,9 @@ public class CategorySelect extends State {
     Button BackButton;
     AImage BackButtonImage;
 
+    boolean[] unlocks;
+    String filenameAux;
+
     public CategorySelect() {
     }
 
@@ -64,7 +67,7 @@ public class CategorySelect extends State {
         EasyButtonImage = e.getGraphics().newImage(engine.getStyle() + "EasyButton.png");
         EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MediumButtonImage = e.getGraphics().newImage(engine.getStyle() + "MediumButton.png");
-        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
+        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         ForestButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
         ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
         DesertButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
@@ -75,19 +78,15 @@ public class CategorySelect extends State {
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
         //BackButton
         BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
-    }
+        //Desbloqueo Categorias
+        filenameAux = "categorias_0";
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(filenameAux, 2);
+        unlocks[0] = true;
 
-    @Override
-    public void start() {
     }
-
-    @Override
-    public void update(double deltaTime) {
-    }
-
 
     @Override
     public void render(AGraphics graphics) {
@@ -150,16 +149,35 @@ public class CategorySelect extends State {
                 //creo al siguiente escena y la añado al engine
 
                 if (EasyButton.click(o.x, o.y)) {
-                    CategoryLevelSelectionState st = new CategoryLevelSelectionState();
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Easy");
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (MediumButton.click(o.x, o.y)) {
-
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Medium");
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
                 } else if (ForestButton.click(o.x, o.y)) {
+                    if (!unlocks[2]) {
+                        unlocks[2] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
+                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+                    }
 
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Forest");
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
                 } else if (DesertButton.click(o.x, o.y)) {
+                    if (!unlocks[3]) {
+                        unlocks[3] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
+                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+                    }
 
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Desert");
+                    st.setPrevious(this);
+                    engine.setState(st);
+                    st.init(engine);
                 } else if (MoneyButton.click(o.x, o.y)) {
                     ShopState st = new ShopState(null);
                     st.setPrevious(this);

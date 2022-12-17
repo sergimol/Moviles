@@ -145,10 +145,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
     //}
 
-    public void a(){
-
-    }
-
     public void saveUnlocks(boolean[] unlocks, String name) {
         try {
             FileOutputStream f = openFileOutput(name,

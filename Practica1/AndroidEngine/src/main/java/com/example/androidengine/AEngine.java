@@ -25,6 +25,8 @@ public class AEngine implements Runnable {
 
     private Context contexto;
 
+    //private ALockManager lockManager;
+
     private Thread renderThread;
     private AssetManager assetManager;
     private Resources resourcesManager;
@@ -40,11 +42,13 @@ public class AEngine implements Runnable {
         timer = new ATimer();
         contexto = c;
         style = "Preset";
+        //lockManager = new ALockManager();
     }
 
     public Context getContext() {
         return contexto;
     }
+    //public ALockManager getLockManager() {return lockManager;}
 
     FileOutputStream writeStream() {
         return null;
