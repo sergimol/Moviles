@@ -60,6 +60,12 @@ public class ShopState extends State {
         engine = e;
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
+        //Desbloqueo de tienda
+        categoryType="tienda_0";
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType, 2);
+        unlocks[0] = true;
+        unlocks[1] = true;
+
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
         BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
@@ -72,9 +78,7 @@ public class ShopState extends State {
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
         RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1]);
 
-        categoryType="tienda_0";
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType, 2);
-        unlocks[0] = true;
+
     }
 
     @Override

@@ -32,6 +32,7 @@ public class AEngine implements Runnable {
     private Resources resourcesManager;
 
     private String style;
+    public int dinero;
 
     public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c) throws IOException {
         assetManager = assetM;
@@ -43,6 +44,7 @@ public class AEngine implements Runnable {
         contexto = c;
         style = "Preset";
         //lockManager = new ALockManager();
+        dinero = 100;
     }
 
     public Context getContext() {

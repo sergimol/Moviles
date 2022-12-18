@@ -31,6 +31,7 @@ public class CategoryLevelSelectionState extends State {
     AImage levelLocked;
 
     String categoryType;
+    String categoryTypeAux;
     boolean[] unlocks;
 
 
@@ -57,7 +58,7 @@ public class CategoryLevelSelectionState extends State {
     public void init(AEngine e) {
         super.init(e);
         engine = e;
-
+        categoryTypeAux = "_4";
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //BackButton
@@ -83,7 +84,7 @@ public class CategoryLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType + "_0", 20);
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType + categoryTypeAux, 20);
 
         for (int i = 0; i < 20; i++) {
             levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
@@ -97,9 +98,29 @@ public class CategoryLevelSelectionState extends State {
                 unlocks[i] = true;
                 i = unlocks.length;
             }
+            //Si se han completado 5 niveles se desbloquea la siguiente categoria
+            if (i == 4) {
+                switch (categoryType) {
+                    case "Easy":
+                        ((CategorySelect) previous).MediumButton.unlockButton();
+                        ((CategorySelect) previous).unlocks[1] = true;
+
+                        break;
+                    case "Medium":
+                        ((CategorySelect) previous).ForestButton.unlockButton();
+                        ((CategorySelect) previous).unlocks[2] = true;
+                        break;
+                    case "Forest":
+                        ((CategorySelect) previous).DesertButton.unlockButton();
+                        ((CategorySelect) previous).unlocks[3] = true;
+                        break;
+                }
+                //Guarda el archivo del anterior estado
+                ((MainActivity) engine.getContext()).saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
+            }
             i++;
         }
-        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + "_0");
+        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + categoryTypeAux);
 
     }
 

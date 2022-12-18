@@ -35,7 +35,7 @@ public class CategorySelect extends State {
     AImage BackButtonImage;
 
     boolean[] unlocks;
-    String filenameAux;
+    public String filenameAux;
 
     public CategorySelect() {
     }
@@ -60,18 +60,23 @@ public class CategorySelect extends State {
         super.init(e);
         engine = e;
 
+        //Desbloqueo Categorias
+        filenameAux = "categorias_4";
+        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(filenameAux, 4);
+        unlocks[0] = true;
+
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
         title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //CategoryButtons
         EasyButtonImage = e.getGraphics().newImage(engine.getStyle() + "EasyButton.png");
-        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
+        EasyButton = new Button(EasyButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[0]);
         MediumButtonImage = e.getGraphics().newImage(engine.getStyle() + "MediumButton.png");
-        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
-        ForestButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
-        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
-        DesertButtonImage = e.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png");
-        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, false);
+        MediumButton = new Button(MediumButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.8f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1]);
+        ForestButtonImage = e.getGraphics().newImage(engine.getStyle() + "ForestButton.png");
+        ForestButton = new Button(ForestButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[2]);
+        DesertButtonImage = e.getGraphics().newImage(engine.getStyle() + "DesertButton.png");
+        DesertButton = new Button(DesertButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[3]);
         //MoneyButton
         MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
@@ -81,10 +86,6 @@ public class CategorySelect extends State {
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
-        //Desbloqueo Categorias
-        filenameAux = "categorias_0";
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(filenameAux, 2);
-        unlocks[0] = true;
 
     }
 
@@ -111,18 +112,27 @@ public class CategorySelect extends State {
             EasyButton.render(graphics);
         }
         if (MediumButton != null) {
-            if (!MediumButton.getImagen().getName().equals(engine.getStyle() + "MediumButton.png"))
+            if (!MediumButton.buttonUnlocked) {
+                if (!MediumButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
+                    MediumButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
+            } else if (!MediumButton.getImagen().getName().equals(engine.getStyle() + "MediumButton.png"))
                 MediumButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MediumButton.png"));
             MediumButton.render(graphics);
         }
         if (ForestButton != null) {
-            if (!ForestButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
-                ForestButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
+            if (!ForestButton.buttonUnlocked) {
+                if (!ForestButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
+                    ForestButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
+            } else if (!ForestButton.getImagen().getName().equals(engine.getStyle() + "ForestButton.png"))
+                ForestButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "ForestButton.png"));
             ForestButton.render(graphics);
         }
         if (DesertButton != null) {
-            if (!DesertButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
-                DesertButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
+            if (!DesertButton.buttonUnlocked) {
+                if (!DesertButton.getImagen().getName().equals(engine.getStyle() + "BlockedCategory.png"))
+                    DesertButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BlockedCategory.png"));
+            } else if (!DesertButton.getImagen().getName().equals(engine.getStyle() + "DesertButton.png"))
+                DesertButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "DesertButton.png"));
             DesertButton.render(graphics);
         }
         if (MoneyButton != null) {
@@ -154,6 +164,11 @@ public class CategorySelect extends State {
                     engine.setState(st);
                     st.init(engine);
                 } else if (MediumButton.click(o.x, o.y)) {
+                    if (!unlocks[1]) {
+                        unlocks[1] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
+                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+                    }
+
                     CategoryLevelSelectionState st = new CategoryLevelSelectionState("Medium");
                     st.setPrevious(this);
                     engine.setState(st);
@@ -164,6 +179,7 @@ public class CategorySelect extends State {
                         ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
                     }
 
+
                     CategoryLevelSelectionState st = new CategoryLevelSelectionState("Forest");
                     st.setPrevious(this);
                     engine.setState(st);
@@ -173,7 +189,6 @@ public class CategorySelect extends State {
                         unlocks[3] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
                         ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
                     }
-
                     CategoryLevelSelectionState st = new CategoryLevelSelectionState("Desert");
                     st.setPrevious(this);
                     engine.setState(st);
