@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                         state = new ShopState(null);
                         break;
                     case 4:
-                        state = new CategoryLevelSelectionState("null");
+                        state = new CategoryLevelSelectionState(savedInstanceState);
                         break;
                     case 5:
                         state = new CategorySelect(null);
