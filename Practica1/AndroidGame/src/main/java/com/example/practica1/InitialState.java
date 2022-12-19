@@ -155,10 +155,7 @@ public class InitialState extends State {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        Bundle estaEscena = new Bundle();
-        estaEscena.putInt("SceneType", 0);
-        //de haber una PrevScene para seguir con este bucle de Bundles
-        outState.putBundle("Scene", estaEscena);
+        outState.putInt("SceneType", 0);
         //hay que meter la escena principal
     }
 

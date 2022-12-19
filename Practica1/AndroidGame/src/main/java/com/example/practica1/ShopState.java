@@ -140,11 +140,6 @@ public class ShopState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Bundle estaEscena = new Bundle();
-        estaEscena.putInt("SceneType", 3);
-        //de haber una PrevScene para seguir con este bucle de Bundles
-        outState.putBundle("Scene", estaEscena);
-
-        previous.onSaveInstanceState(estaEscena);
+        outState.putInt("SceneType", 3);
     }
 }

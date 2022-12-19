@@ -215,12 +215,6 @@ public class CategoryLevelSelectionState extends State {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-
-        Bundle estaEscena = new Bundle();
-        estaEscena.putInt("SceneType", 4);
-        //de haber una PrevScene para seguir con este bucle de Bundles
-        outState.putBundle("Scene", estaEscena);
-
-        previous.onSaveInstanceState(estaEscena);
+        outState.putInt("SceneType", 4);
     }
 }

@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         window = new SurfaceView(this);
         setContentView(window);
 
-
-
         // fullscreen and remove support action bar
         if (Build.VERSION.SDK_INT < 16)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -70,26 +68,24 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
-            Bundle scene = savedInstanceState.getBundle("Scene");
-            if (scene != null) { //una vez aqui nunca va a ser null pero proteccion
-                switch (scene.getInt("SceneType")) {
+                switch (savedInstanceState.getInt("SceneType")) {
                     case 0:
                         state = new InitialState(null);
                         break;
                     case 1:
-                        state = new LevelSelectionState(scene);
+                        state = new LevelSelectionState(null);
                         break;
                     case 2:
-                        state = new GameState(scene.getInt("x"), scene.getInt("y"), scene);
+                        state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState);
                         break;
                     case 3:
-                        state = new ShopState(scene);
+                        state = new ShopState(null);
                         break;
                     case 4:
-                        state = new CategoryLevelSelectionState(scene);
+                        state = new CategoryLevelSelectionState("null");
                         break;
                     case 5:
-                        state = new CategorySelect(scene);
+                        state = new CategorySelect(null);
                         break;
                     default:
                         state = new InitialState(null);
@@ -99,9 +95,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 state = new InitialState(null);
             }
 
-        } else {
-            state = new InitialState(null);
-        }
         //Creamos el Engine y lo inicializamos
 
         try {

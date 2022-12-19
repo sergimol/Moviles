@@ -38,23 +38,6 @@ public class GameState extends State {
 
         if (savedData != null) {
             board = new Board();
-
-            Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null) {
-                switch (prevScene.getInt("SceneType")) {
-                    case 0:
-                        previous = new InitialState(prevScene);
-                        break;
-                    case 1:
-                        previous = new LevelSelectionState(prevScene);
-                        break;
-                    case 4:
-                        previous = new CategoryLevelSelectionState(prevScene);
-                        break;
-                    default:
-                        break;
-                }
-            }
             vidas.load(savedData);
             board.load(savedData);
         } else {
@@ -225,18 +208,12 @@ public class GameState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Bundle estaEscena = new Bundle();
-        estaEscena.putInt("SceneType", 2);
-        estaEscena.putInt("x", board.getxSize());
-        estaEscena.putInt("y", board.getySize());
+        outState.putInt("SceneType", 2);
+        outState.putInt("x", board.getxSize());
+        outState.putInt("y", board.getySize());
 
-        //de haber una PrevScene para seguir con este bucle de Bundles
-        outState.putBundle("Scene", estaEscena);
-
-        previous.onSaveInstanceState(estaEscena);
-
-        vidas.save(estaEscena);
-        board.save(estaEscena);
+        vidas.save(outState);
+        board.save(outState);
         //outState.putSerializable("corazones", vidas);
         //vidas.metodoQueSerializa();
     }

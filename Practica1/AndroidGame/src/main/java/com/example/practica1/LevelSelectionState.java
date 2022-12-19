@@ -173,12 +173,8 @@ public class LevelSelectionState extends State {
     public void onSaveInstanceState(Bundle outState) {
 
 
-        Bundle estaEscena = new Bundle();
-        estaEscena.putInt("SceneType", 1);
+        outState.putInt("SceneType", 1);
         //de haber una PrevScene para seguir con este bucle de Bundles
-        outState.putBundle("Scene", estaEscena);
-
-        previous.onSaveInstanceState(estaEscena);
     }
 
 }
