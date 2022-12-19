@@ -32,6 +32,10 @@ public class GameState extends State {
     boolean showingWrong = false;
     ATimer timer;
 
+    String level;
+    String category;
+
+
     public GameState(int x, int y, Bundle savedData) {
         vidas = new Lives();
 
@@ -40,6 +44,8 @@ public class GameState extends State {
             board = new Board();
             vidas.load(savedData);
             board.load(savedData);
+            level = savedData.getString("Level");
+            category = savedData.getString("Category");
         } else {
             board = new Board(x, y);
         }
@@ -49,14 +55,29 @@ public class GameState extends State {
 
     }
 
-    public GameState(AssetManager assets, String level) throws IOException {
-        board = new Board(assets, level);
+    public GameState(AssetManager assets, String category_, String level_) throws IOException {
+        board = new Board(assets, category_ + level_);
         vidas = new Lives();
+        level = level_;
+        category = category_;
     }
 
     @Override
     public void init(AEngine e) {
         super.init(e);
+
+        if (previous == null){
+            //dos posibilidades o CategoryLevelSelect, en el caso de que engamos un level,
+            // o El del modo random normal a saber como lo hago
+            if (category != null){
+                previous = new CategoryLevelSelectionState(category);
+            }
+            else{
+                previous = new LevelSelectionState();
+            }
+            previous.init(e);
+        }
+
         engine = e;
 
         font = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -211,7 +232,10 @@ public class GameState extends State {
         outState.putInt("SceneType", 2);
         outState.putInt("x", board.getxSize());
         outState.putInt("y", board.getySize());
-
+        if (category != null) {
+            outState.putString("Category", category);
+            outState.putString("Level", level);
+        }
         vidas.save(outState);
         board.save(outState);
         //outState.putSerializable("corazones", vidas);

@@ -4,15 +4,17 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
-public abstract class State implements Serializable {
+public abstract class State {
 
     public AEngine engine;
     public State previous = null;
+    public boolean initiated = false;
 
     public void init(AEngine e){
-        if (previous != null){
-            previous.init(e);
-        }
+        initiated = true;
+        //if (previous != null){
+          //  previous.init(e);
+       // }
     }
 
     public void start(){}

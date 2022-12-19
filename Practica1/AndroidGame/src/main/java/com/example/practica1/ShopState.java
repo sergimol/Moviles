@@ -140,6 +140,17 @@ public class ShopState extends State {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("SceneType", 3);
+
+        //
+        // outState.putInt("SceneType", 3);
+
+        //me chusta 3 escenas (sinonimo de pingo)
+        //tal y como me dijo tony, nunca guardaremos el estado en Shop, saltaremos siempre a su anterior estado para ahorrarnos el backtracing diabolico
+        //if it isn't the consecuences of my actions
+        // | | | | | | | | | | | | | | |
+        // v v v v v v v v v v v v v v v
+        previous.onSaveInstanceState(outState);
+        //By Diengo
+
     }
 }

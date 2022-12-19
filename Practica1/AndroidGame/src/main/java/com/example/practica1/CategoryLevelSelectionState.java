@@ -41,22 +41,21 @@ public class CategoryLevelSelectionState extends State {
 
     public CategoryLevelSelectionState(Bundle savedData) {
         if (savedData != null) {
-            Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null) {
-                switch (prevScene.getInt("SceneType")) {
-                    case 5:
-                        previous = new CategorySelect(prevScene);
-                        break;
-                    default:
-                        break;
-                }
-            }
+           categoryType = savedData.getString("Category");
         }
     }
 
     @Override
     public void init(AEngine e) {
         super.init(e);
+
+        //escena anterior tiene que ser CategorySelect
+        if (previous == null){
+            previous = new CategorySelect();
+            previous.init(e);
+        }
+
+
         engine = e;
         categoryTypeAux = "_4";
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -194,7 +193,7 @@ public class CategoryLevelSelectionState extends State {
                             if (levelsButtons[z][w].click(o.x, o.y)) {
                                 try {
                                     String p = engine.getContext().getFilesDir().getAbsolutePath();
-                                    GameState st = new GameState(engine.getAssets(), (categoryType + z + w));
+                                    GameState st = new GameState(engine.getAssets(), categoryType, "" + z + w);
                                     st.setPrevious(this);
                                     engine.setState(st);
                                     st.init(engine);
@@ -215,6 +214,8 @@ public class CategoryLevelSelectionState extends State {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
+
+        outState.putString("Category", categoryType);
         outState.putInt("SceneType", 4);
     }
 }

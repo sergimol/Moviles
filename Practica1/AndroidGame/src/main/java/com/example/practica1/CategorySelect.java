@@ -58,6 +58,14 @@ public class CategorySelect extends State {
     @Override
     public void init(AEngine e) {
         super.init(e);
+
+        //escena anterior tiene que ser InitialState
+        if (previous == null){
+            previous = new InitialState();
+            previous.init(e);
+        }
+
+
         engine = e;
 
         //Desbloqueo Categorias

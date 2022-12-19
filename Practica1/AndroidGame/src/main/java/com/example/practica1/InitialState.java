@@ -27,6 +27,7 @@ public class InitialState extends State {
     Button MoneyButton;
     AImage MoneyButtonImage;
 
+    public InitialState(){}
     public InitialState(Bundle savedData) {
         if (savedData != null){
             Bundle PrevScene = savedData.getBundle("Scene");

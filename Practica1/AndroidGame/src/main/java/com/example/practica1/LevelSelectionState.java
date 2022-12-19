@@ -22,6 +22,8 @@ public class LevelSelectionState extends State {
     AImage MoneyButtonImage;
     Button botonesNiveles[][];
 
+    public LevelSelectionState(){
+    }
     public LevelSelectionState(Bundle savedData) {
         if (savedData != null) {
             Bundle prevScene = savedData.getBundle("Scene");
@@ -36,10 +38,15 @@ public class LevelSelectionState extends State {
             }
         }
     }
-
     @Override
     public void init(AEngine e) {
         super.init(e);
+
+        //escena anterior tiene que ser InitialState
+        if (previous == null){
+            previous = new InitialState();
+            previous.init(e);
+        }
 
         engine = e;
 
