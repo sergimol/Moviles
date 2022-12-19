@@ -41,7 +41,8 @@ public class CategorySelect extends State {
     public void SetManager(GameManager m){
         manager = m;
     }
-    public CategorySelect() {
+    public CategorySelect(GameManager m){
+        manager = m;
     }
 
     public CategorySelect(Bundle savedData) {
@@ -170,7 +171,7 @@ public class CategorySelect extends State {
                 //creo al siguiente escena y la añado al engine
 
                 if (EasyButton.click(o.x, o.y)) {
-                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Easy");
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Easy", manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
@@ -180,7 +181,7 @@ public class CategorySelect extends State {
                         manager.saveUnlocks(unlocks, filenameAux);
                     }
 
-                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Medium");
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Medium", manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
@@ -192,7 +193,7 @@ public class CategorySelect extends State {
                     }
 
 
-                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Forest");
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Forest", manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
@@ -201,7 +202,7 @@ public class CategorySelect extends State {
                         unlocks[3] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
                         manager.saveUnlocks(unlocks, filenameAux);
                     }
-                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Desert");
+                    CategoryLevelSelectionState st = new CategoryLevelSelectionState("Desert", manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

@@ -39,11 +39,13 @@ public class CategoryLevelSelectionState extends State {
         manager = m;
     }
 
-    public CategoryLevelSelectionState(String category) {
+    public CategoryLevelSelectionState(String category, GameManager m){
+        manager = m;
         categoryType = category;
     }
 
-    public CategoryLevelSelectionState(Bundle savedData) {
+    public CategoryLevelSelectionState(Bundle savedData, GameManager m){
+            manager = m;
         if (savedData != null) {
            categoryType = savedData.getString("Category");
         }
@@ -55,7 +57,7 @@ public class CategoryLevelSelectionState extends State {
 
         //escena anterior tiene que ser CategorySelect
         if (previous == null){
-            previous = new CategorySelect();
+            previous = new CategorySelect(manager);
             previous.init(e);
         }
 
