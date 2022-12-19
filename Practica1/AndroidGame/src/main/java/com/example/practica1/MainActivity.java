@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private SurfaceView window;
     private AssetManager assetManager;
     private Resources resourcesManager;
-    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         setContentView(window);
 
 
-        System.out.println("contador: " + count);
 
         // fullscreen and remove support action bar
         if (Build.VERSION.SDK_INT < 16)
@@ -71,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
         State state;
         if (savedInstanceState != null) {
-            count = savedInstanceState.getInt("contador", 0);
-            count++;
             //state = new InitialState();
             Bundle scene = savedInstanceState.getBundle("Scene");
             if (scene != null) { //una vez aqui nunca va a ser null pero proteccion
@@ -104,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             }
 
         } else {
-            count = 0;
             state = new InitialState(null);
         }
         //Creamos el Engine y lo inicializamos
@@ -134,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("contador", count);
         //hay que meter la escena principal
         androidEngine.getState().onSaveInstanceState(outState);
     }
