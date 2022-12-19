@@ -40,7 +40,7 @@ public class AEngine implements Runnable {
         assetManager = assetM;
         resourcesManager = resourcesM;
         graphics = new AGraphics(window, assetManager, resourcesM);
-        audio = new AAudio(assetManager);
+        audio = new AAudio(assetManager, true);
         myInput = new AInput(window, graphics);
         timer = new ATimer();
         contexto = c;
@@ -53,7 +53,9 @@ public class AEngine implements Runnable {
         return contexto;
     }
 
-    public Activity getMainActivity() {return mainActivity;}
+    public Activity getMainActivity() {
+        return mainActivity;
+    }
     //public ALockManager getLockManager() {return lockManager;}
 
     FileOutputStream writeStream() {
