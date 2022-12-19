@@ -193,7 +193,7 @@ public class CategoryLevelSelectionState extends State {
                         for (int w = 0; w < levelsButtons[0].length; ++w) {
                             if (levelsButtons[z][w].click(o.x, o.y)) {
                                 try {
-                                    String p = engine.getContext().getFilesDir().getAbsolutePath();
+                                    //String p = engine.getContext().getFilesDir().getAbsolutePath();
                                     GameState st = new GameState(engine.getAssets(), (categoryType + z + w));
                                     st.setPrevious(this);
                                     engine.setState(st);
