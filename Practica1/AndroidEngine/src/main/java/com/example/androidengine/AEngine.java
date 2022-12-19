@@ -1,5 +1,6 @@
 package com.example.androidengine;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -25,6 +26,7 @@ public class AEngine implements Runnable {
 
     private Context contexto;
 
+    private Activity mainActivity;
     //private ALockManager lockManager;
 
     private Thread renderThread;
@@ -34,7 +36,7 @@ public class AEngine implements Runnable {
     private String style;
     public int dinero;
 
-    public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c) throws IOException {
+    public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c, Activity main) throws IOException {
         assetManager = assetM;
         resourcesManager = resourcesM;
         graphics = new AGraphics(window, assetManager, resourcesM);
@@ -50,6 +52,8 @@ public class AEngine implements Runnable {
     public Context getContext() {
         return contexto;
     }
+
+    public Activity getMainActivity() {return mainActivity;}
     //public ALockManager getLockManager() {return lockManager;}
 
     FileOutputStream writeStream() {

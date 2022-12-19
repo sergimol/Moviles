@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private SurfaceView window;
     private AssetManager assetManager;
     private Resources resourcesManager;
-
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,17 +66,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         });
 
         ResourceLoader resourceLoader = new ResourceLoader();
-
-
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
             Bundle scene = savedInstanceState.getBundle("Scene");
             if (scene != null) { //una vez aqui nunca va a ser null pero proteccion
                 switch (scene.getInt("SceneType")) {
-                    case 0:
-                        state = new InitialState(null);
-                        break;
                     case 1:
                         state = new LevelSelectionState(scene);
                         break;
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         //Creamos el Engine y lo inicializamos
 
         try {
-            androidEngine = new AEngine(window, assetManager, resourcesManager, this);
+            androidEngine = new AEngine(window, assetManager, resourcesManager, this, this);
             androidEngine.setState(state);
             resourceLoader.loadResources(androidEngine);
         } catch (IOException e) {

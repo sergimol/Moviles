@@ -8,6 +8,8 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 //import java.awt.Font;
 import java.util.List;
@@ -60,7 +62,6 @@ public class InitialState extends State {
         MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
-
         //Font Button
         //myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         //Image Button
