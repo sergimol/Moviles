@@ -8,10 +8,8 @@ public abstract class State {
 
     public AEngine engine;
     public State previous = null;
-    public boolean initiated = false;
 
     public void init(AEngine e){
-        initiated = true;
         //if (previous != null){
           //  previous.init(e);
        // }

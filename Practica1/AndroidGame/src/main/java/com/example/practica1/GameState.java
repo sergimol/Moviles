@@ -35,6 +35,11 @@ public class GameState extends State {
     String level;
     String category;
 
+    GameManager manager;
+
+    public void SetManager(GameManager m){
+        manager = m;
+    }
 
     public GameState(int x, int y, Bundle savedData) {
         vidas = new Lives();

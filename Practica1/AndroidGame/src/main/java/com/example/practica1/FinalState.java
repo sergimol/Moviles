@@ -18,6 +18,12 @@ public class FinalState extends State {
     Button BackButton;
     AImage BackButtonImage;
 
+    GameManager manager;
+
+    public void SetManager(GameManager m){
+        manager = m;
+    }
+
     public FinalState(Board b) {
         board = b;
     }

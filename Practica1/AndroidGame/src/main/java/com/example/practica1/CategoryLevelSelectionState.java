@@ -33,7 +33,11 @@ public class CategoryLevelSelectionState extends State {
     String categoryType;
     String categoryTypeAux;
     boolean[] unlocks;
+    GameManager manager;
 
+    public void SetManager(GameManager m){
+        manager = m;
+    }
 
     public CategoryLevelSelectionState(String category) {
         categoryType = category;
@@ -83,7 +87,7 @@ public class CategoryLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType + categoryTypeAux, 20);
+        unlocks =  manager.loadUnlocks(categoryType + categoryTypeAux, 20);
 
         for (int i = 0; i < 20; i++) {
             levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
@@ -115,11 +119,13 @@ public class CategoryLevelSelectionState extends State {
                         break;
                 }
                 //Guarda el archivo del anterior estado
-                ((MainActivity) engine.getContext()).saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
+                manager.saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
+                //((MainActivity) engine.getContext()).saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
             }
             i++;
         }
-        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + categoryTypeAux);
+        manager.saveUnlocks(unlocks, categoryType + categoryTypeAux);
+        //((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + categoryTypeAux);
 
     }
 
@@ -182,7 +188,7 @@ public class CategoryLevelSelectionState extends State {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 } else if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState(null);
+                    ShopState st = new ShopState(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

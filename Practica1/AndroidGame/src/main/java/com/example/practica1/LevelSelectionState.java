@@ -22,20 +22,26 @@ public class LevelSelectionState extends State {
     AImage MoneyButtonImage;
     Button botonesNiveles[][];
 
-    public LevelSelectionState(){
+    GameManager manager;
+
+    public void SetManager(GameManager m){
+        manager = m;
     }
-    public LevelSelectionState(Bundle savedData) {
+
+    public LevelSelectionState(GameManager m){
+        manager = m;
+    }
+    public LevelSelectionState(Bundle savedData,GameManager m){
+        manager = m;
         if (savedData != null) {
-            Bundle prevScene = savedData.getBundle("Scene");
-            if (prevScene != null) {
-                switch (prevScene.getInt("SceneType")) {
+                switch (savedData.getInt("SceneType")) {
                     case 0:
-                        previous = new InitialState(prevScene);
+                        previous = new InitialState(savedData, manager);
                         break;
                     default:
                         break;
                 }
-            }
+
         }
     }
     @Override
@@ -44,7 +50,7 @@ public class LevelSelectionState extends State {
 
         //escena anterior tiene que ser InitialState
         if (previous == null){
-            previous = new InitialState();
+            previous = new InitialState(manager);
             previous.init(e);
         }
 
@@ -136,7 +142,7 @@ public class LevelSelectionState extends State {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 } else if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState();
+                    ShopState st = new ShopState(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

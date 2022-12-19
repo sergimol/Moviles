@@ -29,8 +29,17 @@ public class InitialState extends State {
     Button MoneyButton;
     AImage MoneyButtonImage;
 
-    public InitialState(){}
-    public InitialState(Bundle savedData) {
+    GameManager manager;
+
+    public void SetManager(GameManager m){
+        manager = m;
+    }
+
+    public InitialState(GameManager m){
+        manager = m;
+    }
+    public InitialState(Bundle savedData, GameManager m){
+        manager = m;
         if (savedData != null){
             Bundle PrevScene = savedData.getBundle("Scene");
             if (PrevScene != null){
@@ -143,7 +152,7 @@ public class InitialState extends State {
                     st.init(engine);
                 }
                 if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState(null);
+                    ShopState st = new ShopState(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

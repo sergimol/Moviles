@@ -33,24 +33,30 @@ public class ShopState extends State {
     String unlockType;
     int[] moneyUnlocks;
 
-    public ShopState() {
+
+    GameManager manager;
+
+    public void SetManager(GameManager m){
+        manager = m;
+    }
+    public ShopState(GameManager m){
+        manager = m;
     }
 
     public ShopState(Bundle savedData) {
         if (savedData != null) {
-            Bundle PrevScene = savedData.getBundle("Scene");
-            switch (PrevScene.getInt("SceneType")) {
+            switch (savedData.getInt("SceneType")) {
                 case 0:
-                    previous = new InitialState(PrevScene);
+                    previous = new InitialState(savedData, manager);
                     break;
                 case 1:
-                    previous = new LevelSelectionState(PrevScene);
+                    previous = new LevelSelectionState(savedData, manager);
                     break;
                 case 2:
-                    previous = new GameState(PrevScene.getInt("x"), PrevScene.getInt("y"), PrevScene);
+                    previous = new GameState(savedData.getInt("x"), savedData.getInt("y"), savedData);
                     break;
                 default:
-                    previous = new InitialState(null);
+                    previous = new InitialState(manager);
                     break;
             }
         }
@@ -65,10 +71,10 @@ public class ShopState extends State {
 
         //Desbloqueo de tienda
         categoryType = "tienda_0";
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType, 2);
+        unlocks = manager.loadUnlocks(categoryType, 2);
         unlocks[0] = true;
         unlockType = "compras_0";
-        moneyUnlocks = ((MainActivity) engine.getContext()).loadUnlocksINT(unlockType, 2);
+        moneyUnlocks = manager.loadUnlocksINT(unlockType, 2);
 
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
@@ -136,7 +142,7 @@ public class ShopState extends State {
                         if (!unlocks[1]) {
                             //Unlockear boton
                             unlocks[1] = true;
-                            ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType);
+                            manager.saveUnlocks(unlocks, categoryType);
                         }
 
                         if (RedStyleButton.moneyToUnlock == 0) {
@@ -146,7 +152,7 @@ public class ShopState extends State {
                             engine.dinero -= RedStyleButton.moneyToUnlock;
                             RedStyleButton.moneyToUnlock = 0;
                             moneyUnlocks[0] = 0;
-                            ((MainActivity) engine.getContext()).saveUnlocksINT(moneyUnlocks, unlockType);
+                            manager.saveUnlocksINT(moneyUnlocks, unlockType);
                         }
                     }
                 }

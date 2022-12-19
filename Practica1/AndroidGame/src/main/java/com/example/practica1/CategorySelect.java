@@ -36,7 +36,11 @@ public class CategorySelect extends State {
 
     boolean[] unlocks;
     public String filenameAux;
+    GameManager manager;
 
+    public void SetManager(GameManager m){
+        manager = m;
+    }
     public CategorySelect() {
     }
 
@@ -46,7 +50,7 @@ public class CategorySelect extends State {
             if (prevScene != null) {
                 switch (prevScene.getInt("SceneType")) {
                     case 0:
-                        previous = new InitialState(prevScene);
+                        previous = new InitialState(prevScene, manager);
                         break;
                     default:
                         break;
@@ -61,7 +65,7 @@ public class CategorySelect extends State {
 
         //escena anterior tiene que ser InitialState
         if (previous == null){
-            previous = new InitialState();
+            previous = new InitialState(manager);
             previous.init(e);
         }
 
@@ -70,9 +74,8 @@ public class CategorySelect extends State {
 
         //Desbloqueo Categorias
         filenameAux = "categorias_0";
-        unlocks = ((MainActivity) engine.getContext()).loadUnlocks(filenameAux, 4);
+        unlocks = manager.loadUnlocks(filenameAux, 4);
         unlocks[0] = true;
-
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
         title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -174,7 +177,7 @@ public class CategorySelect extends State {
                 } else if (MediumButton.click(o.x, o.y)) {
                     if (!unlocks[1]) {
                         unlocks[1] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
-                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+                        manager.saveUnlocks(unlocks, filenameAux);
                     }
 
                     CategoryLevelSelectionState st = new CategoryLevelSelectionState("Medium");
@@ -184,7 +187,8 @@ public class CategorySelect extends State {
                 } else if (ForestButton.click(o.x, o.y)) {
                     if (!unlocks[2]) {
                         unlocks[2] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
-                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+
+                        manager.saveUnlocks(unlocks, filenameAux);
                     }
 
 
@@ -195,14 +199,14 @@ public class CategorySelect extends State {
                 } else if (DesertButton.click(o.x, o.y)) {
                     if (!unlocks[3]) {
                         unlocks[3] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
-                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, filenameAux);
+                        manager.saveUnlocks(unlocks, filenameAux);
                     }
                     CategoryLevelSelectionState st = new CategoryLevelSelectionState("Desert");
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (MoneyButton.click(o.x, o.y)) {
-                    ShopState st = new ShopState(null);
+                    ShopState st = new ShopState(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

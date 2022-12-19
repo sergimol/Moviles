@@ -66,34 +66,38 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         });
 
         ResourceLoader resourceLoader = new ResourceLoader();
+
+
+        GameManager manager = new GameManager(this);
+
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
                 switch (savedInstanceState.getInt("SceneType")) {
                     case 0:
-                        state = new InitialState(null);
+                        state = new InitialState(manager);
                         break;
                     case 1:
-                        state = new LevelSelectionState(null);
+                        state = new LevelSelectionState(manager);
                         break;
                     case 2:
                         state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState);
                         break;
                     case 3:
-                        state = new ShopState(null);
+                        state = new ShopState(manager);
                         break;
                     case 4:
                         state = new CategoryLevelSelectionState(savedInstanceState);
                         break;
                     case 5:
-                        state = new CategorySelect(null);
+                        state = new CategorySelect();
                         break;
                     default:
-                        state = new InitialState(null);
+                        state = new InitialState(manager);
                         break;
                 }
             } else {
-                state = new InitialState(null);
+                state = new InitialState(manager);
             }
 
         //Creamos el Engine y lo inicializamos
@@ -133,133 +137,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
     //}
 
-    public void saveUnlocks(boolean[] unlocks, String name) {
-        try {
-            FileOutputStream f = openFileOutput(name,
-                    Context.MODE_PRIVATE);
-            String text = "" + unlocks.length;
-            for (int i = 0; i < unlocks.length; i++) {
-                text += ("\n" + (unlocks[i] ? 1 : 0));
-            }
-            f.write(text.getBytes());
-            f.close();
-        } catch (Exception e) {
-            Log.e("guardado", e.getMessage(), e);
-        }
-    }
-
-    public boolean[] loadUnlocks(String nombre, int q) {
-
-        String[] a = fileList();
-
-        try {
-            int quantity = q;
-            for (String file : a) {
-                if (file.equals(nombre)) {
-                    //file exits
-                    FileInputStream f = openFileInput(nombre);
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(f));
-
-                    int n = 0;
-                    String line;
-                    int read;
-
-                    line = input.readLine();
-                    quantity = Integer.parseInt(line);
-                    boolean[] unlocks = new boolean[quantity];
-
-                    do {
-                        line = input.readLine();
-                        if (line != null) {
-                            read = Integer.parseInt(line);
-                            unlocks[n] = (read == 1);
-                            n++;
-                        }
-                    }
-                    while (n < quantity && line != null);
-
-                    f.close();
-                    return unlocks;
-                }
-            }
-            return createSaveFiles(quantity);
-        } catch (Exception e) {
-            Log.e("guardados error", e.getMessage(), e);
-            return null;
-        }
-    }
-
-    public boolean[] createSaveFiles(int quantity) {
-        boolean[] res = new boolean[quantity];
-        res[0] = true;
-        return res;
-    }
-
-    //METODOS PARA INT (LO HARIA SOLO CON ESTOS TODO)
-
-    public void saveUnlocksINT(int[] unlocks, String name) {
-        try {
-            FileOutputStream f = openFileOutput(name,
-                    Context.MODE_PRIVATE);
-            String text = "" + unlocks.length;
-            for (int i = 0; i < unlocks.length; i++) {
-                text += ("\n" + (unlocks[i]));
-            }
-            f.write(text.getBytes());
-            f.close();
-        } catch (Exception e) {
-            Log.e("guardado", e.getMessage(), e);
-        }
-    }
-
-    public int[] loadUnlocksINT(String nombre, int q) {
-
-        String[] a = fileList();
-
-        try {
-            int quantity = q;
-            for (String file : a) {
-                if (file.equals(nombre)) {
-                    //file exits
-                    FileInputStream f = openFileInput(nombre);
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(f));
-
-                    int n = 0;
-                    String line;
-                    int read;
-
-                    line = input.readLine();
-                    quantity = Integer.parseInt(line);
-                    int[] unlocks = new int[quantity];
-
-                    do {
-                        line = input.readLine();
-                        if (line != null) {
-                            read = Integer.parseInt(line);
-                            unlocks[n] = read;
-                            n++;
-                        }
-                    }
-                    while (n < quantity && line != null);
-
-                    f.close();
-                    return unlocks;
-                }
-            }
-            return createSaveFilesINT(quantity);
-        } catch (Exception e) {
-            Log.e("guardados error", e.getMessage(), e);
-            return null;
-        }
-    }
-
-    public int[] createSaveFilesINT(int quantity) {
-        int[] res = new int[quantity];
-        res[0] = 1;
-        return res;
-    }
 }
 
 
