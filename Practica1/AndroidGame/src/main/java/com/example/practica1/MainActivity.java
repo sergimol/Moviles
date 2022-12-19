@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private SurfaceView window;
     private AssetManager assetManager;
     private Resources resourcesManager;
-
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         //Creamos el SurfaceView y lo inicializamos
         window = new SurfaceView(this);
         setContentView(window);
+
 
         // fullscreen and remove support action bar
         if (Build.VERSION.SDK_INT < 16)
@@ -63,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         });
 
         ResourceLoader resourceLoader = new ResourceLoader();
-
-
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         //Creamos el Engine y lo inicializamos
 
         try {
-            androidEngine = new AEngine(window, assetManager, resourcesManager, this);
+            androidEngine = new AEngine(window, assetManager, resourcesManager, this, this);
             androidEngine.setState(state);
             resourceLoader.loadResources(androidEngine);
         } catch (IOException e) {
@@ -192,6 +193,71 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     public boolean[] createSaveFiles(int quantity) {
         boolean[] res = new boolean[quantity];
         res[0] = true;
+        return res;
+    }
+
+    //METODOS PARA INT (LO HARIA SOLO CON ESTOS TODO)
+
+    public void saveUnlocksINT(int[] unlocks, String name) {
+        try {
+            FileOutputStream f = openFileOutput(name,
+                    Context.MODE_PRIVATE);
+            String text = "" + unlocks.length;
+            for (int i = 0; i < unlocks.length; i++) {
+                text += ("\n" + (unlocks[i]));
+            }
+            f.write(text.getBytes());
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+    }
+
+    public int[] loadUnlocksINT(String nombre, int q) {
+
+        String[] a = fileList();
+
+        try {
+            int quantity = q;
+            for (String file : a) {
+                if (file.equals(nombre)) {
+                    //file exits
+                    FileInputStream f = openFileInput(nombre);
+                    BufferedReader input = new BufferedReader(
+                            new InputStreamReader(f));
+
+                    int n = 0;
+                    String line;
+                    int read;
+
+                    line = input.readLine();
+                    quantity = Integer.parseInt(line);
+                    int[] unlocks = new int[quantity];
+
+                    do {
+                        line = input.readLine();
+                        if (line != null) {
+                            read = Integer.parseInt(line);
+                            unlocks[n] = read;
+                            n++;
+                        }
+                    }
+                    while (n < quantity && line != null);
+
+                    f.close();
+                    return unlocks;
+                }
+            }
+            return createSaveFilesINT(quantity);
+        } catch (Exception e) {
+            Log.e("guardados error", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public int[] createSaveFilesINT(int quantity) {
+        int[] res = new int[quantity];
+        res[0] = 1;
         return res;
     }
 }
