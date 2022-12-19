@@ -61,7 +61,7 @@ public class CategorySelect extends State {
         engine = e;
 
         //Desbloqueo Categorias
-        filenameAux = "categorias_4";
+        filenameAux = "categorias_0";
         unlocks = ((MainActivity) engine.getContext()).loadUnlocks(filenameAux, 4);
         unlocks[0] = true;
 

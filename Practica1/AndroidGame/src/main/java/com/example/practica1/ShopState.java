@@ -26,9 +26,12 @@ public class ShopState extends State {
 
     Button RedStyleButton;
     AImage RedStyleButtonImage;
+    AImage RedStyleButtonShopImage;
 
     String categoryType;
     boolean[] unlocks;
+    String unlockType;
+    int[] moneyUnlocks;
 
     public ShopState() {
     }
@@ -61,10 +64,11 @@ public class ShopState extends State {
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
         //Desbloqueo de tienda
-        categoryType="tienda_0";
+        categoryType = "tienda_0";
         unlocks = ((MainActivity) engine.getContext()).loadUnlocks(categoryType, 2);
         unlocks[0] = true;
-        unlocks[1] = true;
+        unlockType = "compras_0";
+        moneyUnlocks = ((MainActivity) engine.getContext()).loadUnlocksINT(unlockType, 2);
 
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
@@ -76,7 +80,8 @@ public class ShopState extends State {
         PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[0]);
         //ArcadeButton
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
-        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1]);
+        RedStyleButtonShopImage = e.getGraphics().newImage("PresetMoneyButton.png");
+        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
 
 
     }
@@ -125,11 +130,25 @@ public class ShopState extends State {
                 } else if (PresetStyleButton.click(o.x, o.y)) {
                     engine.setStyle("Preset");
                 } else if (RedStyleButton.click(o.x, o.y)) {
-                    if (!unlocks[1]) {
-                        unlocks[1] = true;  //Si entra aqui es porque lo hemos desbloqueado comprandolo
-                        ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType);
+                    //
+                    if (engine.dinero >= RedStyleButton.moneyToUnlock) {
+                        //Si entra aqui es porque lo hemos desbloqueado
+                        if (!unlocks[1]) {
+                            //Unlockear boton
+                            unlocks[1] = true;
+                            ((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType);
+                        }
+
+                        if (RedStyleButton.moneyToUnlock == 0) {
+                            engine.setStyle("Red");
+                        } else {
+                            //Comprarlo
+                            engine.dinero -= RedStyleButton.moneyToUnlock;
+                            RedStyleButton.moneyToUnlock = 0;
+                            moneyUnlocks[0] = 0;
+                            ((MainActivity) engine.getContext()).saveUnlocksINT(moneyUnlocks, unlockType);
+                        }
                     }
-                    engine.setStyle("Red");
                 }
             }
 

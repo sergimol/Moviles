@@ -58,7 +58,7 @@ public class CategoryLevelSelectionState extends State {
     public void init(AEngine e) {
         super.init(e);
         engine = e;
-        categoryTypeAux = "_4";
+        categoryTypeAux = "_0";
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //BackButton

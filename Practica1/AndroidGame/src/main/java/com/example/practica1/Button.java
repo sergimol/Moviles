@@ -1,5 +1,6 @@
 package com.example.practica1;
 
+import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
@@ -22,6 +23,7 @@ public class Button {
 
     //Image Button
     private AImage imagen;
+    private AImage buyImagen;
     private boolean isButtonFont;
 
     private float clickTopX;
@@ -31,7 +33,7 @@ public class Button {
     int color;
 
     boolean buttonUnlocked;
-
+    int moneyToUnlock;
 
     Button(AFont f, String text, float x, float y, float sizeX_, float sizeY_, int c, float TextSize_, boolean unlock) {
         fuente = f;
@@ -44,6 +46,7 @@ public class Button {
         TextSize = TextSize_;
         isButtonFont = true;
         buttonUnlocked = unlock;
+        moneyToUnlock = 0;
     }
 
     Button(AImage ima, float x, float y, float sizeX_, float sizeY_, boolean unlock) {
@@ -54,6 +57,19 @@ public class Button {
         SizeY = sizeY_;
         isButtonFont = false;
         buttonUnlocked = unlock;
+        moneyToUnlock = 0;
+    }
+
+    Button(AImage ima, float x, float y, float sizeX_, float sizeY_, boolean unlock, int money, AImage buyImage) {
+        imagen = ima;
+        PosX = x;
+        PosY = y;
+        SizeX = sizeX_;
+        SizeY = sizeY_;
+        isButtonFont = false;
+        buttonUnlocked = unlock;
+        moneyToUnlock = money;
+        buyImagen = buyImage;
     }
 
 
@@ -76,6 +92,15 @@ public class Button {
             }
         } else {
             graphics.drawImage(imagen, clickTopX, clickTopY, (int) (clickBottomX - clickTopX), (int) (clickBottomY - clickTopY));
+            if (moneyToUnlock > 0) {
+                float clickTopXbuy = PosX - (buyImagen.getWidth() / 2);
+                float clickTopYbuy = PosY - (buyImagen.getHeight() / 2);
+
+                float clickBottomXbuy = (clickTopXbuy + SizeY);
+                float clickBottomYbuy = (clickTopYbuy + SizeY);
+
+                graphics.drawImage(buyImagen, clickTopXbuy, clickTopYbuy, (int) (clickBottomXbuy - clickTopXbuy), (int) (clickBottomYbuy - clickTopYbuy));
+            }
         }
     }
 
@@ -84,10 +109,8 @@ public class Button {
     }
 
     boolean click(float x, float y) {
-        if (!buttonUnlocked) //! && No tiene dinero
+        if (!buttonUnlocked && moneyToUnlock == 0)
             return false;
-        //else //! Si tiene dinero
-        //buttonUnlocked = true;
 
         if (x >= clickTopX && x < clickBottomX)
             if (y >= clickTopY && y < clickBottomY) {

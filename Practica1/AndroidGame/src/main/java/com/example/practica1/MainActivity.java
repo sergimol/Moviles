@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         setContentView(window);
 
 
-
         // fullscreen and remove support action bar
         if (Build.VERSION.SDK_INT < 16)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -199,6 +198,71 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     public boolean[] createSaveFiles(int quantity) {
         boolean[] res = new boolean[quantity];
         res[0] = true;
+        return res;
+    }
+
+    //METODOS PARA INT (LO HARIA SOLO CON ESTOS TODO)
+
+    public void saveUnlocksINT(int[] unlocks, String name) {
+        try {
+            FileOutputStream f = openFileOutput(name,
+                    Context.MODE_PRIVATE);
+            String text = "" + unlocks.length;
+            for (int i = 0; i < unlocks.length; i++) {
+                text += ("\n" + (unlocks[i]));
+            }
+            f.write(text.getBytes());
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+    }
+
+    public int[] loadUnlocksINT(String nombre, int q) {
+
+        String[] a = fileList();
+
+        try {
+            int quantity = q;
+            for (String file : a) {
+                if (file.equals(nombre)) {
+                    //file exits
+                    FileInputStream f = openFileInput(nombre);
+                    BufferedReader input = new BufferedReader(
+                            new InputStreamReader(f));
+
+                    int n = 0;
+                    String line;
+                    int read;
+
+                    line = input.readLine();
+                    quantity = Integer.parseInt(line);
+                    int[] unlocks = new int[quantity];
+
+                    do {
+                        line = input.readLine();
+                        if (line != null) {
+                            read = Integer.parseInt(line);
+                            unlocks[n] = read;
+                            n++;
+                        }
+                    }
+                    while (n < quantity && line != null);
+
+                    f.close();
+                    return unlocks;
+                }
+            }
+            return createSaveFilesINT(quantity);
+        } catch (Exception e) {
+            Log.e("guardados error", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public int[] createSaveFilesINT(int quantity) {
+        int[] res = new int[quantity];
+        res[0] = 1;
         return res;
     }
 }
