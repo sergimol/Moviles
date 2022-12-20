@@ -284,6 +284,37 @@ public class GameState extends State {
                         missingCount = a[1];
                         //Si has completado el puzzle
                         if (wrongCount == 0 && missingCount == 0) {
+                            boolean[] unlocks = manager.loadUnlocks(category + "_0", 20);
+                            int i = 0;
+                            while (i < unlocks.length) {
+                                if (!unlocks[i]) {
+                                    unlocks[i] = true;
+                                    i = unlocks.length;
+                                }
+                                //Si se han completado 5 niveles se desbloquea la siguiente categoria
+                                if (i == 4) {
+                                    switch (category) {
+                                        case "Easy":
+                                            ((CategorySelect) previous.getprevious()).MediumButton.unlockButton();
+                                            ((CategorySelect) previous.getprevious()).unlocks[1] = true;
+
+                                            break;
+                                        case "Medium":
+                                            ((CategorySelect) previous.getprevious()).ForestButton.unlockButton();
+                                            ((CategorySelect) previous.getprevious()).unlocks[2] = true;
+                                            break;
+                                        case "Forest":
+                                            ((CategorySelect) previous.getprevious()).DesertButton.unlockButton();
+                                            ((CategorySelect) previous.getprevious()).unlocks[3] = true;
+                                            break;
+                                    }
+                                    //Guarda el archivo del anterior estado
+                                    manager.saveUnlocks(((CategorySelect) previous.getprevious()).unlocks, ((CategorySelect) previous.getprevious()).filenameAux);
+                                    //((MainActivity) engine.getContext()).saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
+                                }
+                                i++;
+                            }
+                            manager.saveUnlocks(unlocks, category + "_0");
                             FinalState st = new FinalState(board, manager);
                             st.setPrevious(this);
                             engine.setState(st);

@@ -57,6 +57,10 @@ public class FinalState extends State {
         TweetButton = new Button(TweetButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f,true);
         TweetButton.moveButton((int) (TweetButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - TweetButton.getSizeY() / 2));
         engine.getAudioFX().playSound("tada");
+
+        manager.addMoney(10);
+
+
     }
 
     @Override
@@ -91,6 +95,7 @@ public class FinalState extends State {
 
                 //FUNCIONALIDAD BOTON VOLVER
                 if (BackButton.click(o.x, o.y)) {
+                    previous.getprevious().init(engine);
                     engine.setState(previous.getprevious());
                 }
                 else if(TweetButton.click(o.x, o.y)){

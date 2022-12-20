@@ -94,39 +94,6 @@ public class CategoryLevelSelectionState extends State {
         for (int i = 0; i < 20; i++) {
             levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
         }
-
-
-        //simular un desbloqueo cada vez que abramos esta pestaña
-        int i = 0;
-        while (i < unlocks.length) {
-            if (!unlocks[i]) {
-                unlocks[i] = true;
-                i = unlocks.length;
-            }
-            //Si se han completado 5 niveles se desbloquea la siguiente categoria
-            if (i == 4) {
-                switch (categoryType) {
-                    case "Easy":
-                        ((CategorySelect) previous).MediumButton.unlockButton();
-                        ((CategorySelect) previous).unlocks[1] = true;
-
-                        break;
-                    case "Medium":
-                        ((CategorySelect) previous).ForestButton.unlockButton();
-                        ((CategorySelect) previous).unlocks[2] = true;
-                        break;
-                    case "Forest":
-                        ((CategorySelect) previous).DesertButton.unlockButton();
-                        ((CategorySelect) previous).unlocks[3] = true;
-                        break;
-                }
-                //Guarda el archivo del anterior estado
-                manager.saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
-                //((MainActivity) engine.getContext()).saveUnlocks(((CategorySelect) previous).unlocks, ((CategorySelect) previous).filenameAux);
-            }
-            i++;
-        }
-        manager.saveUnlocks(unlocks, categoryType + categoryTypeAux);
         //((MainActivity) engine.getContext()).saveUnlocks(unlocks, categoryType + categoryTypeAux);
 
     }
