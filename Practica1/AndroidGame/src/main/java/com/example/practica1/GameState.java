@@ -124,6 +124,28 @@ public class GameState extends State {
         vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
         vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
 
+        Activity main = engine.getMainActivity();
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                RewardedAd.load(main, "ca-app-pub-3940256099942544/5224354917",
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d("GameState", loadAdError.toString());
+                        mRewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        Log.d("GameState", "Ad was loaded.");
+                    }
+                });
+            }
+        });
         //vidas.metodoQueDesSerializa();
     }
 
@@ -216,6 +238,7 @@ public class GameState extends State {
                 if (!board.handleInput(xInCanvas, yInCanvas, engine, true)) {
                     //en el caso de ser un error
                     vidas.subtractLife();
+                    AdButton.unlockButton();
                     if (vidas.getHearts() <= 0) {
                         engine.setState(previous);
                     }
@@ -249,36 +272,20 @@ public class GameState extends State {
                         }
                     }
                 }
-                else if(AdButton.click(o.x, o.y)){
+                else if(AdButton.click(o.x, o.y) && vidas.getHearts() < 3){
                     Activity main = engine.getMainActivity();
                     main.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AdRequest adRequest = new AdRequest.Builder().build();
-                            RewardedAd.load(main, "ca-app-pub-3940256099942544/5224354917",
-                                adRequest, new RewardedAdLoadCallback() {
-                                @Override
-                                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                                    // Handle the error.
-                                    Log.d("GameState", loadAdError.toString());
-                                    mRewardedAd = null;
-                                }
-
-                                @Override
-                                public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                                    mRewardedAd = rewardedAd;
-                                    Log.d("GameState", "Ad was loaded.");
-                                }
-                            });
-
                             if(mRewardedAd != null){
                                 mRewardedAd.show(main, new OnUserEarnedRewardListener() {
                                     @Override
                                     public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                                         // Handle the reward.
                                         Log.d("GameState", "The user earned the reward.");
-                                        int rewardAmount = rewardItem.getAmount();
-                                        String rewardType = rewardItem.getType();
+                                        /*int rewardAmount = rewardItem.getAmount();
+                                        String rewardType = rewardItem.getType();*/
+                                        vidas.addLife();
                                     }
                                 });
                             }
