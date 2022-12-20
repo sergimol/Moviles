@@ -4,17 +4,212 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 
 public class GameManager {
 
-    Context context;
-    int Money;
+    private Context context;
+    private int Money;
 
     public GameManager(Context c) {
         context = c;
+        loadMoney();
+    }
+
+
+    private static String getSalt()
+            throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        // Always use a SecureRandom generator
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+
+        // Create array for salt
+        byte[] salt = new byte[16];
+
+        // Get a random salt
+        sr.nextBytes(salt);
+
+        // return salt
+        return salt.toString();
+    }
+
+
+
+    public void saveMoney() throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
+
+
+
+        try {
+            FileOutputStream f = context.openFileOutput("MisterCrabMony",
+                    Context.MODE_PRIVATE);
+
+            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            out.writeInt(Money);
+
+           // String text = "" +Money;
+           // f.write(text.getBytes());
+
+            out.close() ;
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+
+        //el archivo ya esta guardado, ahora vamos a crear
+        // la instancia/contraseña que comprueba que no se va a modificar ese archivo
+
+        //Create checksum for this file
+        FileInputStream file = context.openFileInput("MisterCrabMony");
+
+        //Use SHA-1 algorithm
+        MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
+
+
+
+        //generate Salt
+        String salt = getSalt();
+        //ADD Salt
+        shaDigest.update(salt.getBytes());
+
+
+
+        //SHA-1 checksum
+        String checksum = getFileChecksum(shaDigest, file);
+
+        //see checksum
+        System.out.println(checksum);
+
+
+        //hay que guardar tanto el checkSum como la salt, como hago que esto sea seguro??
+
+        try {
+            FileOutputStream f = context.openFileOutput("MoneyCheckSum",
+                    Context.MODE_PRIVATE);
+
+            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            out.writeObject(checksum.getBytes());
+
+            out.close() ;
+            f.close();
+
+            f = context.openFileOutput("MoneyCheckSalt",
+                    Context.MODE_PRIVATE);
+
+            out = new ObjectOutputStream(f) ;
+            out.writeObject(salt.getBytes());
+
+            out.close() ;
+            f.close();
+
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+
+
+    }
+
+    public int loadMoney(){
+
+
+
+        try
+        {
+            // Reading the object from a file
+            FileInputStream f = context.openFileInput("MisterCrabMony");
+            //FileInputStream file = new FileInputStream("MisterCrabMony");
+
+
+            //Use SHA-1 algorithm
+            MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
+
+
+
+            //generate Salt
+            //String salt = getSalt();
+            //ADD Salt
+            //shaDigest.update(salt.getBytes());
+            //vamos a recoger la ultimaSalt
+            // Reading the object from a file
+            FileInputStream fSalt = context.openFileInput("MoneyCheckSalt");
+            ObjectInputStream inSalt = new ObjectInputStream(fSalt);
+
+            byte [] bytes = (byte[]) inSalt.readObject();
+            String salt =  new String(bytes);
+
+            inSalt.close();
+            fSalt.close();
+
+            shaDigest.update(salt.getBytes());
+
+
+            //SHA-1 checksum
+            String checksum = getFileChecksum(shaDigest, f);
+
+            //todo comprobar que el checksum es el mismo, por tanto el archivo nunca tuvo modificaciones
+
+            FileInputStream fSCheck = context.openFileInput("MoneyCheckSum");
+            ObjectInputStream inCheck = new ObjectInputStream(fSCheck);
+
+            bytes = (byte[]) inCheck.readObject();
+            String check = new String(bytes, StandardCharsets.UTF_8);
+
+            inCheck.close();
+            fSCheck.close();
+
+            f.close();
+            f = context.openFileInput("MisterCrabMony");
+            ObjectInputStream in = new ObjectInputStream(f);
+
+
+            if (check == checksum){
+                // Method for deserialization of object
+                Money = in.readInt();
+            }
+            else{
+                //como castigo por modificar te lo pongo a 0
+                Money = 0;
+            }
+
+
+
+            in.close();
+            f.close();
+            System.out.println("Object has been deserialized ");
+        } catch(Exception ex) {
+            System.out.println("Exception is caught");
+            //de normal no vas a tener ni un duro mister,
+            //y si te falla al cargar el dinero, pos no aber tocao el arhcivo de guardao listo.
+            Money = 0;
+        }
+
+
+
+        System.out.println("tienes esta amaising cantidad de dineros: " + Money);
+        return Money;
+    }
+
+    public void addMoney(int quantity){
+        Money += quantity;
+    }
+
+    public boolean restMoney(int quantity){
+        if (Money >= quantity){
+            Money -= quantity;
+            return true;
+        }
+        else return false;
     }
 
     public void saveUnlocks(boolean[] unlocks, String name) {
@@ -35,7 +230,6 @@ public class GameManager {
     public boolean[] loadUnlocks(String nombre, int q) {
 
         String[] a = context.fileList();
-
         try {
             int quantity = q;
             for (String file : a) {
@@ -143,6 +337,39 @@ public class GameManager {
         int[] res = new int[quantity];
         res[0] = 1;
         return res;
+    }
+
+
+    private static String getFileChecksum(MessageDigest digest, FileInputStream fis) throws IOException
+    {
+        //Get file input stream for reading the file content
+        //FileInputStream fis = new FileInputStream(file);
+
+        //Create byte array to read data in chunks
+        byte[] byteArray = new byte[1024];
+        int bytesCount = 0;
+
+        //Read file data and update in message digest
+        while ((bytesCount = fis.read(byteArray)) != -1) {
+            digest.update(byteArray, 0, bytesCount);
+        };
+
+        //close the stream; We don't need it now.
+        fis.close();
+
+        //Get the hash's bytes
+        byte[] bytes = digest.digest();
+
+        //This bytes[] has bytes in decimal format;
+        //Convert it to hexadecimal format
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i< bytes.length ;i++)
+        {
+            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        //return complete hash
+        return sb.toString();
     }
 
 

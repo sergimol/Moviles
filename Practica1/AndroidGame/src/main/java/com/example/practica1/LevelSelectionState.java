@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class LevelSelectionState extends State {
-    AFont volver;
+    AFont title;
+    AFont regularText;
 
     Button BackButton;
     AImage BackButtonImage;
@@ -65,16 +66,17 @@ public class LevelSelectionState extends State {
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
-        volver = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.3f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        title = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.5f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
+        regularText = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.7f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         botonesNiveles = new Button[2][3];
 
-        botonesNiveles[0][0] = new Button(volver, "4x4", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
-        botonesNiveles[0][1] = new Button(volver, "5x5", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
-        botonesNiveles[0][2] = new Button(volver, "5x10", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
+        botonesNiveles[0][0] = new Button(regularText, "4x4", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
+        botonesNiveles[0][1] = new Button(regularText, "5x5", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
+        botonesNiveles[0][2] = new Button(regularText, "5x10", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.4f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
 
-        botonesNiveles[1][0] = new Button(volver, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
-        botonesNiveles[1][1] = new Button(volver, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
-        botonesNiveles[1][2] = new Button(volver, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, 10, true);
+        botonesNiveles[1][0] = new Button(regularText, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
+        botonesNiveles[1][1] = new Button(regularText, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
+        botonesNiveles[1][2] = new Button(regularText, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
     }
 
     @Override
@@ -98,11 +100,11 @@ public class LevelSelectionState extends State {
             graphics.setColor(0XFFA64F59);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
-        if (volver != null) {
+        if (title != null) {
             String word;
             word = "Selecciona el tamaño del puzzle";
             graphics.setColor(0XFF000000);
-            graphics.setFont(volver, 20);
+            graphics.setFont(title, title.getSize());
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));
         }
 

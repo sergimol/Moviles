@@ -33,13 +33,17 @@ public class ShopState extends State {
     String unlockType;
     int[] moneyUnlocks;
 
+    AFont regularText;
+    Button moneyCuantityButton;
+    AImage moneyCuantityButtonImage;
 
     GameManager manager;
 
-    public void SetManager(GameManager m){
+    public void SetManager(GameManager m) {
         manager = m;
     }
-    public ShopState(GameManager m){
+
+    public ShopState(GameManager m) {
         manager = m;
     }
 
@@ -89,6 +93,11 @@ public class ShopState extends State {
         RedStyleButtonShopImage = e.getGraphics().newImage("PresetMoneyButton.png");
         RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
 
+        //MoneyAmount
+        moneyCuantityButtonImage = e.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png");
+        moneyCuantityButton = new Button(moneyCuantityButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.7f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
+        moneyCuantityButton.moveButton((int) (e.getGraphics().getOriginalWidth() - moneyCuantityButton.getSizeX() / 2), (int) (moneyCuantityButton.getSizeY() / 2));
+        regularText = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
     }
 
@@ -119,6 +128,20 @@ public class ShopState extends State {
             PresetStyleButton.render(graphics);
         if (RedStyleButton != null)
             RedStyleButton.render(graphics);
+
+        //MoneyCuantity
+        if (moneyCuantityButton != null) {
+            if (!moneyCuantityButton.getImagen().getName().equals(engine.getStyle() + "LevelUnlocked.png"))
+                moneyCuantityButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png"));
+            moneyCuantityButton.render(graphics);
+        }
+        if (regularText != null) {
+            graphics.setFont(regularText, 80);
+            String word = engine.dinero + "";
+            graphics.setColor(0XFF000000);
+            graphics.drawText(word, (int) (engine.getGraphics().getOriginalWidth() - moneyCuantityButton.getSizeX() / 2 - graphics.getFontWidth(word) / 2), (int) (moneyCuantityButton.getSizeY() / 1.7f));
+        }
+
     }
 
     @Override

@@ -48,7 +48,7 @@ public class AEngine implements Runnable {
         contexto = c;
         style = "Preset";
         //lockManager = new ALockManager();
-        dinero = 10;
+        dinero = 100;
         mainActivity = main;
     }
 

@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 public class MainActivity extends AppCompatActivity implements Serializable {
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private AssetManager assetManager;
     private Resources resourcesManager;
     private AdView mAdView;
+    //esto es de la logica unicamente
+    private GameManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         ResourceLoader resourceLoader = new ResourceLoader();
 
 
-        GameManager manager = new GameManager(this);
+        manager = new GameManager(this);
 
         State state;
         if (savedInstanceState != null) {
@@ -150,6 +154,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 .build();
 
         WorkManager.getInstance(this).enqueue(notificationWork);
+
+        //manager.addMoney(20);
+        try {
+            manager.saveMoney();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
     }
     //@Override
     //public void onRestoreInstanceState(Bundle savedInstanceState ){
