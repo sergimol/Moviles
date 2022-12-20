@@ -47,31 +47,12 @@ public class GameManager {
 
 
 
-    public void saveMoney() throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
-
-
-
-        try {
-            FileOutputStream f = context.openFileOutput("MisterCrabMony",
-                    Context.MODE_PRIVATE);
-
-            ObjectOutputStream out = new ObjectOutputStream(f) ;
-            out.writeInt(Money);
-
-           // String text = "" +Money;
-           // f.write(text.getBytes());
-
-            out.close() ;
-            f.close();
-        } catch (Exception e) {
-            Log.e("guardado", e.getMessage(), e);
-        }
-
+    public void  CreateHashForFile(String fileName) throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
         //el archivo ya esta guardado, ahora vamos a crear
         // la instancia/contraseña que comprueba que no se va a modificar ese archivo
 
         //Create checksum for this file
-        FileInputStream file = context.openFileInput("MisterCrabMony");
+        FileInputStream file = context.openFileInput(fileName);
 
         //Use SHA-1 algorithm
         MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
@@ -95,7 +76,7 @@ public class GameManager {
         //hay que guardar tanto el checkSum como la salt, como hago que esto sea seguro??
 
         try {
-            FileOutputStream f = context.openFileOutput("MoneyCheckSum",
+            FileOutputStream f = context.openFileOutput(fileName + "CheckSum",
                     Context.MODE_PRIVATE);
 
             ObjectOutputStream out = new ObjectOutputStream(f) ;
@@ -104,7 +85,7 @@ public class GameManager {
             out.close() ;
             f.close();
 
-            f = context.openFileOutput("MoneyCheckSalt",
+            f = context.openFileOutput(fileName + "CheckSalt",
                     Context.MODE_PRIVATE);
 
             out = new ObjectOutputStream(f) ;
@@ -116,37 +97,46 @@ public class GameManager {
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
-
-
     }
 
-    public int loadMoney(){
+    public void saveMoney() throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
+
+        try {
+            FileOutputStream f = context.openFileOutput("MisterCrabMony",
+                    Context.MODE_PRIVATE);
+
+            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            out.writeInt(Money);
+
+           // String text = "" +Money;
+           // f.write(text.getBytes());
+
+            out.close() ;
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+
+        CreateHashForFile("MisterCrabMony");
+    }
 
 
+    public Boolean GetCheckSumForFile(String fileName)  {
 
-        try
-        {
+        try {
             // Reading the object from a file
-            FileInputStream f = context.openFileInput("MisterCrabMony");
+            FileInputStream f = context.openFileInput(fileName);
             //FileInputStream file = new FileInputStream("MisterCrabMony");
-
-
             //Use SHA-1 algorithm
             MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
 
-
-
-            //generate Salt
-            //String salt = getSalt();
-            //ADD Salt
-            //shaDigest.update(salt.getBytes());
             //vamos a recoger la ultimaSalt
             // Reading the object from a file
-            FileInputStream fSalt = context.openFileInput("MoneyCheckSalt");
+            FileInputStream fSalt = context.openFileInput(fileName + "CheckSalt");
             ObjectInputStream inSalt = new ObjectInputStream(fSalt);
 
-            byte [] bytes = (byte[]) inSalt.readObject();
-            String salt =  new String(bytes);
+            byte[] bytes = (byte[]) inSalt.readObject();
+            String salt = new String(bytes);
 
             inSalt.close();
             fSalt.close();
@@ -156,10 +146,11 @@ public class GameManager {
 
             //SHA-1 checksum
             String checksum = getFileChecksum(shaDigest, f);
+            f.close();
 
             //todo comprobar que el checksum es el mismo, por tanto el archivo nunca tuvo modificaciones
 
-            FileInputStream fSCheck = context.openFileInput("MoneyCheckSum");
+            FileInputStream fSCheck = context.openFileInput(fileName + "CheckSum");
             ObjectInputStream inCheck = new ObjectInputStream(fSCheck);
 
             bytes = (byte[]) inCheck.readObject();
@@ -168,14 +159,44 @@ public class GameManager {
             inCheck.close();
             fSCheck.close();
 
-            f.close();
-            f = context.openFileInput("MisterCrabMony");
-            ObjectInputStream in = new ObjectInputStream(f);
+
+            //returneamos si son iguales con la sal correspondiente (somos unos cracks)
+            boolean res = (check.equals(checksum));
+
+            return res;
+            //pa la siguiente hago una ensalada
+            //me auto otorgo un cuñao certificate que es navida
+            //los comentarios debajo de un return no cuentan
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
-            if (check == checksum){
+    public int loadMoney(){
+
+        try
+        {
+
+            //comprobamos que no ah sido modificado
+            if (GetCheckSumForFile("MisterCrabMony")){
+
+                // Reading the object from a file
+                FileInputStream f = context.openFileInput("MisterCrabMony");
+                //FileInputStream file = new FileInputStream("MisterCrabMony");
+                ObjectInputStream in = new ObjectInputStream(f);
                 // Method for deserialization of object
                 Money = in.readInt();
+                in.close();
+                f.close();
+                System.out.println("Object has been deserialized ");
             }
             else{
                 //como castigo por modificar te lo pongo a 0
@@ -184,9 +205,7 @@ public class GameManager {
 
 
 
-            in.close();
-            f.close();
-            System.out.println("Object has been deserialized ");
+
         } catch(Exception ex) {
             System.out.println("Exception is caught");
             //de normal no vas a tener ni un duro mister,
@@ -225,11 +244,24 @@ public class GameManager {
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
+
+        try {
+            CreateHashForFile(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean[] loadUnlocks(String nombre, int q) {
 
         String[] a = context.fileList();
+
+        if (GetCheckSumForFile(nombre))
         try {
             int quantity = q;
             for (String file : a) {
@@ -264,8 +296,9 @@ public class GameManager {
             return createSaveFiles(quantity);
         } catch (Exception e) {
             Log.e("guardados error", e.getMessage(), e);
-            return null;
+            return createSaveFiles(q);
         }
+        return createSaveFiles(q);
     }
 
     public boolean[] createSaveFiles(int quantity) {
@@ -289,12 +322,24 @@ public class GameManager {
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
+
+        try {
+            CreateHashForFile(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public int[] loadUnlocksINT(String nombre, int q) {
 
         String[] a = context.fileList();
 
+        if (GetCheckSumForFile(nombre))
         try {
             int quantity = q;
             for (String file : a) {
@@ -329,8 +374,9 @@ public class GameManager {
             return createSaveFilesINT(quantity);
         } catch (Exception e) {
             Log.e("guardados error", e.getMessage(), e);
-            return null;
+            return createSaveFilesINT(q);
         }
+        return createSaveFilesINT(q);
     }
 
     public int[] createSaveFilesINT(int quantity) {
