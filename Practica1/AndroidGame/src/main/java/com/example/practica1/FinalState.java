@@ -24,7 +24,8 @@ public class FinalState extends State {
         manager = m;
     }
 
-    public FinalState(Board b) {
+    public FinalState(Board b, GameManager m){
+        manager = m;
         board = b;
     }
 
@@ -33,7 +34,7 @@ public class FinalState extends State {
         engine = e;
         title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //BackButton
-        BackButtonImage = e.getGraphics().newImage("BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 

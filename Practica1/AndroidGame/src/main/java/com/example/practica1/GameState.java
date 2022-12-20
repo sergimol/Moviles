@@ -264,7 +264,7 @@ public class GameState extends State {
                         missingCount = a[1];
                         //Si has completado el puzzle
                         if (wrongCount == 0 && missingCount == 0) {
-                            FinalState st = new FinalState(board);
+                            FinalState st = new FinalState(board, manager);
                             st.setPrevious(this);
                             engine.setState(st);
                             st.init(engine);
