@@ -333,7 +333,10 @@ public class GameState extends State {
 
     @Override
     public void onDestroy(){
-
+        if (category != null){
+            manager.lastEscene = true;
+            manager.saveLastEscene(this);
+        }
     }
 
 }

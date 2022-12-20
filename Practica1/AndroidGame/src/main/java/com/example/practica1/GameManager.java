@@ -556,7 +556,7 @@ public class GameManager {
     public void saveLastEscene(GameState gS){
 
         //hay escena?
-
+        saveLastSceneBool();
 
 
         //guardar la escena en si

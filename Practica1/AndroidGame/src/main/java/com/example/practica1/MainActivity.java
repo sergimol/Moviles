@@ -120,33 +120,34 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
 
         manager = new GameManager(this);
 
-        State state;
-        if (savedInstanceState != null) {
-            //state = new InitialState();
+        State state = manager.loadLastLevel();
+        if (state == null)
+            if (savedInstanceState != null) {
+                //state = new InitialState();
 
-            switch (savedInstanceState.getInt("SceneType")) {
-                case 1:
-                    state = new LevelSelectionState(manager);
-                    break;
-                case 2:
-                    state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
-                    break;
-                case 3:
-                    state = new ShopState(manager);
-                    break;
-                case 4:
-                    state = new CategoryLevelSelectionState(savedInstanceState, manager);
-                    break;
-                case 5:
-                    state = new CategorySelect(manager);
-                    break;
-                default:
-                    state = new InitialState(manager);
-                    break;
+                switch (savedInstanceState.getInt("SceneType")) {
+                    case 1:
+                        state = new LevelSelectionState(manager);
+                        break;
+                    case 2:
+                        state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
+                        break;
+                    case 3:
+                        state = new ShopState(manager);
+                        break;
+                    case 4:
+                        state = new CategoryLevelSelectionState(savedInstanceState, manager);
+                        break;
+                    case 5:
+                        state = new CategorySelect(manager);
+                        break;
+                    default:
+                        state = new InitialState(manager);
+                        break;
+                }
+            } else {
+                state = new InitialState(manager);
             }
-        } else {
-            state = new InitialState(manager);
-        }
 
         //Creamos el Engine y lo inicializamos
 
@@ -196,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
 
         manager.saveMoney();
         manager.saveStyle();
+
+        androidEngine.getState().onDestroy();
 
     }
 
