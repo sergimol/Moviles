@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
 
         manager.saveMoney();
         manager.saveStyle();
+
     }
 
     @Override
