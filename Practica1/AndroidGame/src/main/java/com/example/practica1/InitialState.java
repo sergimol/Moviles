@@ -139,7 +139,7 @@ public class InitialState extends State {
                 //creo al siguiente escena y la añado al engine
 
                 if (StoryButton.click(o.x, o.y)) {
-                    CategorySelect st = new CategorySelect();
+                    CategorySelect st = new CategorySelect(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

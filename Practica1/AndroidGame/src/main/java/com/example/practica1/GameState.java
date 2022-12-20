@@ -89,10 +89,10 @@ public class GameState extends State {
             //dos posibilidades o CategoryLevelSelect, en el caso de que engamos un level,
             // o El del modo random normal a saber como lo hago
             if (category != null){
-                previous = new CategoryLevelSelectionState(category);
+                previous = new CategoryLevelSelectionState(category, manager);
             }
             else{
-                //previous = new LevelSelectionState();
+                previous = new LevelSelectionState(manager);
             }
             previous.init(e);
         }
