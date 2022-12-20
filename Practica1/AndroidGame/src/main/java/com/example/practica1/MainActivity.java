@@ -170,7 +170,23 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
     @Override
     protected void onPause() {
         super.onPause();
+
+        manager.saveMoney();
+        manager.saveStyle();
+
+        //por default no hay escena final
+        manager.lastEscene = false;
+        manager.saveLastSceneBool();
+
+        androidEngine.getState().onDestroy();
+
+
         androidEngine.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -195,10 +211,7 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
     protected void onDestroy() {
         super.onDestroy();
 
-        manager.saveMoney();
-        manager.saveStyle();
 
-        androidEngine.getState().onDestroy();
 
     }
 
