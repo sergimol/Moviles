@@ -57,7 +57,7 @@ public class ShopState extends State {
                     previous = new LevelSelectionState(savedData, manager);
                     break;
                 case 2:
-                    previous = new GameState(savedData.getInt("x"), savedData.getInt("y"), savedData);
+                    previous = new GameState(savedData.getInt("x"), savedData.getInt("y"), savedData , manager);
                     break;
                 default:
                     previous = new InitialState(manager);
@@ -82,7 +82,7 @@ public class ShopState extends State {
 
         background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
-        BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
@@ -94,7 +94,7 @@ public class ShopState extends State {
         RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
 
         //MoneyAmount
-        moneyCuantityButtonImage = e.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png");
+        moneyCuantityButtonImage = e.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png");
         moneyCuantityButton = new Button(moneyCuantityButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.7f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         moneyCuantityButton.moveButton((int) (e.getGraphics().getOriginalWidth() - moneyCuantityButton.getSizeX() / 2), (int) (moneyCuantityButton.getSizeY() / 2));
         regularText = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
@@ -119,8 +119,8 @@ public class ShopState extends State {
         }
 
         if (BackButton != null) {
-            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
-                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
+            if (!BackButton.getImagen().getName().equals(manager.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
         }
 
@@ -131,13 +131,13 @@ public class ShopState extends State {
 
         //MoneyCuantity
         if (moneyCuantityButton != null) {
-            if (!moneyCuantityButton.getImagen().getName().equals(engine.getStyle() + "LevelUnlocked.png"))
-                moneyCuantityButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png"));
+            if (!moneyCuantityButton.getImagen().getName().equals(manager.getStyle() + "LevelUnlocked.png"))
+                moneyCuantityButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png"));
             moneyCuantityButton.render(graphics);
         }
         if (regularText != null) {
             graphics.setFont(regularText, 80);
-            String word = engine.dinero + "";
+            String word = manager.getMoney() + "";
             graphics.setColor(0XFF000000);
             graphics.drawText(word, (int) (engine.getGraphics().getOriginalWidth() - moneyCuantityButton.getSizeX() / 2 - graphics.getFontWidth(word) / 2), (int) (moneyCuantityButton.getSizeY() / 1.7f));
         }
@@ -157,10 +157,10 @@ public class ShopState extends State {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 } else if (PresetStyleButton.click(o.x, o.y)) {
-                    engine.setStyle("Preset");
+                    manager.setStyle("Preset");
                 } else if (RedStyleButton.click(o.x, o.y)) {
                     //
-                    if (engine.dinero >= RedStyleButton.moneyToUnlock) {
+                    if (manager.getMoney() >= RedStyleButton.moneyToUnlock) {
                         //Si entra aqui es porque lo hemos desbloqueado
                         if (!unlocks[1]) {
                             //Unlockear boton
@@ -169,10 +169,10 @@ public class ShopState extends State {
                         }
 
                         if (RedStyleButton.moneyToUnlock == 0) {
-                            engine.setStyle("Red");
+                            manager.setStyle("Red");
                         } else {
                             //Comprarlo
-                            engine.dinero -= RedStyleButton.moneyToUnlock;
+                            manager.restMoney(RedStyleButton.moneyToUnlock);
                             RedStyleButton.moneyToUnlock = 0;
                             moneyUnlocks[0] = 0;
                             manager.saveUnlocksINT(moneyUnlocks, unlockType);

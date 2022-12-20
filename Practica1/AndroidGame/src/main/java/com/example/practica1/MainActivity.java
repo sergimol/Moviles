@@ -1,6 +1,9 @@
 package com.example.practica1;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
@@ -17,10 +20,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.State;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -32,6 +40,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 public class MainActivity extends AppCompatActivity implements Serializable, SensorEventListener {
 
@@ -46,11 +57,23 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
     public Sensor mySensor;
     private long lastUpdate, actualTime;
 
+    //esto es de la logica unicamente
+    private GameManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("PRUEBA", "prueba", importance);
+            channel.setDescription("Canal de prueba");
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
         assetManager = getAssets();
         resourcesManager = getResources();
 
@@ -93,17 +116,18 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
         ResourceLoader resourceLoader = new ResourceLoader();
 
 
-        GameManager manager = new GameManager(this);
+        manager = new GameManager(this);
 
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
+
             switch (savedInstanceState.getInt("SceneType")) {
                 case 1:
                     state = new LevelSelectionState(manager);
                     break;
                 case 2:
-                    state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState);
+                    state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
                     break;
                 case 3:
                     state = new ShopState(manager);
@@ -151,6 +175,16 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
         super.onSaveInstanceState(outState);
         //hay que meter la escena principal
         androidEngine.getState().onSaveInstanceState(outState);
+        OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotifyWorker.class)
+                .setInitialDelay(2, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(notificationWork);
+
+        //manager.addMoney(20);
+
+        manager.saveMoney();
+        manager.saveStyle();
     }
 
     @Override
@@ -161,23 +195,19 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
             float y = values[1];
             float z = values[2];
             float EG = SensorManager.GRAVITY_EARTH;
-
             float devAccel = (x * x + y * y + z * z) / (EG * EG);
 
             if (devAccel >= 1.5) {
                 actualTime = System.currentTimeMillis();
-                if((actualTime-lastUpdate) > 1000){
+                if ((actualTime - lastUpdate) > 1000) {
                     lastUpdate = actualTime;
                     //Llamada de metodo
                     System.out.println("El movil funsiona sensor");
-
                 }
             }
         }
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 }

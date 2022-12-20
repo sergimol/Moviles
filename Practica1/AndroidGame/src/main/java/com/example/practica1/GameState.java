@@ -56,7 +56,8 @@ public class GameState extends State {
         manager = m;
     }
 
-    public GameState(int x, int y, Bundle savedData) {
+    public GameState(int x, int y, Bundle savedData, GameManager m){
+        manager = m;
         vidas = new Lives();
 
 
@@ -75,7 +76,8 @@ public class GameState extends State {
 
     }
 
-    public GameState(AssetManager assets, String category_, String level_) throws IOException {
+    public GameState(AssetManager assets, String category_, String level_, GameManager m) throws IOException {
+        manager = m;
         board = new Board(assets, category_ + level_);
         vidas = new Lives();
         level = level_;
@@ -104,23 +106,23 @@ public class GameState extends State {
         board.init(e, font);
 
         //SurrenderButton
-        SurrenderButtonImage = e.getGraphics().newImage(engine.getStyle() + "SurrenderButton.png");
+        SurrenderButtonImage = e.getGraphics().newImage(manager.getStyle() + "SurrenderButton.png");
         SurrenderButton = new Button(SurrenderButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         SurrenderButton.moveButton((int) (SurrenderButton.getSizeX() / 2), (int) (SurrenderButton.getSizeY() / 2));
         //CheckButton
-        CheckButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
+        CheckButtonImage = e.getGraphics().newImage(manager.getStyle() + "CheckButton.png");
         CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) (CheckButton.getSizeY() / 2));
         //AdButton
-        AdButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
+        AdButtonImage = e.getGraphics().newImage(manager.getStyle() + "CheckButton.png");
         AdButton = new Button(AdButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         AdButton.moveButton((int) (AdButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - AdButton.getSizeY() / 2));
         timer = e.getTimer();
 
 
         //setteo de los corazones, que se podria poner mas bonito pero me gusta factorizar todo como la foctoiria de embutidos de mi pueblo dios que buenos estan
-        vidas.setHeart(e.getGraphics().newImage(engine.getStyle() + "HeartImageFull.png"));
-        vidas.setContainer(e.getGraphics().newImage(engine.getStyle() + "HeartImage.png"));
+        vidas.setHeart(e.getGraphics().newImage(manager.getStyle() + "HeartImageFull.png"));
+        vidas.setContainer(e.getGraphics().newImage(manager.getStyle() + "HeartImage.png"));
         vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
         vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
         vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
@@ -172,19 +174,19 @@ public class GameState extends State {
     public void render(AGraphics graphics) {
         if (!showingWrong) {
             if (SurrenderButton != null) {
-                if (!SurrenderButton.getImagen().getName().equals(engine.getStyle() + "SurrenderButton.png"))
-                    SurrenderButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "SurrenderButton.png"));
+                if (!SurrenderButton.getImagen().getName().equals(manager.getStyle() + "SurrenderButton.png"))
+                    SurrenderButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "SurrenderButton.png"));
                 SurrenderButton.render(graphics);
             }
             if (CheckButton != null) {
-                if (!CheckButton.getImagen().getName().equals(engine.getStyle() + "CheckButton.png"))
-                    CheckButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "CheckButton.png"));
+                if (!CheckButton.getImagen().getName().equals(manager.getStyle() + "CheckButton.png"))
+                    CheckButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "CheckButton.png"));
                 CheckButton.render(graphics);
             }
 
             if (AdButton != null) {
-                if (!AdButton.getImagen().getName().equals(engine.getStyle() + "CheckButton.png"))
-                    AdButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "CheckButton.png"));
+                if (!AdButton.getImagen().getName().equals(manager.getStyle() + "CheckButton.png"))
+                    AdButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "CheckButton.png"));
                 AdButton.render(graphics);
             }
 
