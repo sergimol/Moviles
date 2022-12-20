@@ -88,7 +88,7 @@ public class Button {
             if (fuente != null) {
                 graphics.setFont(fuente, TextSize);
                 graphics.setColor(0xFF000000);
-                graphics.drawText(texto, clickTopX + SizeX / 8, clickBottomY - SizeY / 3);
+                graphics.drawText(texto, clickTopX + SizeX / 2- graphics.getFontWidth(texto) / 2, clickBottomY - SizeY / 3);
             }
         } else {
             graphics.drawImage(imagen, clickTopX, clickTopY, (int) (clickBottomX - clickTopX), (int) (clickBottomY - clickTopY));

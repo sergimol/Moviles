@@ -112,7 +112,7 @@ public class CategorySelect extends State {
         //Title
         if (title != null) {
             String word;
-            graphics.setFont(title, 20);
+            graphics.setFont(title, title.getSize());
             word = "Selecciona Categoría";
             graphics.setColor(0XFF000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.25));

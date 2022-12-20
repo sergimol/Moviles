@@ -146,7 +146,7 @@ public class InitialState extends State {
         //renderizar otro objeto como puede ser el boton
         String word;
         if (title != null) {
-            graphics.setFont(title, 20);
+            graphics.setFont(title, (int) (0.8f * (engine.getGraphics().relationAspectDimension() / 10) / engine.getGraphics().getScale()));
             word = "NANOGRAMOS";
             graphics.setColor(0XFF000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.2));

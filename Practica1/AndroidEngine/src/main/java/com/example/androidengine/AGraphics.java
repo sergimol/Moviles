@@ -158,12 +158,8 @@ public class AGraphics {
     }
 
     public void setFont(AFont font, float size) {
-        paint.setTextSize(font.getSize() / scale);
+        paint.setTextSize(size / scale);
         paint.setTypeface(font.font_);
-    }
-
-    public void setResolution() {
-
     }
 
     //DEVUELVEN TAMANO DEL CANVAS SIN ESCALA
