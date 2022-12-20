@@ -58,10 +58,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         }
         getSupportActionBar().hide();
 
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-
+                //mAdView.loadAd(adRequest);
             }
         });
 
@@ -74,9 +76,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         if (savedInstanceState != null) {
             //state = new InitialState();
                 switch (savedInstanceState.getInt("SceneType")) {
-                    case 0:
-                        state = new InitialState(manager);
-                        break;
                     case 1:
                         state = new LevelSelectionState(manager);
                         break;

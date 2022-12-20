@@ -1,8 +1,12 @@
 package com.example.practica1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -11,6 +15,12 @@ import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.ATimer;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +38,9 @@ public class GameState extends State {
     AImage CheckButtonImage;
     Button CheckButton;
 
+    AImage AdButtonImage;
+    Button AdButton;
+
     int wrongCount, missingCount;
     boolean showingWrong = false;
     ATimer timer;
@@ -36,6 +49,7 @@ public class GameState extends State {
     String category;
 
     GameManager manager;
+    RewardedAd mRewardedAd;
 
     public void SetManager(GameManager m){
         manager = m;
@@ -78,7 +92,7 @@ public class GameState extends State {
                 previous = new CategoryLevelSelectionState(category);
             }
             else{
-                previous = new LevelSelectionState();
+                //previous = new LevelSelectionState();
             }
             previous.init(e);
         }
@@ -96,7 +110,10 @@ public class GameState extends State {
         CheckButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
         CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) (CheckButton.getSizeY() / 2));
-
+        //AdButton
+        AdButtonImage = e.getGraphics().newImage(engine.getStyle() + "CheckButton.png");
+        AdButton = new Button(AdButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
+        AdButton.moveButton((int) (AdButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - AdButton.getSizeY() / 2));
         timer = e.getTimer();
 
 
@@ -142,6 +159,12 @@ public class GameState extends State {
                 CheckButton.render(graphics);
             }
 
+            if (AdButton != null) {
+                if (!AdButton.getImagen().getName().equals(engine.getStyle() + "CheckButton.png"))
+                    AdButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "CheckButton.png"));
+                AdButton.render(graphics);
+            }
+
         } else {
             String word;
             if (font != null) {
@@ -180,13 +203,13 @@ public class GameState extends State {
         while (ev.hasNext()) {
             AInput.TouchEvent o = ev.next();
 
-            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
-            } else if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
+            if (o.type == AInput.InputTouchType.TOUCH_MOVE) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
                 //da igual el output
-            } else if (o.type == AInput.InputTouchType.TOUCH_UP) {
+            }
+            else if (o.type == AInput.InputTouchType.TOUCH_UP) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 //comprobar que esa casilla es correcta y devolver un true or false para restar la vida
@@ -200,15 +223,14 @@ public class GameState extends State {
                 }
                 board.resetAllowChangeStatesCells();
             }
-
-            if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
+            else if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON RENDIRSE
                 if (SurrenderButton.click(o.x, o.y)) {
                     engine.setState(previous);
                 }
                 //FUNCIONALIDAD BOTON COMPROBAR
-                if (CheckButton.click(o.x, o.y)) {
+                else if (CheckButton.click(o.x, o.y)) {
                     //wrongCount, missingCount
                     if (!showingWrong) {
                         int a[] = board.checkBoard();
@@ -226,6 +248,42 @@ public class GameState extends State {
                             showingWrong = true;
                         }
                     }
+                }
+                else if(AdButton.click(o.x, o.y)){
+                    Activity main = engine.getMainActivity();
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AdRequest adRequest = new AdRequest.Builder().build();
+                            RewardedAd.load(main, "ca-app-pub-3940256099942544/5224354917",
+                                adRequest, new RewardedAdLoadCallback() {
+                                @Override
+                                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                    // Handle the error.
+                                    Log.d("GameState", loadAdError.toString());
+                                    mRewardedAd = null;
+                                }
+
+                                @Override
+                                public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                                    mRewardedAd = rewardedAd;
+                                    Log.d("GameState", "Ad was loaded.");
+                                }
+                            });
+
+                            if(mRewardedAd != null){
+                                mRewardedAd.show(main, new OnUserEarnedRewardListener() {
+                                    @Override
+                                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                                        // Handle the reward.
+                                        Log.d("GameState", "The user earned the reward.");
+                                        int rewardAmount = rewardItem.getAmount();
+                                        String rewardType = rewardItem.getType();
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
             }
         }
