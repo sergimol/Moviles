@@ -35,19 +35,19 @@ public class CategoryLevelSelectionState extends State {
     boolean[] unlocks;
     GameManager manager;
 
-    public void SetManager(GameManager m){
+    public void SetManager(GameManager m) {
         manager = m;
     }
 
-    public CategoryLevelSelectionState(String category, GameManager m){
+    public CategoryLevelSelectionState(String category, GameManager m) {
         manager = m;
         categoryType = category;
     }
 
-    public CategoryLevelSelectionState(Bundle savedData, GameManager m){
-            manager = m;
+    public CategoryLevelSelectionState(Bundle savedData, GameManager m) {
+        manager = m;
         if (savedData != null) {
-           categoryType = savedData.getString("Category");
+            categoryType = savedData.getString("Category");
         }
     }
 
@@ -56,7 +56,7 @@ public class CategoryLevelSelectionState extends State {
         super.init(e);
 
         //escena anterior tiene que ser CategorySelect
-        if (previous == null){
+        if (previous == null) {
             previous = new CategorySelect(manager);
             previous.init(e);
         }
@@ -89,7 +89,7 @@ public class CategoryLevelSelectionState extends State {
         float originalScaleHeight = e.getGraphics().getCanvasAspectRelationHeight();
 
         //leemos aqui cuantos niveles que hayan sido desbloqueados, array bool
-        unlocks =  manager.loadUnlocks(categoryType + categoryTypeAux, 20);
+        unlocks = manager.loadUnlocks(categoryType + categoryTypeAux, 20);
 
         for (int i = 0; i < 20; i++) {
             levelsButtons[i / 4][i % 4] = new Button(unlocks[i] ? levelUnlocked : levelLocked, e.getGraphics().getOriginalWidth() * ((1 + (int) (i % 4)) / 5.0f), e.getGraphics().getOriginalHeight() * ((4 + (int) (i / 4)) / 9.0f), originalScaleWidth * ButtonSizeX, originalScaleWidth * ButtonSizeY, unlocks[i]);
@@ -142,7 +142,7 @@ public class CategoryLevelSelectionState extends State {
 
         if (text != null) {
             String word;
-            graphics.setFont(text, 20);
+            graphics.setFont(text, text.getSize());
             word = "Selecciona Nivel";
             graphics.setColor(0XFF000000);
             graphics.drawText(word, graphics.getOriginalWidth() / 2 - graphics.getFontWidth(word) / 2, (int) (graphics.getOriginalHeight() * 0.25));

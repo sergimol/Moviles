@@ -295,7 +295,7 @@ public class Board implements Serializable {
             // Convierte las coordenadas al número que corresponda entre 0 y xSize o 0 e ySize
             float xInBoard = (x - xZeroCord) / (cellSide + cellSpacing);
             float yInBoard = (y - yZeroCord) / (cellSide + cellSpacing);
-            e.getAudio().playSound("pop");
+            e.getAudioFX().playSound("pop");
 
             // Accede a la celda en el tablero y cambia su estado
             //devuelve en el caso de haber marcado como azul un error si la casilla era equivocada
