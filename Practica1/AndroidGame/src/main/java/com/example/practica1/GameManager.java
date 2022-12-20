@@ -1,6 +1,7 @@
 package com.example.practica1;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class GameManager {
     public GameManager(Context c) {
         context = c;
         loadMoney();
-        style = "Preset";
+        loadStyle();
         //lockManager = new ALockManager();
     }
 
@@ -61,59 +62,68 @@ public class GameManager {
 
 
 
-    public void  CreateHashForFile(String fileName) throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void  CreateHashForFile(String fileName)  {
         //el archivo ya esta guardado, ahora vamos a crear
         // la instancia/contraseña que comprueba que no se va a modificar ese archivo
 
-        //Create checksum for this file
-        FileInputStream file = context.openFileInput(fileName);
-
-        //Use SHA-1 algorithm
-        MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
-
-
-
-        //generate Salt
-        String salt = getSalt();
-        //ADD Salt
-        shaDigest.update(salt.getBytes());
-
-
-
-        //SHA-1 checksum
-        String checksum = getFileChecksum(shaDigest, file);
-
-        //see checksum
-        System.out.println(checksum);
-
-
-        //hay que guardar tanto el checkSum como la salt, como hago que esto sea seguro??
 
         try {
-            FileOutputStream f = context.openFileOutput(fileName + "CheckSum",
-                    Context.MODE_PRIVATE);
+            //Create checksum for this file
+            FileInputStream file = context.openFileInput(fileName);
 
-            ObjectOutputStream out = new ObjectOutputStream(f) ;
-            out.writeObject(checksum.getBytes());
+            //Use SHA-1 algorithm
+            MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
 
-            out.close() ;
-            f.close();
 
-            f = context.openFileOutput(fileName + "CheckSalt",
-                    Context.MODE_PRIVATE);
+            //generate Salt
+            String salt = getSalt();
+            //ADD Salt
+            shaDigest.update(salt.getBytes());
 
-            out = new ObjectOutputStream(f) ;
-            out.writeObject(salt.getBytes());
 
-            out.close() ;
-            f.close();
+            //SHA-1 checksum
+            String checksum = getFileChecksum(shaDigest, file);
 
-        } catch (Exception e) {
-            Log.e("guardado", e.getMessage(), e);
+            //see checksum
+            System.out.println(checksum);
+
+
+            //hay que guardar tanto el checkSum como la salt, como hago que esto sea seguro??
+
+            try {
+                FileOutputStream f = context.openFileOutput(fileName + "CheckSum",
+                        Context.MODE_PRIVATE);
+
+                ObjectOutputStream out = new ObjectOutputStream(f);
+                out.writeObject(checksum.getBytes());
+
+                out.close();
+                f.close();
+
+                f = context.openFileOutput(fileName + "CheckSalt",
+                        Context.MODE_PRIVATE);
+
+                out = new ObjectOutputStream(f);
+                out.writeObject(salt.getBytes());
+
+                out.close();
+                f.close();
+
+            } catch (Exception e) {
+                Log.e("guardado", e.getMessage(), e);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
         }
     }
 
-    public void saveMoney() throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
+    public void saveMoney() {
 
         try {
             FileOutputStream f = context.openFileOutput("MisterCrabMony",
@@ -134,6 +144,21 @@ public class GameManager {
         CreateHashForFile("MisterCrabMony");
     }
 
+    public void saveStyle() {
+        try {
+            FileOutputStream f = context.openFileOutput("Style",
+                    Context.MODE_PRIVATE);
+
+            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            out.writeObject(style);
+            out.close() ;
+            f.close();
+        } catch (Exception e) {
+            Log.e("guardado", e.getMessage(), e);
+        }
+
+        CreateHashForFile("Style");
+    }
 
     public Boolean GetCheckSumForFile(String fileName)  {
 
@@ -233,6 +258,32 @@ public class GameManager {
         return Money;
     }
 
+
+    public void loadStyle(){
+
+        try
+        {
+            //comprobamos que no ah sido modificado
+            if (GetCheckSumForFile("Style")){
+
+                // Reading the object from a file
+                FileInputStream f = context.openFileInput("Style");
+                ObjectInputStream in = new ObjectInputStream(f);
+                // Method for deserialization of object
+                style = (String) in.readObject();
+                in.close();
+                f.close();
+                System.out.println("Object has been deserialized ");
+            }
+            else{
+                style = "Preset";
+            }
+        } catch(Exception ex) {
+            System.out.println("Exception is caught");
+            style = "Preset";
+        }
+    }
+
     public void addMoney(int quantity){
         Money += quantity;
     }
@@ -259,16 +310,7 @@ public class GameManager {
             Log.e("guardado", e.getMessage(), e);
         }
 
-        try {
-            CreateHashForFile(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
-
+        CreateHashForFile(name);
     }
 
     public boolean[] loadUnlocks(String nombre, int q) {
@@ -337,15 +379,7 @@ public class GameManager {
             Log.e("guardado", e.getMessage(), e);
         }
 
-        try {
-            CreateHashForFile(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
+        CreateHashForFile(name);
 
     }
 

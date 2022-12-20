@@ -157,15 +157,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         WorkManager.getInstance(this).enqueue(notificationWork);
 
         //manager.addMoney(20);
-        try {
-            manager.saveMoney();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
+
+        manager.saveMoney();
+        manager.saveStyle();
     }
     //@Override
     //public void onRestoreInstanceState(Bundle savedInstanceState ){
