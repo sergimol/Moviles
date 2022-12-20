@@ -1,6 +1,11 @@
 package com.example.practica1;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -8,8 +13,12 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 //import java.awt.Font;
 import java.util.List;
@@ -30,6 +39,8 @@ public class InitialState extends State {
     AImage MoneyButtonImage;
 
     GameManager manager;
+
+    AdView adView;
 
     public void SetManager(GameManager m){
         manager = m;
@@ -75,6 +86,21 @@ public class InitialState extends State {
         //Font Button
         //myBoton = new Button(playButton, "Jugar", e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getOriginalWidth() * 0.3f, e.getGraphics().getOriginalHeight() * 0.1f, 0xFFFF8000, 20);
         //Image Button
+
+        adView = new AdView(engine.getContext());
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        Activity main = engine.getMainActivity();
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+                adView.setBackgroundColor(Color.RED);
+                Log.d("InitialState", "Ad was loaded.");
+            }
+        });
     }
 
     @Override

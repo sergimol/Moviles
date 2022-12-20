@@ -50,6 +50,7 @@ public class GameState extends State {
 
     GameManager manager;
     RewardedAd mRewardedAd;
+    Activity main;
 
     public void SetManager(GameManager m){
         manager = m;
@@ -124,7 +125,7 @@ public class GameState extends State {
         vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
         vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
 
-        Activity main = engine.getMainActivity();
+        main = engine.getMainActivity();
         main.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -273,7 +274,6 @@ public class GameState extends State {
                     }
                 }
                 else if(AdButton.click(o.x, o.y) && vidas.getHearts() < 3){
-                    Activity main = engine.getMainActivity();
                     main.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -283,8 +283,6 @@ public class GameState extends State {
                                     public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                                         // Handle the reward.
                                         Log.d("GameState", "The user earned the reward.");
-                                        /*int rewardAmount = rewardItem.getAmount();
-                                        String rewardType = rewardItem.getType();*/
                                         vidas.addLife();
                                     }
                                 });

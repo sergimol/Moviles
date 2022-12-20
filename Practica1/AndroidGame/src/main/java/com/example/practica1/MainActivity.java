@@ -58,12 +58,10 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         }
         getSupportActionBar().hide();
 
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                //mAdView.loadAd(adRequest);
+
             }
         });
 
