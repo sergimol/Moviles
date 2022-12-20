@@ -34,8 +34,6 @@ public class ShopState extends State {
     AImage BlueStyleButtonShopImage;
 
 
-    String categoryType;
-    boolean[] unlocks;
     String unlockType;
     int[] moneyUnlocks; //Guarda lo que cuesta cada desbloqueo
 
@@ -81,9 +79,6 @@ public class ShopState extends State {
         //System.out.println("Escala: " + e.getGraphics().getScale() + "Math.log(): " + Math.log(e.getGraphics().relationAspectDimension()));
 
         //Desbloqueo de tienda
-        categoryType = "tienda_0";
-        unlocks = manager.loadUnlocks(categoryType, 3);
-        unlocks[0] = true;
         unlockType = "compras_0";
         moneyUnlocks = manager.loadUnlocksINT(unlockType, 2);
 
@@ -94,17 +89,17 @@ public class ShopState extends State {
 
         //Preset
         PresetStyleButtonImage = e.getGraphics().newImage("PresetLevelUnlocked.png");
-        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[0]);
+        PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, manager.unlocks[0]);
 
         //RedButton
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
         RedStyleButtonShopImage = e.getGraphics().newImage("RedMoneyButton.png");
-        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
+        RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, manager.unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
 
         //BlueButton
         BlueStyleButtonImage = e.getGraphics().newImage("BlueLevelUnlocked.png");
         BlueStyleButtonShopImage = e.getGraphics().newImage("BlueMoneyButton.png");
-        BlueStyleButton = new Button(BlueStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[2], moneyUnlocks[1], BlueStyleButtonShopImage);
+        BlueStyleButton = new Button(BlueStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, manager.unlocks[2], moneyUnlocks[1], BlueStyleButtonShopImage);
 
 
         //MoneyAmount
@@ -175,7 +170,7 @@ public class ShopState extends State {
                 //creo al siguiente escena y la añado al engine
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
-                    manager.saveUnlocks(unlocks, categoryType);
+                    manager.saveUnlocks(manager.unlocks, manager.categoryType);
                     manager.saveUnlocksINT(moneyUnlocks, unlockType);
                     manager.saveMoney();
 
@@ -185,11 +180,11 @@ public class ShopState extends State {
                     //
                     if (manager.getMoney() >= RedStyleButton.moneyToUnlock) {
                         //Si entra aqui es porque lo hemos desbloqueado
-                        if (!unlocks[1]) {
+                        if (!manager.unlocks[1]) {
                             //Unlockear boton
-                            unlocks[1] = true;
+                            manager.unlocks[1] = true;
                             RedStyleButton.unlockButton();
-                            manager.saveUnlocks(unlocks, categoryType);
+                            manager.saveUnlocks(manager.unlocks, manager.categoryType);
                         }
 
                         if (RedStyleButton.moneyToUnlock == 0) {
@@ -206,11 +201,11 @@ public class ShopState extends State {
                     //
                     if (manager.getMoney() >= BlueStyleButton.moneyToUnlock) {
                         //Si entra aqui es porque lo hemos desbloqueado
-                        if (!unlocks[2]) {
+                        if (!manager.unlocks[2]) {
                             //Unlockear boton
-                            unlocks[2] = true;
+                            manager.unlocks[2] = true;
                             BlueStyleButton.unlockButton();
-                            manager.saveUnlocks(unlocks, categoryType);
+                            manager.saveUnlocks(manager.unlocks, manager.categoryType);
                         }
 
                         if (BlueStyleButton.moneyToUnlock == 0) {
@@ -242,7 +237,7 @@ public class ShopState extends State {
         //if it isn't the consecuences of my actions
         // | | | | | | | | | | | | | | |
         // v v v v v v v v v v v v v v v
-        manager.saveUnlocks(unlocks, categoryType);
+        manager.saveUnlocks(manager.unlocks, manager.categoryType);
         manager.saveUnlocksINT(moneyUnlocks, unlockType);
         manager.saveMoney();
         previous.onSaveInstanceState(outState);
