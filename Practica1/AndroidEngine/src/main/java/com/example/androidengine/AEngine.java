@@ -37,6 +37,7 @@ public class AEngine implements Runnable {
     private String style;
     public int dinero;
 
+
     public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c, Activity main) throws IOException {
         assetManager = assetM;
         resourcesManager = resourcesM;

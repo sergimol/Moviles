@@ -32,9 +32,7 @@ public class Board implements Serializable {
     }
 
 
-    Board() {
-
-    }
+    Board() {}
 
     Board(int x, int y) {
         // Nº de celdas en x
