@@ -19,6 +19,7 @@ public class AGraphics {
     private SurfaceView myView;
     private SurfaceHolder holder;
     private Canvas canvas;
+    private Bitmap saveCanvas;
 
     private Paint paint;    //Para elegir colores en hexadecimal
 

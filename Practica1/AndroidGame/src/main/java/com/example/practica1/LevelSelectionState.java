@@ -97,7 +97,10 @@ public class LevelSelectionState extends State {
             graphics.setColor(0XFFFFB23C);
         else if (manager.getStyle().equals("Red"))
             graphics.setColor(0XFFA64F59);
+        else  if(manager.getStyle().equals("Blue"))
+            graphics.setColor(0XFF386087);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
+
 
         if (title != null) {
             String word;

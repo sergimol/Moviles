@@ -327,7 +327,7 @@ public class GameState extends State {
 
         //outState.putSerializable("corazones", vidas);
         //vidas.metodoQueSerializa();
-        manager.saveLastEscene(this);
+        //manager.saveLastEscene(this);
 
     }
 

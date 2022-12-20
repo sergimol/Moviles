@@ -38,6 +38,7 @@ public class AEngine implements Runnable {
 
 
 
+
     public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c, Activity main) throws IOException {
         assetManager = assetM;
         resourcesManager = resourcesM;

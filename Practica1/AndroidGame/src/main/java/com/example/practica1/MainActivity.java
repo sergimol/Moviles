@@ -6,12 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,15 +46,22 @@ import java.util.concurrent.TimeUnit;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable, SensorEventListener {
 
     private AEngine androidEngine;
     private SurfaceView window;
     private AssetManager assetManager;
     private Resources resourcesManager;
     private AdView mAdView;
+
+    //private SensorManagerTest sensorManagerTest;
+    public SensorManager sensorManager;
+    public Sensor mySensor;
+    private long lastUpdate, actualTime;
+
     //esto es de la logica unicamente
     private GameManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         WorkManager.getInstance(getApplicationContext()).cancelAllWork();
@@ -64,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
         }
         assetManager = getAssets();
         resourcesManager = getResources();
+
+        //SensorManager
+        //sensorManagerTest = new SensorManagerTest();
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        if (mySensor == null) {
+            Toast.makeText(this, "No acelerometer detected in this device", Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            sensorManager.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
 
         //Creamos el SurfaceView y lo inicializamos
         window = new SurfaceView(this);
@@ -96,29 +123,30 @@ public class MainActivity extends AppCompatActivity {
         State state;
         if (savedInstanceState != null) {
             //state = new InitialState();
-                switch (savedInstanceState.getInt("SceneType")) {
-                    case 1:
-                        state = new LevelSelectionState(manager);
-                        break;
-                    case 2:
-                        state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
-                        break;
-                    case 3:
-                        state = new ShopState(manager);
-                        break;
-                    case 4:
-                        state = new CategoryLevelSelectionState(savedInstanceState, manager);
-                        break;
-                    case 5:
-                        state = new CategorySelect(manager);
-                        break;
-                    default:
-                        state = new InitialState(manager);
-                        break;
-                }
-            } else {
-                state = new InitialState(manager);
+
+            switch (savedInstanceState.getInt("SceneType")) {
+                case 1:
+                    state = new LevelSelectionState(manager);
+                    break;
+                case 2:
+                    state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
+                    break;
+                case 3:
+                    state = new ShopState(manager);
+                    break;
+                case 4:
+                    state = new CategoryLevelSelectionState(savedInstanceState, manager);
+                    break;
+                case 5:
+                    state = new CategorySelect(manager);
+                    break;
+                default:
+                    state = new InitialState(manager);
+                    break;
             }
+        } else {
+            state = new InitialState(manager);
+        }
 
         //Creamos el Engine y lo inicializamos
 
@@ -149,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         //hay que meter la escena principal
         androidEngine.getState().onSaveInstanceState(outState);
-
         OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotifyWorker.class)
                 .setInitialDelay(2, TimeUnit.MINUTES)
                 .build();
@@ -162,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
         manager.saveStyle();
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -171,24 +199,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float[] values = event.values;
+            float x = values[0];
+            float y = values[1];
+            float z = values[2];
+            float EG = SensorManager.GRAVITY_EARTH;
+            float devAccel = (x * x + y * y + z * z) / (EG * EG);
 
-    //@Override
-    //public void onRestoreInstanceState(Bundle savedInstanceState ){
-    //super.OnRestoreInstanceState(savedInstanceState);
+            if (devAccel >= 1.5) {
+                actualTime = System.currentTimeMillis();
+                if ((actualTime - lastUpdate) > 1000) {
+                    lastUpdate = actualTime;
+                    //Llamada de metodo
+                    System.out.println("Sensor");
+                    manager.rotateStyle();
+                }
+            }
+        }
+    }
 
-    //}
-
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 }
-
-/*
-    Manifest
-        Documento XML que describe la aplicacion
-        Contiene informacion sobre el nombre del paquete
-        Que servicios necesita (si necesita internet)
-        Requisitos de software
-        Version y codificacion de la aplicacion y donde se instala
-        Si queremos que se ejecute con algun tema especial (tamaño completo y sin barra)
-        Esto es lo que coge el googlePlay para ver que te pide
-
-
-* */

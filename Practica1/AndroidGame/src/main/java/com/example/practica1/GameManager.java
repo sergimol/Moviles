@@ -39,16 +39,30 @@ public class GameManager {
         return style;
     }
 
-    public int getMoney(){return Money;}
+    public int getMoney() {
+        return Money;
+    }
 
     public void setStyle(String aux) {
         style = aux;
     }
 
+    public void rotateStyle() {
+        switch (style) {
+            case "Preset":
+                style = "Red";
+                break;
+            case "Red":
+                style = "Blue";
+                break;
+            case "Blue":
+                style = "Preset";
+                break;
+        }
+    }
 
     private static String getSalt()
-            throws NoSuchAlgorithmException, NoSuchProviderException
-    {
+            throws NoSuchAlgorithmException, NoSuchProviderException {
         // Always use a SecureRandom generator
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
 
@@ -63,8 +77,7 @@ public class GameManager {
     }
 
 
-
-    public void  CreateHashForFile(String fileName)  {
+    public void CreateHashForFile(String fileName) {
         //el archivo ya esta guardado, ahora vamos a crear
         // la instancia/contraseña que comprueba que no se va a modificar ese archivo
 
@@ -131,13 +144,13 @@ public class GameManager {
             FileOutputStream f = context.openFileOutput("MisterCrabMony",
                     Context.MODE_PRIVATE);
 
-            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            ObjectOutputStream out = new ObjectOutputStream(f);
             out.writeInt(Money);
 
-           // String text = "" +Money;
-           // f.write(text.getBytes());
+            // String text = "" +Money;
+            // f.write(text.getBytes());
 
-            out.close() ;
+            out.close();
             f.close();
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
@@ -151,9 +164,9 @@ public class GameManager {
             FileOutputStream f = context.openFileOutput("Style",
                     Context.MODE_PRIVATE);
 
-            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            ObjectOutputStream out = new ObjectOutputStream(f);
             out.writeObject(style);
-            out.close() ;
+            out.close();
             f.close();
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
@@ -162,7 +175,7 @@ public class GameManager {
         CreateHashForFile("Style");
     }
 
-    public Boolean GetCheckSumForFile(String fileName)  {
+    public Boolean GetCheckSumForFile(String fileName) {
 
         try {
             // Reading the object from a file
@@ -221,13 +234,12 @@ public class GameManager {
     }
 
 
-    public int loadMoney(){
+    public int loadMoney() {
 
-        try
-        {
+        try {
 
             //comprobamos que no ah sido modificado
-            if (GetCheckSumForFile("MisterCrabMony")){
+            if (GetCheckSumForFile("MisterCrabMony")) {
 
                 // Reading the object from a file
                 FileInputStream f = context.openFileInput("MisterCrabMony");
@@ -238,16 +250,13 @@ public class GameManager {
                 in.close();
                 f.close();
                 System.out.println("Object has been deserialized ");
-            }
-            else{
+            } else {
                 //como castigo por modificar te lo pongo a 0
-                Money = 0;
+                Money = 100;
             }
 
 
-
-
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Exception is caught");
             //de normal no vas a tener ni un duro mister,
             //y si te falla al cargar el dinero, pos no aber tocao el arhcivo de guardao listo.
@@ -255,18 +264,16 @@ public class GameManager {
         }
 
 
-
         System.out.println("tienes esta amaising cantidad de dineros: " + Money);
         return Money;
     }
 
 
-    public void loadStyle(){
+    public void loadStyle() {
 
-        try
-        {
+        try {
             //comprobamos que no ah sido modificado
-            if (GetCheckSumForFile("Style")){
+            if (GetCheckSumForFile("Style")) {
 
                 // Reading the object from a file
                 FileInputStream f = context.openFileInput("Style");
@@ -276,26 +283,24 @@ public class GameManager {
                 in.close();
                 f.close();
                 System.out.println("Object has been deserialized ");
-            }
-            else{
+            } else {
                 style = "Preset";
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Exception is caught");
             style = "Preset";
         }
     }
 
-    public void addMoney(int quantity){
+    public void addMoney(int quantity) {
         Money += quantity;
     }
 
-    public boolean restMoney(int quantity){
-        if (Money >= quantity){
+    public boolean restMoney(int quantity) {
+        if (Money >= quantity) {
             Money -= quantity;
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     public void saveUnlocks(boolean[] unlocks, String name) {
@@ -320,42 +325,42 @@ public class GameManager {
         String[] a = context.fileList();
 
         if (GetCheckSumForFile(nombre))
-        try {
-            int quantity = q;
-            for (String file : a) {
-                if (file.equals(nombre)) {
-                    //file exits
-                    FileInputStream f = context.openFileInput(nombre);
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(f));
+            try {
+                int quantity = q;
+                for (String file : a) {
+                    if (file.equals(nombre)) {
+                        //file exits
+                        FileInputStream f = context.openFileInput(nombre);
+                        BufferedReader input = new BufferedReader(
+                                new InputStreamReader(f));
 
-                    int n = 0;
-                    String line;
-                    int read;
+                        int n = 0;
+                        String line;
+                        int read;
 
-                    line = input.readLine();
-                    quantity = Integer.parseInt(line);
-                    boolean[] unlocks = new boolean[quantity];
-
-                    do {
                         line = input.readLine();
-                        if (line != null) {
-                            read = Integer.parseInt(line);
-                            unlocks[n] = (read == 1);
-                            n++;
-                        }
-                    }
-                    while (n < quantity && line != null);
+                        quantity = Integer.parseInt(line);
+                        boolean[] unlocks = new boolean[quantity];
 
-                    f.close();
-                    return unlocks;
+                        do {
+                            line = input.readLine();
+                            if (line != null) {
+                                read = Integer.parseInt(line);
+                                unlocks[n] = (read == 1);
+                                n++;
+                            }
+                        }
+                        while (n < quantity && line != null);
+
+                        f.close();
+                        return unlocks;
+                    }
                 }
+                return createSaveFiles(quantity);
+            } catch (Exception e) {
+                Log.e("guardados error", e.getMessage(), e);
+                return createSaveFiles(q);
             }
-            return createSaveFiles(quantity);
-        } catch (Exception e) {
-            Log.e("guardados error", e.getMessage(), e);
-            return createSaveFiles(q);
-        }
         return createSaveFiles(q);
     }
 
@@ -390,54 +395,54 @@ public class GameManager {
         String[] a = context.fileList();
 
         if (GetCheckSumForFile(nombre))
-        try {
-            int quantity = q;
-            for (String file : a) {
-                if (file.equals(nombre)) {
-                    //file exits
-                    FileInputStream f = context.openFileInput(nombre);
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(f));
+            try {
+                int quantity = q;
+                for (String file : a) {
+                    if (file.equals(nombre)) {
+                        //file exits
+                        FileInputStream f = context.openFileInput(nombre);
+                        BufferedReader input = new BufferedReader(
+                                new InputStreamReader(f));
 
-                    int n = 0;
-                    String line;
-                    int read;
+                        int n = 0;
+                        String line;
+                        int read;
 
-                    line = input.readLine();
-                    quantity = Integer.parseInt(line);
-                    int[] unlocks = new int[quantity];
-
-                    do {
                         line = input.readLine();
-                        if (line != null) {
-                            read = Integer.parseInt(line);
-                            unlocks[n] = read;
-                            n++;
-                        }
-                    }
-                    while (n < quantity && line != null);
+                        quantity = Integer.parseInt(line);
+                        int[] unlocks = new int[quantity];
 
-                    f.close();
-                    return unlocks;
+                        do {
+                            line = input.readLine();
+                            if (line != null) {
+                                read = Integer.parseInt(line);
+                                unlocks[n] = read;
+                                n++;
+                            }
+                        }
+                        while (n < quantity && line != null);
+
+                        f.close();
+                        return unlocks;
+                    }
                 }
+                return createSaveFilesINT(quantity);
+            } catch (Exception e) {
+                Log.e("guardados error", e.getMessage(), e);
+                return createSaveFilesINT(q);
             }
-            return createSaveFilesINT(quantity);
-        } catch (Exception e) {
-            Log.e("guardados error", e.getMessage(), e);
-            return createSaveFilesINT(q);
-        }
         return createSaveFilesINT(q);
     }
 
     public int[] createSaveFilesINT(int quantity) {
         int[] res = new int[quantity];
-        res[0] = 1;
+        for (int i = 0; i < res.length; ++i)
+            res[i] = 30;
         return res;
     }
 
 
-    private static String getFileChecksum(MessageDigest digest, FileInputStream fis) throws IOException
-    {
+    private static String getFileChecksum(MessageDigest digest, FileInputStream fis) throws IOException {
         //Get file input stream for reading the file content
         //FileInputStream fis = new FileInputStream(file);
 
@@ -448,7 +453,8 @@ public class GameManager {
         //Read file data and update in message digest
         while ((bytesCount = fis.read(byteArray)) != -1) {
             digest.update(byteArray, 0, bytesCount);
-        };
+        }
+        ;
 
         //close the stream; We don't need it now.
         fis.close();
@@ -459,8 +465,7 @@ public class GameManager {
         //This bytes[] has bytes in decimal format;
         //Convert it to hexadecimal format
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i< bytes.length ;i++)
-        {
+        for (int i = 0; i < bytes.length; i++) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
 
