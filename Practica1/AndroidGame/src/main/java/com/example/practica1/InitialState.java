@@ -74,13 +74,13 @@ public class InitialState extends State {
         playButton = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //StoryButton
-        StoryButtonImage = e.getGraphics().newImage(engine.getStyle() + "Story.png");
+        StoryButtonImage = e.getGraphics().newImage(manager.getStyle() + "Story.png");
         StoryButton = new Button(StoryButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         //ArcadeButton
-        ArcadeButtonImage = e.getGraphics().newImage(engine.getStyle() + "ArcadeButton.png");
+        ArcadeButtonImage = e.getGraphics().newImage(manager.getStyle() + "ArcadeButton.png");
         ArcadeButton = new Button(ArcadeButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(manager.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
         //Font Button
@@ -119,27 +119,27 @@ public class InitialState extends State {
     public void render(AGraphics graphics) {
 
         //Background
-        if(engine.getStyle().equals("Preset"))
+        if(manager.getStyle().equals("Preset"))
             graphics.setColor(0XFFFFB23C);
-        else  if(engine.getStyle().equals("Red"))
+        else  if(manager.getStyle().equals("Red"))
             graphics.setColor(0XFFA64F59);
 
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
         //Buttons
         if (StoryButton != null) {
-            if (!StoryButton.getImagen().getName().equals(engine.getStyle() + "Story.png"))
-                StoryButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "Story.png"));
+            if (!StoryButton.getImagen().getName().equals(manager.getStyle() + "Story.png"))
+                StoryButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "Story.png"));
             StoryButton.render(graphics);
         }
 
         if (ArcadeButton != null) {
-            if (!ArcadeButton.getImagen().getName().equals(engine.getStyle() + "ArcadeButton.png"))
-                ArcadeButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "ArcadeButton.png"));
+            if (!ArcadeButton.getImagen().getName().equals(manager.getStyle() + "ArcadeButton.png"))
+                ArcadeButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "ArcadeButton.png"));
             ArcadeButton.render(graphics);
         }
         if (MoneyButton != null) {
-            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
-                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
+            if (!MoneyButton.getImagen().getName().equals(manager.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
         }
 
@@ -172,7 +172,7 @@ public class InitialState extends State {
                 }
 
                 if (ArcadeButton.click(o.x, o.y)) {
-                    LevelSelectionState st = new LevelSelectionState(null);
+                    LevelSelectionState st = new LevelSelectionState(manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

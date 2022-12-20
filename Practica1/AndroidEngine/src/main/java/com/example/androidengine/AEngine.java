@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class AEngine implements Runnable {
 
+
+
     private boolean running = false;
 
     private State currentState;
@@ -34,8 +36,7 @@ public class AEngine implements Runnable {
     private AssetManager assetManager;
     private Resources resourcesManager;
 
-    private String style;
-    public int dinero;
+
 
     public AEngine(SurfaceView window, AssetManager assetM, Resources resourcesM, Context c, Activity main) throws IOException {
         assetManager = assetM;
@@ -46,9 +47,7 @@ public class AEngine implements Runnable {
         myInput = new AInput(window, graphics);
         timer = new ATimer();
         contexto = c;
-        style = "Preset";
-        //lockManager = new ALockManager();
-        dinero = 100;
+
         mainActivity = main;
     }
 
@@ -173,11 +172,5 @@ public class AEngine implements Runnable {
         currentState = st;
     }
 
-    public String getStyle() {
-        return style;
-    }
 
-    public void setStyle(String aux) {
-        style = aux;
-    }
 }

@@ -42,7 +42,6 @@ public class LevelSelectionState extends State {
                     default:
                         break;
                 }
-
         }
     }
     @Override
@@ -58,11 +57,11 @@ public class LevelSelectionState extends State {
         engine = e;
 
         //BackButton
-        BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(manager.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
@@ -94,9 +93,9 @@ public class LevelSelectionState extends State {
     public void render(AGraphics graphics) {
 
         //Background
-        if (engine.getStyle().equals("Preset"))
+        if (manager.getStyle().equals("Preset"))
             graphics.setColor(0XFFFFB23C);
-        else if (engine.getStyle().equals("Red"))
+        else if (manager.getStyle().equals("Red"))
             graphics.setColor(0XFFA64F59);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
@@ -109,13 +108,13 @@ public class LevelSelectionState extends State {
         }
 
         if (BackButton != null) {
-            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
-                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
+            if (!BackButton.getImagen().getName().equals(manager.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
         }
         if (MoneyButton != null) {
-            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
-                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
+            if (!MoneyButton.getImagen().getName().equals(manager.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
         }
 
@@ -149,32 +148,32 @@ public class LevelSelectionState extends State {
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][0].click(o.x, o.y)) {
-                    GameState st = new GameState(4, 4, null);
+                    GameState st = new GameState(4, 4, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][1].click(o.x, o.y)) {
-                    GameState st = new GameState(5, 5, null);
+                    GameState st = new GameState(5, 5, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[0][2].click(o.x, o.y)) {
-                    GameState st = new GameState(5, 10, null);
+                    GameState st = new GameState(5, 10, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][0].click(o.x, o.y)) {
-                    GameState st = new GameState(8, 8, null);
+                    GameState st = new GameState(8, 8, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][1].click(o.x, o.y)) {
-                    GameState st = new GameState(10, 10, null);
+                    GameState st = new GameState(10, 10, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);
                 } else if (botonesNiveles[1][2].click(o.x, o.y)) {
-                    GameState st = new GameState(10, 15, null);
+                    GameState st = new GameState(10, 15, null, manager);
                     st.setPrevious(this);
                     engine.setState(st);
                     st.init(engine);

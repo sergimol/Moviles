@@ -20,12 +20,26 @@ import java.security.SecureRandom;
 
 public class GameManager {
 
+
+    private String style;
     private Context context;
     private int Money;
 
     public GameManager(Context c) {
         context = c;
         loadMoney();
+        style = "Preset";
+        //lockManager = new ALockManager();
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public int getMoney(){return Money;}
+
+    public void setStyle(String aux) {
+        style = aux;
     }
 
 

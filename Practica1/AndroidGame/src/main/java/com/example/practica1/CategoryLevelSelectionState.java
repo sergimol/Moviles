@@ -67,19 +67,19 @@ public class CategoryLevelSelectionState extends State {
         text = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 
         //BackButton
-        BackButtonImage = e.getGraphics().newImage(engine.getStyle() + "BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
         //MoneyButton
-        MoneyButtonImage = e.getGraphics().newImage(engine.getStyle() + "MoneyButton.png");
+        MoneyButtonImage = e.getGraphics().newImage(manager.getStyle() + "MoneyButton.png");
         MoneyButton = new Button(MoneyButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         MoneyButton.moveButton((int) (e.getGraphics().getOriginalWidth() - MoneyButton.getSizeX() / 2), (int) (MoneyButton.getSizeY() / 2));
 
 
         //Botones niveles
         levelsButtons = new Button[5][4];
-        levelUnlocked = e.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png");
-        levelLocked = e.getGraphics().newImage(engine.getStyle() + "LevelLocked.png");
+        levelUnlocked = e.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png");
+        levelLocked = e.getGraphics().newImage(manager.getStyle() + "LevelLocked.png");
 
 
         float ButtonSizeX = 0.18f;
@@ -134,9 +134,9 @@ public class CategoryLevelSelectionState extends State {
     @Override
     public void render(AGraphics graphics) {
         //Background
-        if (engine.getStyle().equals("Preset"))
+        if (manager.getStyle().equals("Preset"))
             graphics.setColor(0XFFFFB23C);
-        else if (engine.getStyle().equals("Red"))
+        else if (manager.getStyle().equals("Red"))
             graphics.setColor(0XFFA64F59);
         graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
@@ -149,13 +149,13 @@ public class CategoryLevelSelectionState extends State {
         }
 
         if (BackButton != null) {
-            if (!BackButton.getImagen().getName().equals(engine.getStyle() + "BackButton.png"))
-                BackButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "BackButton.png"));
+            if (!BackButton.getImagen().getName().equals(manager.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
         }
         if (MoneyButton != null) {
-            if (!MoneyButton.getImagen().getName().equals(engine.getStyle() + "MoneyButton.png"))
-                MoneyButton.changeImage(engine.getGraphics().newImage(engine.getStyle() + "MoneyButton.png"));
+            if (!MoneyButton.getImagen().getName().equals(manager.getStyle() + "MoneyButton.png"))
+                MoneyButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "MoneyButton.png"));
             MoneyButton.render(graphics);
         }
 
@@ -166,11 +166,11 @@ public class CategoryLevelSelectionState extends State {
                 //Recorro filas
                 for (int w = 0; w < levelsButtons[0].length; ++w) {
                     if (levelsButtons[i][w].isButtonUnlocked()) {
-                        if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "LevelUnlocked.png"))
-                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelUnlocked.png"));
+                        if (!levelsButtons[i][w].getImagen().getName().equals(manager.getStyle() + "LevelUnlocked.png"))
+                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png"));
                     } else {
-                        if (!levelsButtons[i][w].getImagen().getName().equals(engine.getStyle() + "LevelLocked.png"))
-                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(engine.getStyle() + "LevelLocked.png"));
+                        if (!levelsButtons[i][w].getImagen().getName().equals(manager.getStyle() + "LevelLocked.png"))
+                            levelsButtons[i][w].changeImage(engine.getGraphics().newImage(manager.getStyle() + "LevelLocked.png"));
                     }
                     levelsButtons[i][w].render(graphics);
                 }
@@ -201,7 +201,7 @@ public class CategoryLevelSelectionState extends State {
                             if (levelsButtons[z][w].click(o.x, o.y)) {
                                 try {
                                     //String p = engine.getContext().getFilesDir().getAbsolutePath();
-                                    GameState st = new GameState(engine.getAssets(), categoryType, "" + z + w);
+                                    GameState st = new GameState(engine.getAssets(), categoryType, "" + z + w, manager);
                                     st.setPrevious(this);
                                     engine.setState(st);
                                     st.init(engine);

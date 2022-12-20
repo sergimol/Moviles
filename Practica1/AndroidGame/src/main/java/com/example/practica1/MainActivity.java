@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                         state = new LevelSelectionState(manager);
                         break;
                     case 2:
-                        state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState);
+                        state = new GameState(savedInstanceState.getInt("x"), savedInstanceState.getInt("y"), savedInstanceState, manager);
                         break;
                     case 3:
                         state = new ShopState(manager);
