@@ -10,14 +10,15 @@ import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ListIterator;
 
 
 public class ShopState extends State {
-
-    AImage background;
-
     Button BackButton;
     AImage BackButtonImage;
 
@@ -28,10 +29,16 @@ public class ShopState extends State {
     AImage RedStyleButtonImage;
     AImage RedStyleButtonShopImage;
 
+    Button BlueStyleButton;
+    AImage BlueStyleButtonImage;
+    AImage BlueStyleButtonShopImage;
+
+
     String categoryType;
     boolean[] unlocks;
     String unlockType;
-    int[] moneyUnlocks;
+    int[] moneyUnlocks; //Guarda lo que cuesta cada desbloqueo
+
 
     AFont regularText;
     Button moneyCuantityButton;
@@ -57,7 +64,7 @@ public class ShopState extends State {
                     previous = new LevelSelectionState(savedData, manager);
                     break;
                 case 2:
-                    previous = new GameState(savedData.getInt("x"), savedData.getInt("y"), savedData , manager);
+                    previous = new GameState(savedData.getInt("x"), savedData.getInt("y"), savedData, manager);
                     break;
                 default:
                     previous = new InitialState(manager);
@@ -75,23 +82,30 @@ public class ShopState extends State {
 
         //Desbloqueo de tienda
         categoryType = "tienda_0";
-        unlocks = manager.loadUnlocks(categoryType, 2);
+        unlocks = manager.loadUnlocks(categoryType, 3);
         unlocks[0] = true;
         unlockType = "compras_0";
         moneyUnlocks = manager.loadUnlocksINT(unlockType, 2);
 
-        background = e.getGraphics().newImage("GolemsShop.png");
         //BackButton
         BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
+        //Preset
         PresetStyleButtonImage = e.getGraphics().newImage("PresetLevelUnlocked.png");
         PresetStyleButton = new Button(PresetStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 2, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[0]);
-        //ArcadeButton
+
+        //RedButton
         RedStyleButtonImage = e.getGraphics().newImage("RedLevelUnlocked.png");
-        RedStyleButtonShopImage = e.getGraphics().newImage("PresetMoneyButton.png");
+        RedStyleButtonShopImage = e.getGraphics().newImage("RedMoneyButton.png");
         RedStyleButton = new Button(RedStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.5f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[1], moneyUnlocks[0], RedStyleButtonShopImage);
+
+        //BlueButton
+        BlueStyleButtonImage = e.getGraphics().newImage("BlueLevelUnlocked.png");
+        BlueStyleButtonShopImage = e.getGraphics().newImage("BlueMoneyButton.png");
+        BlueStyleButton = new Button(BlueStyleButtonImage, e.getGraphics().getOriginalWidth() / 2, e.getGraphics().getOriginalHeight() / 1.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.6f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, unlocks[2], moneyUnlocks[1], BlueStyleButtonShopImage);
+
 
         //MoneyAmount
         moneyCuantityButtonImage = e.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png");
@@ -113,10 +127,14 @@ public class ShopState extends State {
     @Override
     public void render(AGraphics graphics) {
         //Background
-        if (background != null) {
-            background.resizeImage((int) graphics.getCanvasAspectRelationWidth(), (int) graphics.getCanvasAspectRelationHeight());
-            graphics.drawImage(background, engine.getGraphics().getOriginalWidth() / 2 - background.getWidth() / 2, engine.getGraphics().getOriginalHeight() / 2 - background.getHeight() / 2, background.getWidth(), background.getHeight());
-        }
+        if (manager.getStyle().equals("Preset"))
+            graphics.setColor(0XFFFFB23C);
+        else if (manager.getStyle().equals("Red"))
+            graphics.setColor(0XFFA64F59);
+        else if (manager.getStyle().equals("Blue"))
+            graphics.setColor(0XFF386087);
+
+        graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
 
         if (BackButton != null) {
             if (!BackButton.getImagen().getName().equals(manager.getStyle() + "BackButton.png"))
@@ -128,7 +146,8 @@ public class ShopState extends State {
             PresetStyleButton.render(graphics);
         if (RedStyleButton != null)
             RedStyleButton.render(graphics);
-
+        if (BlueStyleButton != null)
+            BlueStyleButton.render(graphics);
         //MoneyCuantity
         if (moneyCuantityButton != null) {
             if (!moneyCuantityButton.getImagen().getName().equals(manager.getStyle() + "LevelUnlocked.png"))
@@ -156,6 +175,10 @@ public class ShopState extends State {
                 //creo al siguiente escena y la añado al engine
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
+                    manager.saveUnlocks(unlocks, categoryType);
+                    manager.saveUnlocksINT(moneyUnlocks, unlockType);
+                    manager.saveMoney();
+
                 } else if (PresetStyleButton.click(o.x, o.y)) {
                     manager.setStyle("Preset");
                 } else if (RedStyleButton.click(o.x, o.y)) {
@@ -165,6 +188,7 @@ public class ShopState extends State {
                         if (!unlocks[1]) {
                             //Unlockear boton
                             unlocks[1] = true;
+                            RedStyleButton.unlockButton();
                             manager.saveUnlocks(unlocks, categoryType);
                         }
 
@@ -178,11 +202,32 @@ public class ShopState extends State {
                             manager.saveUnlocksINT(moneyUnlocks, unlockType);
                         }
                     }
+                } else if (BlueStyleButton.click(o.x, o.y)) {
+                    //
+                    if (manager.getMoney() >= BlueStyleButton.moneyToUnlock) {
+                        //Si entra aqui es porque lo hemos desbloqueado
+                        if (!unlocks[2]) {
+                            //Unlockear boton
+                            unlocks[2] = true;
+                            BlueStyleButton.unlockButton();
+                            manager.saveUnlocks(unlocks, categoryType);
+                        }
+
+                        if (BlueStyleButton.moneyToUnlock == 0) {
+                            manager.setStyle("Blue");
+                        } else {
+                            //Comprarlo
+                            manager.restMoney(BlueStyleButton.moneyToUnlock);
+                            BlueStyleButton.moneyToUnlock = 0;
+                            moneyUnlocks[1] = 0;
+                            manager.saveUnlocksINT(moneyUnlocks, unlockType);
+                        }
+                    }
                 }
             }
-
-            engine.getInput().emptyTouchEvents();
         }
+
+        engine.getInput().emptyTouchEvents();
     }
 
 
@@ -197,6 +242,9 @@ public class ShopState extends State {
         //if it isn't the consecuences of my actions
         // | | | | | | | | | | | | | | |
         // v v v v v v v v v v v v v v v
+        manager.saveUnlocks(unlocks, categoryType);
+        manager.saveUnlocksINT(moneyUnlocks, unlockType);
+        manager.saveMoney();
         previous.onSaveInstanceState(outState);
         //By Diengo
 

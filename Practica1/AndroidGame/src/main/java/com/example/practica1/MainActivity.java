@@ -202,7 +202,8 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
                 if ((actualTime - lastUpdate) > 1000) {
                     lastUpdate = actualTime;
                     //Llamada de metodo
-                    System.out.println("El movil funsiona sensor");
+                    System.out.println("Sensor");
+                    manager.rotateStyle();
                 }
             }
         }
