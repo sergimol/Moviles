@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
         manager.saveMoney();
         manager.saveStyle();
+
     }
 
 

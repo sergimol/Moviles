@@ -25,6 +25,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Vector;
 
 
 public class GameState extends State {
@@ -54,6 +55,19 @@ public class GameState extends State {
 
     public void SetManager(GameManager m){
         manager = m;
+    }
+
+
+    public GameState(int vidas_, int x, int y, Cell[][] celdas, Vector<Vector<Integer>> yValues, Vector<Vector<Integer>> xValues, String category_, String level_, GameManager m){
+        manager = m;
+        vidas  = new Lives();
+        vidas.hearts = vidas_;
+        board = new Board(x,y);
+        board.cells = celdas;
+        board.yValues = yValues;
+        board.xValues = xValues;
+        category = category_;
+        level = level_;
     }
 
     public GameState(int x, int y, Bundle savedData, GameManager m){
@@ -308,15 +322,19 @@ public class GameState extends State {
             outState.putString("Category", category);
             outState.putString("Level", level);
         }
-        manager.lastEscene = true;
+        //manager.lastEscene = true;
         //guardamos en el manager la ultima escena para en el caso de si cierra la app aqui vuelva a cargar
-
-
-
 
         //outState.putSerializable("corazones", vidas);
         //vidas.metodoQueSerializa();
-
+        manager.saveLastEscene(this);
 
     }
+
+    @Override
+    public void onDestroy(){
+
+    }
+
 }
+

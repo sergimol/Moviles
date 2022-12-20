@@ -18,6 +18,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.util.Vector;
 
 public class GameManager {
 
@@ -25,6 +26,7 @@ public class GameManager {
     private String style;
     private Context context;
     private int Money;
+    public boolean lastEscene = false;
 
     public GameManager(Context c) {
         context = c;
@@ -464,6 +466,125 @@ public class GameManager {
 
         //return complete hash
         return sb.toString();
+    }
+
+
+
+    public GameState loadLastLevel(){
+
+        try
+        {
+            //comprobamos que no ah sido modificado
+            if (GetCheckSumForFile("LastBool")){
+
+                // Reading the object from a file
+                FileInputStream f = context.openFileInput("LastBool");
+                //FileInputStream file = new FileInputStream("MisterCrabMony");
+                ObjectInputStream in = new ObjectInputStream(f);
+                // Method for deserialization of object
+                lastEscene = (boolean)in.readObject();
+                in.close();
+                f.close();
+                System.out.println("Object has been deserialized ");
+            }
+        } catch(Exception ex) {
+            System.out.println("Exception is caught");
+        }
+
+
+        if (lastEscene){
+                //intentamos crear una escena con los datos guardados
+            //GameState gm = new
+
+            try
+            {
+                //comprobamos que no ah sido modificado
+                if (GetCheckSumForFile("LastLevel")){
+
+                    // Reading the object from a file
+                    FileInputStream f = context.openFileInput("LastLevel");
+                    //FileInputStream file = new FileInputStream("MisterCrabMony");
+                    ObjectInputStream in = new ObjectInputStream(f);
+                    // Method for deserialization of object
+                    int vidas = (int)in.readObject();
+                    int x = (int)in.readObject();
+                    int y = (int)in.readObject();
+                    Cell[][] celdas = (Cell[][])in.readObject();
+                    Vector<Vector<Integer>> yValues = (Vector<Vector<Integer>>)in.readObject();
+                    Vector<Vector<Integer>> xValues = (Vector<Vector<Integer>>)in.readObject();
+
+                    String category =(String)in.readObject();
+                    String level =(String)in.readObject();
+
+                    in.close();
+                    f.close();
+
+                    System.out.println("Object has been deserialized ");
+
+                    return new GameState(vidas, x, y, celdas,yValues, xValues, category, level, this);
+                }
+            } catch(Exception ex) {
+                System.out.println("Exception is caught");
+            }
+        }
+        return null;
+    }
+
+
+    public void saveLastSceneBool(){
+        try {
+            FileOutputStream f = context.openFileOutput("LastBool",
+                    Context.MODE_PRIVATE);
+            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            out.writeObject(lastEscene);
+            out.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CreateHashForFile("LastBool");
+    }
+
+    public void saveLastEscene(GameState gS){
+
+        //hay escena?
+
+
+
+        //guardar la escena en si
+
+        if (lastEscene){
+            try {
+                FileOutputStream f = context.openFileOutput("LastLevel",
+                        Context.MODE_PRIVATE);
+
+                ObjectOutputStream out = new ObjectOutputStream(f) ;
+
+                //vidas, tambien son un int
+                out.writeObject(gS.vidas.getHearts());
+                //todo lo del board
+
+                out.writeObject(gS.board.getxSize());
+                out.writeObject(gS.board.getySize());
+                out.writeObject(gS.board.cells);
+                out.writeObject(gS.board.yValues);
+                out.writeObject(gS.board.xValues);
+
+                //categoria y nivel
+                out.writeObject(gS.category);
+                out.writeObject(gS.level);
+
+                out.close() ;
+                f.close();
+            } catch (Exception e) {
+                Log.e("guardado", e.getMessage(), e);
+            }
+
+            CreateHashForFile("LastLevel");
+        }
     }
 
 

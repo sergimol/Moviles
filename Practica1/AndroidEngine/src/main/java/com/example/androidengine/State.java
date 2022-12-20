@@ -33,4 +33,8 @@ public abstract class State {
 
     public void onSaveInstanceState(Bundle outState) {
     }
+
+    public void onDestroy(){
+
+    }
 }
