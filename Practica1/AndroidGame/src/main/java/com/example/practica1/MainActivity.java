@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private GameManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        WorkManager.getInstance(this).cancelAllWork();
+        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
