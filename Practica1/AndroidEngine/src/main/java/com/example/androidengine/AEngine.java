@@ -18,7 +18,8 @@ public class AEngine implements Runnable {
 
     private AGraphics graphics;
 
-    private AAudio audio;
+    private AAudio audioMusic;
+    private AAudio audioFX;
 
     private AInput myInput;
 
@@ -40,7 +41,8 @@ public class AEngine implements Runnable {
         assetManager = assetM;
         resourcesManager = resourcesM;
         graphics = new AGraphics(window, assetManager, resourcesM);
-        audio = new AAudio(assetManager, true);
+        audioMusic = new AAudio(assetManager, false);
+        audioFX = new AAudio(assetManager, true);
         myInput = new AInput(window, graphics);
         timer = new ATimer();
         contexto = c;
@@ -119,8 +121,12 @@ public class AEngine implements Runnable {
         return myInput;
     }
 
-    public AAudio getAudio() {
-        return audio;
+    public AAudio getAudioFX() {
+        return audioFX;
+    }
+
+    public AAudio getAudioMusic() {
+        return audioMusic;
     }
 
     public State getState() {

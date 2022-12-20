@@ -105,8 +105,8 @@ public class InitialState extends State {
 
     @Override
     public void start() {
-        engine.getAudio().playSound("music");
-        engine.getAudio().loop("music", true);
+        engine.getAudioMusic().playSound("music");
+        engine.getAudioMusic().loop("music", true);
     }
 
     @Override
