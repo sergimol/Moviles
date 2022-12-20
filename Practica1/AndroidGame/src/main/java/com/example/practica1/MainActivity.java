@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
-public class MainActivity extends AppCompatActivity implements Serializable {
+public class MainActivity extends AppCompatActivity {
 
     private AEngine androidEngine;
     private SurfaceView window;
@@ -163,6 +163,16 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         manager.saveMoney();
         manager.saveStyle();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        manager.saveMoney();
+        manager.saveStyle();
+    }
+
+
     //@Override
     //public void onRestoreInstanceState(Bundle savedInstanceState ){
     //super.OnRestoreInstanceState(savedInstanceState);

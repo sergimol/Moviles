@@ -302,13 +302,21 @@ public class GameState extends State {
         outState.putInt("SceneType", 2);
         outState.putInt("x", board.getxSize());
         outState.putInt("y", board.getySize());
+        vidas.save(outState);
+        board.save(outState);
         if (category != null) {
             outState.putString("Category", category);
             outState.putString("Level", level);
         }
-        vidas.save(outState);
-        board.save(outState);
+        manager.lastEscene = true;
+        //guardamos en el manager la ultima escena para en el caso de si cierra la app aqui vuelva a cargar
+
+
+
+
         //outState.putSerializable("corazones", vidas);
         //vidas.metodoQueSerializa();
+
+
     }
 }
