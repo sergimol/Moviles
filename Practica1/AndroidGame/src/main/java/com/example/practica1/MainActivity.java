@@ -12,6 +12,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -182,6 +184,15 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
         WorkManager.getInstance(this).enqueue(notificationWork);
 
         //manager.addMoney(20);
+
+        manager.saveMoney();
+        manager.saveStyle();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
         manager.saveMoney();
         manager.saveStyle();

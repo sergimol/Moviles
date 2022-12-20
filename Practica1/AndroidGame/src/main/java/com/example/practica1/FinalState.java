@@ -1,5 +1,12 @@
 package com.example.practica1;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+
+import androidx.core.content.FileProvider;
+
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
 import com.example.androidengine.AGraphics;
@@ -8,6 +15,11 @@ import com.example.androidengine.AInput;
 import com.example.androidengine.State;
 
 //import java.awt.Font;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -18,13 +30,17 @@ public class FinalState extends State {
     Button BackButton;
     AImage BackButtonImage;
 
+    Button TweetButton;
+    AImage TweetButtonImage;
+
     GameManager manager;
 
     public void SetManager(GameManager m){
         manager = m;
     }
 
-    public FinalState(Board b) {
+    public FinalState(Board b, GameManager m){
+        manager = m;
         board = b;
     }
 
@@ -33,10 +49,13 @@ public class FinalState extends State {
         engine = e;
         title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //BackButton
-        BackButtonImage = e.getGraphics().newImage("BackButton.png");
+        BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
+        TweetButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
+        TweetButton = new Button(TweetButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
+        TweetButton.moveButton((int) (TweetButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - TweetButton.getSizeY() / 2));
         engine.getAudioFX().playSound("tada");
     }
 
@@ -44,6 +63,8 @@ public class FinalState extends State {
     public void render(AGraphics graphics) {
         if (BackButton != null)
             BackButton.render(graphics);
+        if (TweetButton != null)
+            TweetButton.render(graphics);
 
         String word;
         graphics.setColor(0xFF000000);
@@ -65,6 +86,29 @@ public class FinalState extends State {
                 //FUNCIONALIDAD BOTON VOLVER
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous.getprevious());
+                }
+                else if(TweetButton.click(o.x, o.y)){
+                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Tremendo nivel me acabo de pasar en el nanogramos\uD83D\uDE0E");
+                    sendIntent.setType("text/plain");
+
+                    /*Bitmap image = engine.getGraphics().viewToBitmap();
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    File f = new File(Environment.getExternalStorageDirectory() + File.separator + "canvas_temp.jpg");
+                    try {
+                        f.createNewFile();
+                        FileOutputStream fo = new FileOutputStream(f);
+                        fo.write(bytes.toByteArray());
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Uri photoURI = FileProvider.getUriForFile(engine.getContext(), engine.getContext().getApplicationContext().getPackageName() + ".provider", f);
+                    sendIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
+                    sendIntent.setType("image/jpeg");*/
+                    sendIntent.setPackage("com.twitter.android");
+                    engine.getContext().startActivity(sendIntent);
                 }
             }
         }
