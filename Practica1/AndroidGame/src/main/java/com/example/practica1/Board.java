@@ -67,7 +67,7 @@ public class Board implements Serializable {
 
     void init(AEngine e, AFont f) {
         // Coordenadas del canvas a partir de las cuales se dibuja el tablero
-        xZeroCord = (int) e.getGraphics().getOriginalWidth() / 5;
+        xZeroCord = (int) e.getGraphics().getOriginalWidth() / 3;
         yZeroCord = (int) e.getGraphics().getOriginalHeight() / 3;
         int xSizeBoard = (int) e.getGraphics().getOriginalWidth() - xZeroCord;
         int ySizeBoard = (int) e.getGraphics().getOriginalHeight() - yZeroCord;

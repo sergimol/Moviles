@@ -28,11 +28,17 @@ public class GameManager {
     private int Money;
     public boolean lastEscene = false;
 
+    public boolean[] unlocks;
+    public String categoryType;
+
     public GameManager(Context c) {
         context = c;
         loadMoney();
         loadStyle();
-        //lockManager = new ALockManager();
+
+        categoryType = "tienda_0";
+        unlocks = loadUnlocks("tienda_0", 3);
+        unlocks[0] = true;
     }
 
     public String getStyle() {
@@ -48,12 +54,20 @@ public class GameManager {
     }
 
     public void rotateStyle() {
+        unlocks = loadUnlocks("tienda_0", 3);
+
         switch (style) {
             case "Preset":
-                style = "Red";
+                if (unlocks[1])
+                    style = "Red";
+                else if(unlocks[2])
+                    style = "Blue";
                 break;
             case "Red":
-                style = "Blue";
+                if (unlocks[2])
+                    style = "Blue";
+                else
+                    style = "Preset";
                 break;
             case "Blue":
                 style = "Preset";
@@ -474,61 +488,58 @@ public class GameManager {
     }
 
 
+    public GameState loadLastLevel() {
 
-    public GameState loadLastLevel(){
-
-        try
-        {
+        try {
             //comprobamos que no ah sido modificado
-            if (GetCheckSumForFile("LastBool")){
+            if (GetCheckSumForFile("LastBool")) {
 
                 // Reading the object from a file
                 FileInputStream f = context.openFileInput("LastBool");
                 //FileInputStream file = new FileInputStream("MisterCrabMony");
                 ObjectInputStream in = new ObjectInputStream(f);
                 // Method for deserialization of object
-                lastEscene = (boolean)in.readObject();
+                lastEscene = (boolean) in.readObject();
                 in.close();
                 f.close();
                 System.out.println("Object has been deserialized ");
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Exception is caught");
         }
 
 
-        if (lastEscene){
-                //intentamos crear una escena con los datos guardados
+        if (lastEscene) {
+            //intentamos crear una escena con los datos guardados
             //GameState gm = new
 
-            try
-            {
+            try {
                 //comprobamos que no ah sido modificado
-                if (GetCheckSumForFile("LastLevel")){
+                if (GetCheckSumForFile("LastLevel")) {
 
                     // Reading the object from a file
                     FileInputStream f = context.openFileInput("LastLevel");
                     //FileInputStream file = new FileInputStream("MisterCrabMony");
                     ObjectInputStream in = new ObjectInputStream(f);
                     // Method for deserialization of object
-                    int vidas = (int)in.readObject();
-                    int x = (int)in.readObject();
-                    int y = (int)in.readObject();
-                    Cell[][] celdas = (Cell[][])in.readObject();
-                    Vector<Vector<Integer>> yValues = (Vector<Vector<Integer>>)in.readObject();
-                    Vector<Vector<Integer>> xValues = (Vector<Vector<Integer>>)in.readObject();
+                    int vidas = (int) in.readObject();
+                    int x = (int) in.readObject();
+                    int y = (int) in.readObject();
+                    Cell[][] celdas = (Cell[][]) in.readObject();
+                    Vector<Vector<Integer>> yValues = (Vector<Vector<Integer>>) in.readObject();
+                    Vector<Vector<Integer>> xValues = (Vector<Vector<Integer>>) in.readObject();
 
-                    String category =(String)in.readObject();
-                    String level =(String)in.readObject();
+                    String category = (String) in.readObject();
+                    String level = (String) in.readObject();
 
                     in.close();
                     f.close();
 
                     System.out.println("Object has been deserialized ");
 
-                    return new GameState(vidas, x, y, celdas,yValues, xValues, category, level, this);
+                    return new GameState(vidas, x, y, celdas, yValues, xValues, category, level, this);
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 System.out.println("Exception is caught");
             }
         }
@@ -536,11 +547,11 @@ public class GameManager {
     }
 
 
-    public void saveLastSceneBool(){
+    public void saveLastSceneBool() {
         try {
             FileOutputStream f = context.openFileOutput("LastBool",
                     Context.MODE_PRIVATE);
-            ObjectOutputStream out = new ObjectOutputStream(f) ;
+            ObjectOutputStream out = new ObjectOutputStream(f);
             out.writeObject(lastEscene);
             out.close();
             f.close();
@@ -553,20 +564,19 @@ public class GameManager {
         CreateHashForFile("LastBool");
     }
 
-    public void saveLastEscene(GameState gS){
+    public void saveLastEscene(GameState gS) {
 
         //hay escena?
         saveLastSceneBool();
 
-
         //guardar la escena en si
 
-        if (lastEscene){
+        if (lastEscene) {
             try {
                 FileOutputStream f = context.openFileOutput("LastLevel",
                         Context.MODE_PRIVATE);
 
-                ObjectOutputStream out = new ObjectOutputStream(f) ;
+                ObjectOutputStream out = new ObjectOutputStream(f);
 
                 //vidas, tambien son un int
                 out.writeObject(gS.vidas.getHearts());
@@ -582,7 +592,7 @@ public class GameManager {
                 out.writeObject(gS.category);
                 out.writeObject(gS.level);
 
-                out.close() ;
+                out.close();
                 f.close();
             } catch (Exception e) {
                 Log.e("guardado", e.getMessage(), e);
