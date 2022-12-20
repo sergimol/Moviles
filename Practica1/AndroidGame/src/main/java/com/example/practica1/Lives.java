@@ -20,63 +20,73 @@ public class Lives implements Serializable {
 
     AImage container, hearth;
 
-    public void subtractLife(){
+    public void subtractLife() {
         hearts--;
     }
-    public void addLife(){
+
+    public void addLife() {
         hearts++;
     }
-    int getHearts(){return  hearts;}
+
+    int getHearts() {
+        return hearts;
+    }
 
 
-    public void setContainer(AImage a){
+    public void setContainer(AImage a) {
         container = a;
     }
 
-    public void setHeart(AImage a){
+
+    public void setHeart(AImage a) {
         hearth = a;
     }
 
-    public void setSpacing (float s){
+    public void setSpacing(float s) {
         spacing = s;
     }
-    public void setPos(float x, float y){
-        posX = x; posY = y;
+
+    public void setPos(float x, float y) {
+        posX = x;
+        posY = y;
     }
-    public void setSize(float x, float y){
-        sizeX = x; sizeY = y;
+
+    public void setSize(float x, float y) {
+        sizeX = x;
+        sizeY = y;
     }
-    public void render(AGraphics g){
+
+    public float getSize() {
+        return sizeX;
+    }
+
+    public void render(AGraphics g) {
         //para los corazones rellenoz
-        for (int i = 0; i < hearts; i++){
-            g.drawImage(hearth, (posX * (1 + i) + spacing * (i)), posY, (int)sizeX, (int)sizeY);
+        for (int i = 0; i < hearts; i++) {
+            g.drawImage(hearth, posX - (hearth.getWidth() * i), posY, (int) sizeX, (int) sizeY);
         }
         //para el resto de corazones vacios
-        for (int i = hearts; i < maxLives; i++){
-            g.drawImage(container, (posX * (1 + i) + spacing * (i)), posY, (int)sizeX, (int)sizeY);
+        for (int i = hearts; i < maxLives; i++) {
+            g.drawImage(container, posX - (container.getWidth() * i), posY, (int) sizeX, (int) sizeY);
         }
     }
 
 
-    public void metodoQueSerializa(){
-        try
-        {
+    public void metodoQueSerializa() {
+        try {
             FileOutputStream fos = new FileOutputStream("Corazones.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(hearts);
             oos.close();
             fos.close();
-        }
-        catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
 
-    public void metodoQueDesSerializa(){
-        try
-        {
+    public void metodoQueDesSerializa() {
+        try {
             FileInputStream fis = new FileInputStream("Corazones.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -84,14 +94,10 @@ public class Lives implements Serializable {
 
             ois.close();
             fis.close();
-        }
-        catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
             return;
-        }
-        catch (ClassNotFoundException c)
-        {
+        } catch (ClassNotFoundException c) {
             System.out.println("Class not found");
             c.printStackTrace();
             return;
@@ -99,10 +105,11 @@ public class Lives implements Serializable {
     }
 
 
-    public void save (Bundle outState){
+    public void save(Bundle outState) {
         outState.putSerializable("vidas", hearts);
     }
-    public void load (Bundle saveState){
+
+    public void load(Bundle saveState) {
         hearts = (int) saveState.getSerializable("vidas");
     }
 

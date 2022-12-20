@@ -89,7 +89,7 @@ public class ShopState extends State {
 
         //BackButton
         BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, true);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
         //Preset
@@ -109,7 +109,7 @@ public class ShopState extends State {
 
         //MoneyAmount
         moneyCuantityButtonImage = e.getGraphics().newImage(manager.getStyle() + "LevelUnlocked.png");
-        moneyCuantityButton = new Button(moneyCuantityButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.7f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
+        moneyCuantityButton = new Button(moneyCuantityButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.7f, e.getGraphics().getCanvasAspectRelationWidth() * 0.1f, true);
         moneyCuantityButton.moveButton((int) (e.getGraphics().getOriginalWidth() - moneyCuantityButton.getSizeX() / 2), (int) (moneyCuantityButton.getSizeY() / 2));
         regularText = e.getGraphics().newFont("Larissa.ttf", 1, (int) (0.8f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
 

@@ -52,11 +52,11 @@ public class GameState extends State {
     RewardedAd mRewardedAd;
     Activity main;
 
-    public void SetManager(GameManager m){
+    public void SetManager(GameManager m) {
         manager = m;
     }
 
-    public GameState(int x, int y, Bundle savedData, GameManager m){
+    public GameState(int x, int y, Bundle savedData, GameManager m) {
         manager = m;
         vidas = new Lives();
 
@@ -88,13 +88,12 @@ public class GameState extends State {
     public void init(AEngine e) {
         super.init(e);
 
-        if (previous == null){
+        if (previous == null) {
             //dos posibilidades o CategoryLevelSelect, en el caso de que engamos un level,
             // o El del modo random normal a saber como lo hago
-            if (category != null){
+            if (category != null) {
                 previous = new CategoryLevelSelectionState(category, manager);
-            }
-            else{
+            } else {
                 previous = new LevelSelectionState(manager);
             }
             previous.init(e);
@@ -114,18 +113,19 @@ public class GameState extends State {
         CheckButton = new Button(CheckButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
         CheckButton.moveButton((int) (e.getGraphics().getOriginalWidth() - CheckButton.getSizeX() / 2), (int) (CheckButton.getSizeY() / 2));
         //AdButton
-        AdButtonImage = e.getGraphics().newImage(manager.getStyle() + "CheckButton.png");
-        AdButton = new Button(AdButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.4f, e.getGraphics().getCanvasAspectRelationHeight() * 0.1f, true);
+        AdButtonImage = e.getGraphics().newImage(manager.getStyle() + "AddButton.png");
+        AdButton = new Button(AdButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, true);
         AdButton.moveButton((int) (AdButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - AdButton.getSizeY() / 2));
         timer = e.getTimer();
 
 
         //setteo de los corazones, que se podria poner mas bonito pero me gusta factorizar todo como la foctoiria de embutidos de mi pueblo dios que buenos estan
-        vidas.setHeart(e.getGraphics().newImage(manager.getStyle() + "HeartImageFull.png"));
+
+        AImage hearth = e.getGraphics().newImage(manager.getStyle() + "HeartImageFull.png");
+        vidas.setHeart(hearth);
         vidas.setContainer(e.getGraphics().newImage(manager.getStyle() + "HeartImage.png"));
-        vidas.setSpacing(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f);
-        vidas.setPos(e.getGraphics().getCanvasAspectRelationWidth() * 0.10f, e.getGraphics().getCanvasAspectRelationHeight() * 0.90f);
-        vidas.setSize(e.getGraphics().getCanvasAspectRelationHeight() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f);
+        vidas.setSize(e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f);
+        vidas.setPos(e.getGraphics().getOriginalWidth() -vidas.getSize(), e.getGraphics().getOriginalHeight() - vidas.getSize());
 
         main = engine.getMainActivity();
         main.runOnUiThread(new Runnable() {
@@ -133,20 +133,20 @@ public class GameState extends State {
             public void run() {
                 AdRequest adRequest = new AdRequest.Builder().build();
                 RewardedAd.load(main, "ca-app-pub-3940256099942544/5224354917",
-                adRequest, new RewardedAdLoadCallback() {
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error.
-                        Log.d("GameState", loadAdError.toString());
-                        mRewardedAd = null;
-                    }
+                        adRequest, new RewardedAdLoadCallback() {
+                            @Override
+                            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                // Handle the error.
+                                Log.d("GameState", loadAdError.toString());
+                                mRewardedAd = null;
+                            }
 
-                    @Override
-                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                        mRewardedAd = rewardedAd;
-                        Log.d("GameState", "Ad was loaded.");
-                    }
-                });
+                            @Override
+                            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                                mRewardedAd = rewardedAd;
+                                Log.d("GameState", "Ad was loaded.");
+                            }
+                        });
             }
         });
         //vidas.metodoQueDesSerializa();
@@ -172,6 +172,15 @@ public class GameState extends State {
 
     @Override
     public void render(AGraphics graphics) {
+        //Background
+        if (manager.getStyle().equals("Preset"))
+            graphics.setColor(0XFFFFB23C);
+        else if (manager.getStyle().equals("Red"))
+            graphics.setColor(0XFFA64F59);
+        else if (manager.getStyle().equals("Blue"))
+            graphics.setColor(0XFF386087);
+        graphics.fillRect(0, 0, graphics.getOriginalWidth(), graphics.getOriginalHeight());
+
         if (!showingWrong) {
             if (SurrenderButton != null) {
                 if (!SurrenderButton.getImagen().getName().equals(manager.getStyle() + "SurrenderButton.png"))
@@ -185,8 +194,8 @@ public class GameState extends State {
             }
 
             if (AdButton != null) {
-                if (!AdButton.getImagen().getName().equals(manager.getStyle() + "CheckButton.png"))
-                    AdButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "CheckButton.png"));
+                if (!AdButton.getImagen().getName().equals(manager.getStyle() + "AddButton.png"))
+                    AdButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "AddButton.png"));
                 AdButton.render(graphics);
             }
 
@@ -233,8 +242,7 @@ public class GameState extends State {
                 float yInCanvas = o.y;
                 board.handleInput(xInCanvas, yInCanvas, engine, false);
                 //da igual el output
-            }
-            else if (o.type == AInput.InputTouchType.TOUCH_UP) {
+            } else if (o.type == AInput.InputTouchType.TOUCH_UP) {
                 float xInCanvas = o.x;
                 float yInCanvas = o.y;
                 //comprobar que esa casilla es correcta y devolver un true or false para restar la vida
@@ -248,8 +256,7 @@ public class GameState extends State {
                     System.out.println("vidas restantes: " + vidas.getHearts());
                 }
                 board.resetAllowChangeStatesCells();
-            }
-            else if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
+            } else if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
 
                 //FUNCIONALIDAD BOTON RENDIRSE
                 if (SurrenderButton.click(o.x, o.y)) {
@@ -274,12 +281,11 @@ public class GameState extends State {
                             showingWrong = true;
                         }
                     }
-                }
-                else if(AdButton.click(o.x, o.y) && vidas.getHearts() < 3){
+                } else if (AdButton.click(o.x, o.y) && vidas.getHearts() < 3) {
                     main.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(mRewardedAd != null){
+                            if (mRewardedAd != null) {
                                 mRewardedAd.show(main, new OnUserEarnedRewardListener() {
                                     @Override
                                     public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
@@ -310,8 +316,6 @@ public class GameState extends State {
         }
         //manager.lastcene = true;
         //guardamos en el manager la ultima escena para en el caso de si cierra la app aqui vuelva a cargar
-
-
 
 
         //outState.putSerializable("corazones", vidas);

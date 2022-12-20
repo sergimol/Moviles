@@ -50,21 +50,27 @@ public class FinalState extends State {
         title = e.getGraphics().newFont("CuteEasterFont.ttf", 1, (int) (0.4f * (e.getGraphics().relationAspectDimension() / 10) / e.getGraphics().getScale()));
         //BackButton
         BackButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
-        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
+        BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f,true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
-        TweetButtonImage = e.getGraphics().newImage(manager.getStyle() + "BackButton.png");
-        TweetButton = new Button(TweetButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationHeight() * 0.15f,true);
+        TweetButtonImage = e.getGraphics().newImage(manager.getStyle() + "TweetButton.png");
+        TweetButton = new Button(TweetButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f,true);
         TweetButton.moveButton((int) (TweetButton.getSizeX() / 2), (int) (e.getGraphics().getOriginalHeight() - TweetButton.getSizeY() / 2));
         engine.getAudioFX().playSound("tada");
     }
 
     @Override
     public void render(AGraphics graphics) {
-        if (BackButton != null)
+        if (BackButton != null) {
+            if (!BackButton.getImagen().getName().equals(manager.getStyle() + "BackButton.png"))
+                BackButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "BackButton.png"));
             BackButton.render(graphics);
-        if (TweetButton != null)
+        }
+        if (TweetButton != null) {
+            if (!TweetButton.getImagen().getName().equals(manager.getStyle() + "TweetButton.png"))
+                TweetButton.changeImage(engine.getGraphics().newImage(manager.getStyle() + "TweetButton.png"));
             TweetButton.render(graphics);
+        }
 
         String word;
         graphics.setColor(0xFF000000);
