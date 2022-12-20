@@ -121,53 +121,62 @@ public class GameManager {
     }
 
 
+    public Boolean GetCheckSumForFile(String fileName)  {
+
+        try {
+            // Reading the object from a file
+            FileInputStream f = context.openFileInput(fileName);
+            //FileInputStream file = new FileInputStream("MisterCrabMony");
+            //Use SHA-1 algorithm
+            MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
+
+            //vamos a recoger la ultimaSalt
+            // Reading the object from a file
+            FileInputStream fSalt = context.openFileInput(fileName + "CheckSalt");
+            ObjectInputStream inSalt = new ObjectInputStream(fSalt);
+
+            byte[] bytes = (byte[]) inSalt.readObject();
+            String salt = new String(bytes);
+
+            inSalt.close();
+            fSalt.close();
+
+            shaDigest.update(salt.getBytes());
 
 
-    public Boolean GetCheckSumForFile(String fileName) throws IOException, NoSuchAlgorithmException, ClassNotFoundException {
+            //SHA-1 checksum
+            String checksum = getFileChecksum(shaDigest, f);
+            f.close();
 
-        // Reading the object from a file
-        FileInputStream f = context.openFileInput(fileName);
-        //FileInputStream file = new FileInputStream("MisterCrabMony");
-        //Use SHA-1 algorithm
-        MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
+            //todo comprobar que el checksum es el mismo, por tanto el archivo nunca tuvo modificaciones
 
-        //vamos a recoger la ultimaSalt
-        // Reading the object from a file
-        FileInputStream fSalt = context.openFileInput(fileName + "CheckSalt");
-        ObjectInputStream inSalt = new ObjectInputStream(fSalt);
+            FileInputStream fSCheck = context.openFileInput(fileName + "CheckSum");
+            ObjectInputStream inCheck = new ObjectInputStream(fSCheck);
 
-        byte [] bytes = (byte[]) inSalt.readObject();
-        String salt =  new String(bytes);
+            bytes = (byte[]) inCheck.readObject();
+            String check = new String(bytes, StandardCharsets.UTF_8);
 
-        inSalt.close();
-        fSalt.close();
-
-        shaDigest.update(salt.getBytes());
+            inCheck.close();
+            fSCheck.close();
 
 
-        //SHA-1 checksum
-        String checksum = getFileChecksum(shaDigest, f);
-        f.close();
+            //returneamos si son iguales con la sal correspondiente (somos unos cracks)
+            boolean res = (check.equals(checksum));
 
-        //todo comprobar que el checksum es el mismo, por tanto el archivo nunca tuvo modificaciones
-
-        FileInputStream fSCheck = context.openFileInput(fileName + "CheckSum");
-        ObjectInputStream inCheck = new ObjectInputStream(fSCheck);
-
-        bytes = (byte[]) inCheck.readObject();
-        String check = new String(bytes, StandardCharsets.UTF_8);
-
-        inCheck.close();
-        fSCheck.close();
-
-
-        //returneamos si son iguales con la sal correspondiente (somos unos cracks)
-        boolean res = (check.equals(checksum));
-
-        return res;
-        //pa la siguiente hago una ensalada
-        //me auto otorgo un cuñao certificate que es navida
-        //los comentarios debajo de un return no cuentan
+            return res;
+            //pa la siguiente hago una ensalada
+            //me auto otorgo un cuñao certificate que es navida
+            //los comentarios debajo de un return no cuentan
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
@@ -235,11 +244,24 @@ public class GameManager {
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
+
+        try {
+            CreateHashForFile(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean[] loadUnlocks(String nombre, int q) {
 
         String[] a = context.fileList();
+
+        if (GetCheckSumForFile(nombre))
         try {
             int quantity = q;
             for (String file : a) {
@@ -274,8 +296,9 @@ public class GameManager {
             return createSaveFiles(quantity);
         } catch (Exception e) {
             Log.e("guardados error", e.getMessage(), e);
-            return null;
+            return createSaveFiles(q);
         }
+        return createSaveFiles(q);
     }
 
     public boolean[] createSaveFiles(int quantity) {
@@ -299,12 +322,24 @@ public class GameManager {
         } catch (Exception e) {
             Log.e("guardado", e.getMessage(), e);
         }
+
+        try {
+            CreateHashForFile(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public int[] loadUnlocksINT(String nombre, int q) {
 
         String[] a = context.fileList();
 
+        if (GetCheckSumForFile(nombre))
         try {
             int quantity = q;
             for (String file : a) {
@@ -339,8 +374,9 @@ public class GameManager {
             return createSaveFilesINT(quantity);
         } catch (Exception e) {
             Log.e("guardados error", e.getMessage(), e);
-            return null;
+            return createSaveFilesINT(q);
         }
+        return createSaveFilesINT(q);
     }
 
     public int[] createSaveFilesINT(int quantity) {
