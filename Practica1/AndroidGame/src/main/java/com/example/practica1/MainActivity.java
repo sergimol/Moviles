@@ -1,6 +1,9 @@
 package com.example.practica1;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
@@ -12,10 +15,15 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.State;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -27,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
@@ -43,6 +52,15 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("PRUEBA", "prueba", importance);
+            channel.setDescription("Canal de prueba");
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
         assetManager = getAssets();
         resourcesManager = getResources();
 
@@ -131,6 +149,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         //hay que meter la escena principal
         androidEngine.getState().onSaveInstanceState(outState);
 
+        OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotifyWorker.class)
+                .setInitialDelay(2, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(notificationWork);
+
         //manager.addMoney(20);
         try {
             manager.saveMoney();
@@ -142,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             e.printStackTrace();
         }
     }
-
     //@Override
     //public void onRestoreInstanceState(Bundle savedInstanceState ){
     //super.OnRestoreInstanceState(savedInstanceState);
@@ -151,9 +174,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 }
 
-
 /*
-    Quitar interfaces
     Manifest
         Documento XML que describe la aplicacion
         Contiene informacion sobre el nombre del paquete
