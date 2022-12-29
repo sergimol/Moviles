@@ -213,7 +213,6 @@ public class AGraphics implements IGraphics {
         /*canvas.scale(ESCALAX, ESCALAY);*/
     }
 
-    @Override
     public void prepareFrame() {
 
         while (!holder.getSurface().isValid()) ;
@@ -221,12 +220,11 @@ public class AGraphics implements IGraphics {
         canvas.save();
         translate(centricoCanvasX, centricoCanvasY);
         canvas.drawColor(0xFFFFFFFF);               //Pinta de blanco
-        //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo tony
+        //Pintar blanco //El coco del tf2 si quitas esto revienta todo, lo sentimos muchisimo toni
         //nos hemos fumado todo, siete porro'
         //setColor(0XFF000000);
     }
 
-    @Override
     public void finishFrame() {
         canvas.restore();
         holder.unlockCanvasAndPost(canvas);         //Desbloquea el canvas para mostrar lo pintado

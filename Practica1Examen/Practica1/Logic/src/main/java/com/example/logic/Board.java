@@ -110,7 +110,7 @@ public class Board {
     }
 
     int[] checkBoard() {
-        int a[] = new int[2];
+        int []a = new int[2];
         // Contadores para la cantidad de celdas erróneas y la cantidad que no está en la solución
         int wrongCount = 0;
         int missingCount = 0;

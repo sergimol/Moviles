@@ -33,29 +33,4 @@ public class JFont implements IFont {
     public float getSize() {
         return font_.getSize();
     }
-
-    @Override
-    public boolean isBold() {
-        return font_.isBold();
-    }
-
-    @Override
-    public boolean isItalic() {
-        return font_.isItalic();
-    }
-
-    @Override
-    public boolean isUnderlined() {
-        return false;
-    }
-
-    @Override
-    public void DoItalic() {
-        font_ = font_.deriveFont(Font.ITALIC);
-    }
-
-    @Override
-    public void DoBold() {
-        font_ = font_.deriveFont(Font.BOLD);
-    }
 }

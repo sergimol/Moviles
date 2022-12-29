@@ -73,8 +73,7 @@ public class JGraphics implements IGraphics {
     @Override
     public IImage newImage(String name) {
         try {
-            JImage jImage = new JImage(path + name);
-            return jImage;
+            return new JImage(path + name);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,7 +208,6 @@ public class JGraphics implements IGraphics {
         }
     }
 
-    @Override
     public void prepareFrame() {
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
         this.myView.setBackground(Color.white);
@@ -237,7 +235,6 @@ public class JGraphics implements IGraphics {
         clear(0XFFFFFFFF);
     }
 
-    @Override
     public void finishFrame() {
         this.canvas.dispose();
     }

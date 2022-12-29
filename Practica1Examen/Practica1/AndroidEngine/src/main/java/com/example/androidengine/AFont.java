@@ -18,29 +18,4 @@ public class AFont implements IFont {
     public float getSize() {
         return this.size;
     }
-
-    @Override
-    public boolean isBold() {
-        return font_.isBold();
-    }
-
-    @Override
-    public boolean isItalic() {
-        return font_.isItalic();
-    }
-
-    @Override
-    public boolean isUnderlined() {
-        return false;
-    }
-
-    @Override
-    public void DoItalic() {
-
-    }
-
-    @Override
-    public void DoBold() {
-
-    }
 }

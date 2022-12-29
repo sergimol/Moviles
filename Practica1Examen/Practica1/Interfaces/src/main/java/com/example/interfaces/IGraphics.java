@@ -47,10 +47,6 @@ public interface IGraphics {
 
     void actualizaEscala();
 
-    void prepareFrame();
-
-    void finishFrame();
-
     float getFontWidth(String text);
 
 }
