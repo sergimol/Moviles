@@ -1,6 +1,8 @@
 package com.example.practica1;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -8,6 +10,8 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -98,7 +102,14 @@ public class CategorySelect extends State {
         BackButton = new Button(BackButtonImage, 0, 0, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, e.getGraphics().getCanvasAspectRelationWidth() * 0.15f, true);
         BackButton.moveButton((int) (BackButton.getSizeX() / 2), (int) (BackButton.getSizeY() / 2));
 
-
+        Activity main = engine.getMainActivity();
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AdView adView = main.findViewById(R.id.adView);
+                adView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -216,6 +227,16 @@ public class CategorySelect extends State {
                     st.init(engine);
                 } else if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
+                    Activity main = engine.getMainActivity();
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AdView adView = main.findViewById(R.id.adView);
+                            AdRequest adRequest = new AdRequest.Builder().build();
+                            adView.loadAd(adRequest);
+                            adView.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }
 

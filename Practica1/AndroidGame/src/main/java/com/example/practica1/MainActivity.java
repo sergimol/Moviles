@@ -31,6 +31,7 @@ import androidx.work.WorkerParameters;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -93,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
 
 
         //Creamos el SurfaceView y lo inicializamos
-        window = new SurfaceView(this);
-        setContentView(window);
+        window = findViewById(R.id.surfaceView);//new SurfaceView(this);
+        //setContentView(window);
 
 
         // fullscreen and remove support action bar
@@ -114,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements Serializable, Sen
 
             }
         });
-
         ResourceLoader resourceLoader = new ResourceLoader();
 
 

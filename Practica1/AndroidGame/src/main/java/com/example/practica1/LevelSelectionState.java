@@ -1,6 +1,9 @@
 package com.example.practica1;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.example.androidengine.AEngine;
 import com.example.androidengine.AFont;
@@ -8,6 +11,8 @@ import com.example.androidengine.AGraphics;
 import com.example.androidengine.AImage;
 import com.example.androidengine.AInput;
 import com.example.androidengine.State;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 //import java.awt.Font;
 import java.util.List;
@@ -76,6 +81,15 @@ public class LevelSelectionState extends State {
         botonesNiveles[1][0] = new Button(regularText, "8x8", e.getGraphics().getOriginalWidth() * (1 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
         botonesNiveles[1][1] = new Button(regularText, "10x10", e.getGraphics().getOriginalWidth() * (2 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
         botonesNiveles[1][2] = new Button(regularText, "10x15", e.getGraphics().getOriginalWidth() * (3 / 4.0f), e.getGraphics().getOriginalHeight() * 0.6f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, e.getGraphics().getCanvasAspectRelationWidth() * 0.2f, 0Xff808080, regularText.getSize(), true);
+
+        Activity main = engine.getMainActivity();
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AdView adView = main.findViewById(R.id.adView);
+                adView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -145,6 +159,16 @@ public class LevelSelectionState extends State {
             if (o.type == AInput.InputTouchType.TOUCH_DOWN) {
                 if (BackButton.click(o.x, o.y)) {
                     engine.setState(previous);
+                    Activity main = engine.getMainActivity();
+                    main.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AdView adView = main.findViewById(R.id.adView);
+                            AdRequest adRequest = new AdRequest.Builder().build();
+                            adView.loadAd(adRequest);
+                            adView.setVisibility(View.VISIBLE);
+                        }
+                    });
                 } else if (MoneyButton.click(o.x, o.y)) {
                     ShopState st = new ShopState(manager);
                     st.setPrevious(this);

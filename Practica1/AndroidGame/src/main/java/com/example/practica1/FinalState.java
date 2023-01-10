@@ -99,27 +99,9 @@ public class FinalState extends State {
                     engine.setState(previous.getprevious());
                 }
                 else if(TweetButton.click(o.x, o.y)){
-                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Tremendo nivel me acabo de pasar en el nanogramos\uD83D\uDE0E");
-                    sendIntent.setType("text/plain");
-
-                    /*Bitmap image = engine.getGraphics().viewToBitmap();
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    File f = new File(Environment.getExternalStorageDirectory() + File.separator + "canvas_temp.jpg");
-                    try {
-                        f.createNewFile();
-                        FileOutputStream fo = new FileOutputStream(f);
-                        fo.write(bytes.toByteArray());
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                    sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    Uri photoURI = FileProvider.getUriForFile(engine.getContext(), engine.getContext().getApplicationContext().getPackageName() + ".provider", f);
-                    sendIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
-                    sendIntent.setType("image/jpeg");*/
-                    sendIntent.setPackage("com.twitter.android");
-                    engine.getContext().startActivity(sendIntent);
+                    String tweetUrl = "https://twitter.com/intent/tweet?text=Tremendo nivel me acabo de pasar en el nanogramos\uD83D\uDE0E";
+                    Uri uri = Uri.parse(tweetUrl);
+                    engine.getContext().startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
             }
         }
